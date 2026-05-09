@@ -5,6 +5,11 @@ let currentSenseGroupId = null;
 let currentOptions = [];
 let answered = false;
 let progress = JSON.parse(localStorage.getItem('topik_progress') || '{}');
+// Migration: if progress values are strings (old format), wipe to start fresh
+if (Object.values(progress).some(v => typeof v === 'string')) {
+  progress = {};
+  localStorage.setItem('topik_progress', JSON.stringify(progress));
+}
 let lastTapTime = [0, 0, 0, 0];
 
 // ===== UTILS =====
@@ -41,6 +46,18 @@ function generateOptions(mainGrammar, senseGroupId) {
   if (correctCandidateIds.length > 0) {
     const cid = correctCandidateIds[Math.floor(Math.random() * correctCandidateIds.length)];
     correctGrammar = grammarData.find(g => g.id === cid);
+  } else {
+    // FAKE a correct grammar so the user can pass senses that have no other IDs in their group
+    const pattern = (mainGrammar.synonymPatterns && mainGrammar.synonymPatterns.length > 0)
+      ? mainGrammar.synonymPatterns[0]
+      : "(Không có đồng nghĩa)";
+      
+    correctGrammar = {
+      id: -2,
+      grammar: pattern,
+      senses: [{ meaning: group ? group.label : "Đồng nghĩa" }],
+      synonymPatterns: [], examples: [], ownExamples: []
+    };
   }
 
   const wrongItems = shuffle(wrongPool).slice(0, correctGrammar ? 3 : 4);
@@ -114,7 +131,13 @@ function renderQuestion() {
 
 function updateProgress() {
   const total = grammarData.length;
-  const done = Object.keys(progress).length;
+  let done = 0;
+  grammarData.forEach(g => {
+    const uniqueGroupIds = new Set(g.senses.map(s => s.groupId));
+    if (progress[g.id] && progress[g.id].length >= uniqueGroupIds.size) {
+      done++;
+    }
+  });
   document.getElementById('progressFill').style.width = `${(done / total) * 100}%`;
   document.getElementById('progressText').textContent = `${done} / ${total}`;
 }
@@ -133,7 +156,12 @@ function selectAnswer(idx) {
     // Correct answer
     answered = true;
     wraps[idx].classList.add('correct');
-    progress[g.id] = 'correct';
+    
+    if (!progress[g.id]) progress[g.id] = [];
+    if (!progress[g.id].includes(currentSenseGroupId)) {
+      progress[g.id].push(currentSenseGroupId);
+    }
+    
     localStorage.setItem('topik_progress', JSON.stringify(progress));
     updateProgress();
   } else {
@@ -146,7 +174,6 @@ function selectAnswer(idx) {
       currentOptions.forEach((opt, i) => {
         if (opt.isCorrect) wraps[i].classList.add('reveal-correct');
       });
-      progress[g.id] = progress[g.id] || 'wrong';
       localStorage.setItem('topik_progress', JSON.stringify(progress));
       updateProgress();
     }
@@ -217,13 +244,24 @@ function showExamples(grammarItem) {
 
 function showGrammarList() {
   const html = `<ul class="grammar-list">${grammarData.map((g, i) => {
-    const status = progress[g.id];
-    const cls = status === 'correct' ? 'done' : 'todo';
-    const label = status === 'correct' ? '✓' : status === 'wrong' ? '✗' : '—';
+    const uniqueGroupIds = new Set(g.senses.map(s => s.groupId));
+    const totalSenses = uniqueGroupIds.size;
+    const completedSenses = progress[g.id] ? progress[g.id].length : 0;
+    
+    let cls = 'todo';
+    let label = '—';
+    if (completedSenses === totalSenses) {
+      cls = 'done';
+      label = '✓';
+    } else if (completedSenses > 0) {
+      cls = 'partial';
+      label = `(${completedSenses}/${totalSenses})`;
+    }
+
     return `<li data-goto="${i}">
       <div><span class="gl-name">${g.grammar}</span>
       <span class="gl-meaning">${g.senses.map(s=>s.meaning).join(' / ')}</span></div>
-      <span class="gl-status ${cls}">${label}</span>
+      <span class="gl-status ${cls}" style="font-size: 0.85rem; font-weight: 600;">${label}</span>
     </li>`;
   }).join('')}</ul>`;
   openModal('Danh sách ngữ pháp', html);
