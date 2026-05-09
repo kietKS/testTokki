@@ -1,10 +1,11 @@
 // ===== STATE =====
-let currentIdx = 0;
+let currentIdx = 0;           // index into shuffledOrder
+let shuffledOrder = [];       // randomized list of grammarData indices
 let currentSenseGroupId = null;
 let currentOptions = [];
 let answered = false;
 let progress = JSON.parse(localStorage.getItem('topik_progress') || '{}');
-let lastTapTime = [0, 0, 0, 0]; // for double-tap detection on mobile
+let lastTapTime = [0, 0, 0, 0];
 
 // ===== UTILS =====
 function shuffle(arr) {
@@ -77,7 +78,7 @@ function getOwnExamples(grammarItem) {
 function renderQuestion() {
   answered = false;
   lastTapTime = [0, 0, 0, 0];
-  const g = grammarData[currentIdx];
+  const g = grammarData[shuffledOrder[currentIdx]];
 
   const sense = g.senses[Math.floor(Math.random() * g.senses.length)];
   currentSenseGroupId = sense.groupId;
@@ -125,7 +126,7 @@ function selectAnswer(idx) {
   // Skip if this option was already marked wrong
   if (wraps[idx].classList.contains('wrong')) return;
 
-  const g = grammarData[currentIdx];
+  const g = grammarData[shuffledOrder[currentIdx]];
   const revealMode = document.getElementById('toggleReveal').checked;
 
   if (currentOptions[idx].isCorrect) {
@@ -154,7 +155,7 @@ function selectAnswer(idx) {
 }
 
 function nextQuestion() {
-  currentIdx = (currentIdx + 1) % grammarData.length;
+  currentIdx = (currentIdx + 1) % shuffledOrder.length;
   renderQuestion();
 }
 
@@ -176,12 +177,27 @@ function showSynonyms(grammarItem) {
       .map(id => grammarData.find(g => g.id === id))
       .filter(Boolean)
       .map(g => g.grammar) : [];
+      
+    // Lọc bỏ những chữ trong synonymPatterns đã tồn tại trong members (do nâng cấp ngữ pháp)
+    const uniquePatterns = grammarItem.synonymPatterns.filter(p => !members.includes(p));
+
+    let nuancesHtml = '';
+    if (grp && grp.nuances && grp.nuances.length > 0) {
+      nuancesHtml = `<div class="nuance-box">
+        <div class="nuance-title">💡 Phân biệt & Lưu ý:</div>
+        <ul>
+          ${grp.nuances.map(n => `<li>${n}</li>`).join('')}
+        </ul>
+      </div>`;
+    }
+
     return `<div style="margin-bottom:12px">
       <div style="font-size:0.8rem;color:var(--text2);margin-bottom:4px">${s.meaning}</div>
       <ul class="syn-list">
-        ${grammarItem.synonymPatterns.map(p => `<li>${p}</li>`).join('')}
+        ${uniquePatterns.map(p => `<li>${p}</li>`).join('')}
         ${members.map(m => `<li>${m}</li>`).join('')}
       </ul>
+      ${nuancesHtml}
     </div>`;
   }).join('');
   openModal(`Đồng nghĩa: ${grammarItem.grammar}`, allGroups);
@@ -212,15 +228,18 @@ function showGrammarList() {
   }).join('')}</ul>`;
   openModal('Danh sách ngữ pháp', html);
 
-  setTimeout(() => {
-    document.querySelectorAll('.grammar-list li[data-goto]').forEach(li => {
-      li.addEventListener('click', () => {
-        currentIdx = parseInt(li.dataset.goto);
-        closeModal();
-        renderQuestion();
+    setTimeout(() => {
+      document.querySelectorAll('.grammar-list li[data-goto]').forEach(li => {
+        li.addEventListener('click', () => {
+          // Jump to this grammar's position in shuffledOrder
+          const grammarIdx = parseInt(li.dataset.goto);
+          const posInOrder = shuffledOrder.indexOf(grammarIdx);
+          currentIdx = posInOrder >= 0 ? posInOrder : 0;
+          closeModal();
+          renderQuestion();
+        });
       });
-    });
-  }, 50);
+    }, 50);
 }
 
 // ===== DOUBLE TAP HANDLER (mobile) =====
@@ -257,10 +276,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Synonym/Example buttons on card A
   document.getElementById('btnSynA').addEventListener('click', () => {
-    showSynonyms(grammarData[currentIdx]);
+    showSynonyms(grammarData[shuffledOrder[currentIdx]]);
   });
   document.getElementById('btnExA').addEventListener('click', () => {
-    showExamples(grammarData[currentIdx]);
+    showExamples(grammarData[shuffledOrder[currentIdx]]);
   });
 
   // Synonym/Example buttons on option cards
@@ -316,6 +335,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Start
+  // Start — shuffle grammar order for this session
+  shuffledOrder = shuffle(grammarData.map((_, i) => i));
+  currentIdx = 0;
   renderQuestion();
 });

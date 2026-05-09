@@ -241,6 +241,33 @@ body {
 }
 
 /* Grammar list in modal */
+.nuance-box {
+  background: rgba(124, 92, 252, 0.1);
+  border: 1px solid rgba(124, 92, 252, 0.3);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-top: 12px;
+  margin-bottom: 20px;
+}
+.nuance-title {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #9b7cfc;
+  margin-bottom: 6px;
+}
+.nuance-box ul {
+  list-style: none;
+  font-size: 0.85rem;
+  color: var(--text);
+  line-height: 1.5;
+}
+.nuance-box li {
+  margin-bottom: 4px;
+}
+.nuance-box li:last-child {
+  margin-bottom: 0;
+}
+
 .grammar-list { list-style: none; }
 .grammar-list li {
   display: flex; align-items: center; justify-content: space-between;
