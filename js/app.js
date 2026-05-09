@@ -1,10 +1,10 @@
 // ===== STATE =====
 let currentIdx = 0;
 let currentSenseGroupId = null;
-let currentOptions = []; // [{grammar, isCorrect}]
+let currentOptions = [];
 let answered = false;
 let progress = JSON.parse(localStorage.getItem('topik_progress') || '{}');
-// progress = { "1": "correct", "3": "wrong", ... }
+let lastTapTime = [0, 0, 0, 0]; // for double-tap detection on mobile
 
 // ===== UTILS =====
 function shuffle(arr) {
@@ -16,7 +16,6 @@ function shuffle(arr) {
   return a;
 }
 
-// Get all grammar IDs that share ANY group with a given grammar
 function getRelatedIds(grammarItem) {
   const relatedIds = new Set();
   grammarItem.senses.forEach(s => {
@@ -26,29 +25,23 @@ function getRelatedIds(grammarItem) {
   return relatedIds;
 }
 
-// Pick correct answer + 3 wrong answers
 function generateOptions(mainGrammar, senseGroupId) {
-  // Find a correct answer from the same group (not the main grammar itself)
   const group = synonymGroups.find(g => g.id === senseGroupId);
   const correctCandidateIds = group
     ? group.grammarIds.filter(id => id !== mainGrammar.id)
     : [];
 
-  // All IDs related to main grammar (across ALL senses) - these cannot be wrong answers
   const excludeIds = getRelatedIds(mainGrammar);
   excludeIds.add(mainGrammar.id);
 
-  // Available wrong candidates
   const wrongPool = grammarData.filter(g => !excludeIds.has(g.id));
 
-  // Pick 1 correct
   let correctGrammar = null;
   if (correctCandidateIds.length > 0) {
     const cid = correctCandidateIds[Math.floor(Math.random() * correctCandidateIds.length)];
     correctGrammar = grammarData.find(g => g.id === cid);
   }
 
-  // Pick 3 wrong (or fill if not enough data)
   const wrongItems = shuffle(wrongPool).slice(0, correctGrammar ? 3 : 4);
 
   let options = [];
@@ -58,38 +51,45 @@ function generateOptions(mainGrammar, senseGroupId) {
       ...wrongItems.map(g => ({ grammar: g, isCorrect: false }))
     ]);
   } else {
-    // No correct answer available (single grammar in group)
     options = wrongItems.map(g => ({ grammar: g, isCorrect: false }));
   }
 
-  // Ensure exactly 4 options
   while (options.length < 4) {
-    options.push({ grammar: { id: -1, grammar: '—', senses: [{ meaning: '—' }], synonymPatterns: [], examples: [] }, isCorrect: false });
+    options.push({ grammar: { id: -1, grammar: '—', senses: [{ meaning: '—' }], synonymPatterns: [], examples: [], ownExamples: [] }, isCorrect: false });
   }
-
   return options.slice(0, 4);
+}
+
+// Get only the grammar's OWN examples (not synonym examples)
+function getOwnExamples(grammarItem) {
+  // If ownExamples exists, use it
+  if (grammarItem.ownExamples && grammarItem.ownExamples.length > 0) {
+    return grammarItem.ownExamples;
+  }
+  // Fallback: return only the first example (always the original grammar)
+  if (grammarItem.examples && grammarItem.examples.length > 0) {
+    return [grammarItem.examples[0]];
+  }
+  return [];
 }
 
 // ===== RENDER =====
 function renderQuestion() {
   answered = false;
+  lastTapTime = [0, 0, 0, 0];
   const g = grammarData[currentIdx];
 
-  // Pick a random sense for this grammar
   const sense = g.senses[Math.floor(Math.random() * g.senses.length)];
   currentSenseGroupId = sense.groupId;
 
-  // Card A
   document.getElementById('mainGrammar').textContent = g.grammar;
   document.getElementById('mainMeaning').textContent = sense.meaning;
   document.getElementById('mainNotes').textContent = g.notes || '';
   document.getElementById('cardA').classList.remove('flipped');
 
-  // Sense badge
   const grp = synonymGroups.find(gr => gr.id === sense.groupId);
   document.getElementById('senseBadge').textContent = grp ? grp.label : sense.meaning;
 
-  // Options
   currentOptions = generateOptions(g, sense.groupId);
   currentOptions.forEach((opt, i) => {
     document.getElementById(`optG${i}`).textContent = opt.grammar.grammar;
@@ -100,7 +100,6 @@ function renderQuestion() {
     wrap.classList.remove('correct', 'wrong', 'reveal-correct');
   });
 
-  // Progress
   updateProgress();
 }
 
@@ -114,25 +113,36 @@ function updateProgress() {
 // ===== ANSWER =====
 function selectAnswer(idx) {
   if (answered) return;
-  answered = true;
+  const wraps = document.querySelectorAll('.option-wrap');
+  // Skip if this option was already marked wrong
+  if (wraps[idx].classList.contains('wrong')) return;
 
   const g = grammarData[currentIdx];
-  const wraps = document.querySelectorAll('.option-wrap');
+  const revealMode = document.getElementById('toggleReveal').checked;
 
   if (currentOptions[idx].isCorrect) {
+    // Correct answer
+    answered = true;
     wraps[idx].classList.add('correct');
     progress[g.id] = 'correct';
+    localStorage.setItem('topik_progress', JSON.stringify(progress));
+    updateProgress();
   } else {
+    // Wrong answer - always show red
     wraps[idx].classList.add('wrong');
-    // Reveal correct answer
-    currentOptions.forEach((opt, i) => {
-      if (opt.isCorrect) wraps[i].classList.add('reveal-correct');
-    });
-    progress[g.id] = progress[g.id] || 'wrong';
-  }
 
-  localStorage.setItem('topik_progress', JSON.stringify(progress));
-  updateProgress();
+    if (revealMode) {
+      // Reveal mode ON: show correct answer immediately
+      answered = true;
+      currentOptions.forEach((opt, i) => {
+        if (opt.isCorrect) wraps[i].classList.add('reveal-correct');
+      });
+      progress[g.id] = progress[g.id] || 'wrong';
+      localStorage.setItem('topik_progress', JSON.stringify(progress));
+      updateProgress();
+    }
+    // Reveal mode OFF: keep trying (answered stays false)
+  }
 }
 
 function nextQuestion() {
@@ -170,7 +180,14 @@ function showSynonyms(grammarItem) {
 }
 
 function showExamples(grammarItem) {
-  const html = grammarItem.examples.map(e => `<p>${e.sentence}</p>`).join('');
+  const exs = getOwnExamples(grammarItem);
+  const html = exs.map(e => {
+    let block = `<p>${e.sentence}</p>`;
+    if (e.translation) {
+      block += `<p class="ex-translation">→ ${e.translation}</p>`;
+    }
+    return block;
+  }).join('');
   openModal(`Câu mẫu: ${grammarItem.grammar}`, html || '<p style="color:var(--text2)">Chưa có câu mẫu</p>');
 }
 
@@ -187,7 +204,6 @@ function showGrammarList() {
   }).join('')}</ul>`;
   openModal('Danh sách ngữ pháp', html);
 
-  // Attach click handlers
   setTimeout(() => {
     document.querySelectorAll('.grammar-list li[data-goto]').forEach(li => {
       li.addEventListener('click', () => {
@@ -199,21 +215,35 @@ function showGrammarList() {
   }, 50);
 }
 
+// ===== DOUBLE TAP HANDLER (mobile) =====
+function handleOptionTap(idx) {
+  const now = Date.now();
+  if (now - lastTapTime[idx] < 350) {
+    // Double tap detected -> select answer
+    selectAnswer(idx);
+    lastTapTime[idx] = 0;
+  } else {
+    // Single tap -> flip card
+    document.getElementById(`cardB${idx}`).classList.toggle('flipped');
+    lastTapTime[idx] = now;
+  }
+}
+
 // ===== EVENT LISTENERS =====
 document.addEventListener('DOMContentLoaded', () => {
-  // Card A flip
+  // Card A flip (click)
   document.getElementById('cardA').addEventListener('click', function() {
     this.classList.toggle('flipped');
   });
 
-  // Card B flip (click only flips, does NOT select answer)
+  // Card B: single click = flip, double click = select (mobile)
   for (let i = 0; i < 4; i++) {
-    document.getElementById(`cardB${i}`).addEventListener('click', function() {
-      this.classList.toggle('flipped');
+    document.getElementById(`cardB${i}`).addEventListener('click', function(e) {
+      handleOptionTap(i);
     });
   }
 
-  // C/D buttons on card A
+  // Synonym/Example buttons on card A
   document.getElementById('btnSynA').addEventListener('click', () => {
     showSynonyms(grammarData[currentIdx]);
   });
@@ -221,7 +251,7 @@ document.addEventListener('DOMContentLoaded', () => {
     showExamples(grammarData[currentIdx]);
   });
 
-  // C/D buttons on option cards
+  // Synonym/Example buttons on option cards
   document.querySelectorAll('.btn-sm').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -244,6 +274,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     if (e.key >= '1' && e.key <= '4') selectAnswer(parseInt(e.key) - 1);
     if (e.key === '5') nextQuestion();
+    // Spacebar flips card A
+    if (e.key === ' ' || e.code === 'Space') {
+      e.preventDefault();
+      document.getElementById('cardA').classList.toggle('flipped');
+    }
   });
 
   // Modal close
