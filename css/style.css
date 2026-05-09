@@ -131,6 +131,11 @@ body {
   font-size: 0.8rem; padding: 6px 16px; border-radius: 20px;
   background: linear-gradient(135deg, var(--accent), var(--accent2));
   color: #fff; font-weight: 600;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+.sense-badge.hidden {
+  opacity: 0;
+  visibility: hidden;
 }
 
 /* ===== OPTIONS GRID ===== */

@@ -88,7 +88,15 @@ function renderQuestion() {
   document.getElementById('cardA').classList.remove('flipped');
 
   const grp = synonymGroups.find(gr => gr.id === sense.groupId);
-  document.getElementById('senseBadge').textContent = grp ? grp.label : sense.meaning;
+  const badge = document.getElementById('senseBadge');
+  badge.textContent = grp ? grp.label : sense.meaning;
+  
+  // Sync visibility with toggle
+  if (document.getElementById('toggleTopic').checked) {
+    badge.classList.remove('hidden');
+  } else {
+    badge.classList.add('hidden');
+  }
 
   currentOptions = generateOptions(g, sense.groupId);
   currentOptions.forEach((opt, i) => {
@@ -216,16 +224,20 @@ function showGrammarList() {
 }
 
 // ===== DOUBLE TAP HANDLER (mobile) =====
+let tapTimers = [null, null, null, null];
+
 function handleOptionTap(idx) {
-  const now = Date.now();
-  if (now - lastTapTime[idx] < 350) {
-    // Double tap detected -> select answer
+  if (tapTimers[idx]) {
+    // Second tap within 200ms → cancel flip, select answer
+    clearTimeout(tapTimers[idx]);
+    tapTimers[idx] = null;
     selectAnswer(idx);
-    lastTapTime[idx] = 0;
   } else {
-    // Single tap -> flip card
-    document.getElementById(`cardB${idx}`).classList.toggle('flipped');
-    lastTapTime[idx] = now;
+    // First tap → wait 200ms to see if double-tap
+    tapTimers[idx] = setTimeout(() => {
+      tapTimers[idx] = null;
+      document.getElementById(`cardB${idx}`).classList.toggle('flipped');
+    }, 200);
   }
 }
 
@@ -285,6 +297,13 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('modalClose').addEventListener('click', closeModal);
   document.getElementById('modalOverlay').addEventListener('click', (e) => {
     if (e.target === e.currentTarget) closeModal();
+  });
+
+  // Toggles
+  document.getElementById('toggleTopic').addEventListener('change', (e) => {
+    const badge = document.getElementById('senseBadge');
+    if (e.target.checked) badge.classList.remove('hidden');
+    else badge.classList.add('hidden');
   });
 
   // Header buttons
