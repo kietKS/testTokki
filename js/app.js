@@ -382,6 +382,37 @@ function showGrammarList() {
   }, 50);
 }
 
+function showHelp() {
+  const kbdStyle = "display: inline-block; background: rgba(255,255,255,0.15); padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; font-family: monospace; border: 1px solid var(--glass-border); color: var(--text);";
+  const html = `
+    <div style="font-size: 0.95rem; line-height: 1.7; color: var(--text);">
+      <p style="margin-bottom: 8px;"><b>1. Lật thẻ (Xem nghĩa):</b></p>
+      <ul style="margin-left: 20px; margin-bottom: 16px;">
+        <li>Bấm vào thẻ bất kỳ hoặc nhấn phím <kbd style="${kbdStyle}">Space</kbd>.</li>
+      </ul>
+
+      <p style="margin-bottom: 8px;"><b>2. Chọn đáp án (4 thẻ nhỏ):</b></p>
+      <ul style="margin-left: 20px; margin-bottom: 16px;">
+        <li><b>Trên máy tính:</b> Nhấn phím từ <kbd style="${kbdStyle}">1</kbd> đến <kbd style="${kbdStyle}">4</kbd> hoặc click đúp chuột vào thẻ.</li>
+        <li><b>Trên điện thoại:</b> Chạm 2 lần liên tiếp (double-tap) vào thẻ.</li>
+      </ul>
+
+      <p style="margin-bottom: 8px;"><b>3. Chuyển câu tiếp theo:</b></p>
+      <ul style="margin-left: 20px; margin-bottom: 16px;">
+        <li>Bấm nút "Tiếp theo" ở góc dưới hoặc nhấn phím <kbd style="${kbdStyle}">5</kbd>.</li>
+      </ul>
+
+      <p style="margin-bottom: 8px;"><b>4. Các tính năng mở rộng:</b></p>
+      <ul style="margin-left: 20px; margin-bottom: 16px;">
+        <li style="margin-bottom: 8px;"><b style="color:var(--accent); font-size: 1.1rem;">➔</b> <b>Nhảy nhanh:</b> Trong danh sách đồng nghĩa, bấm vào mũi tên để nhảy sang thẻ của ngữ pháp đó. Có thể bấm nút <b>"⬅ Quay lại"</b> để trở về.</li>
+        <li style="margin-bottom: 8px;"><b>📋 Copy:</b> Bấm để sao chép nhanh tên ngữ pháp hoặc nghĩa tiếng Việt.</li>
+        <li style="margin-bottom: 8px;"><b>Hiện CĐ / Hiện ĐA:</b> Công tắc bật/tắt hiển thị Chủ đề (nhóm) hoặc tự động hiện đáp án đúng khi bạn chọn sai.</li>
+      </ul>
+    </div>
+  `;
+  openModal('Hướng dẫn sử dụng', html);
+}
+
 // ===== DOUBLE TAP HANDLER (mobile) =====
 let tapTimers = [null, null, null, null];
 
@@ -503,6 +534,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Header buttons
   document.getElementById('btnGrammarList').addEventListener('click', showGrammarList);
+  document.getElementById('btnHelp').addEventListener('click', showHelp);
   document.getElementById('btnReset').addEventListener('click', () => {
     if (confirm('Reset toàn bộ tiến trình?')) {
       progress = {};
