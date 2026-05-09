@@ -44,11 +44,13 @@
       <div class="card card-a" id="cardA">
         <div class="card-inner">
           <div class="card-front">
+            <button class="btn-copy copy-btn-a" title="Copy ngữ pháp">📋</button>
             <span class="card-label">Ngữ pháp</span>
             <span class="card-grammar" id="mainGrammar"></span>
             <span class="card-hint">Click để xem nghĩa</span>
           </div>
           <div class="card-back">
+            <button class="btn-copy copy-btn-a-back" title="Copy nghĩa tiếng Việt">📋</button>
             <span class="card-label">Nghĩa tiếng Việt</span>
             <span class="card-meaning" id="mainMeaning"></span>
             <span class="card-notes" id="mainNotes"></span>
@@ -68,7 +70,7 @@
       <div class="option-wrap" data-idx="0">
         <div class="card card-b" id="cardB0">
           <div class="card-inner">
-            <div class="card-front"><span class="opt-num">1</span><span class="opt-grammar" id="optG0"></span></div>
+            <div class="card-front"><button class="btn-copy copy-btn-b" data-idx="0" title="Copy ngữ pháp">📋</button><span class="opt-num">1</span><span class="opt-grammar" id="optG0"></span></div>
             <div class="card-back"><span class="opt-meaning" id="optM0"></span></div>
           </div>
         </div>
@@ -80,7 +82,7 @@
       <div class="option-wrap" data-idx="1">
         <div class="card card-b" id="cardB1">
           <div class="card-inner">
-            <div class="card-front"><span class="opt-num">2</span><span class="opt-grammar" id="optG1"></span></div>
+            <div class="card-front"><button class="btn-copy copy-btn-b" data-idx="1" title="Copy ngữ pháp">📋</button><span class="opt-num">2</span><span class="opt-grammar" id="optG1"></span></div>
             <div class="card-back"><span class="opt-meaning" id="optM1"></span></div>
           </div>
         </div>
@@ -92,7 +94,7 @@
       <div class="option-wrap" data-idx="2">
         <div class="card card-b" id="cardB2">
           <div class="card-inner">
-            <div class="card-front"><span class="opt-num">3</span><span class="opt-grammar" id="optG2"></span></div>
+            <div class="card-front"><button class="btn-copy copy-btn-b" data-idx="2" title="Copy ngữ pháp">📋</button><span class="opt-num">3</span><span class="opt-grammar" id="optG2"></span></div>
             <div class="card-back"><span class="opt-meaning" id="optM2"></span></div>
           </div>
         </div>
@@ -104,7 +106,7 @@
       <div class="option-wrap" data-idx="3">
         <div class="card card-b" id="cardB3">
           <div class="card-inner">
-            <div class="card-front"><span class="opt-num">4</span><span class="opt-grammar" id="optG3"></span></div>
+            <div class="card-front"><button class="btn-copy copy-btn-b" data-idx="3" title="Copy ngữ pháp">📋</button><span class="opt-num">4</span><span class="opt-grammar" id="optG3"></span></div>
             <div class="card-back"><span class="opt-meaning" id="optM3"></span></div>
           </div>
         </div>
@@ -116,6 +118,7 @@
     </div>
 
     <!-- Next button -->
+    <button class="btn-prev" id="btnPrev" style="display: none;">⬅ Quay lại</button>
     <button class="btn-next" id="btnNext">Tiếp theo <span class="key-hint">5</span></button>
   </main>
 

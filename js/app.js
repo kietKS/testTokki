@@ -1,5 +1,6 @@
 // ===== STATE =====
 let currentIdx = 0;           // index into shuffledOrder
+let historyStack = [];        // save previous indices for Back button
 let shuffledOrder = [];       // randomized list of grammarData indices
 let currentSenseGroupId = null;
 let currentOptions = [];
@@ -51,7 +52,7 @@ function generateOptions(mainGrammar, senseGroupId) {
     const pattern = (mainGrammar.synonymPatterns && mainGrammar.synonymPatterns.length > 0)
       ? mainGrammar.synonymPatterns[0]
       : "(Không có đồng nghĩa)";
-      
+
     correctGrammar = {
       id: -2,
       grammar: pattern,
@@ -108,7 +109,7 @@ function renderQuestion() {
   const grp = synonymGroups.find(gr => gr.id === sense.groupId);
   const badge = document.getElementById('senseBadge');
   badge.textContent = grp ? grp.label : sense.meaning;
-  
+
   // Sync visibility with toggle
   if (document.getElementById('toggleTopic').checked) {
     badge.classList.remove('hidden');
@@ -156,12 +157,12 @@ function selectAnswer(idx) {
     // Correct answer
     answered = true;
     wraps[idx].classList.add('correct');
-    
+
     if (!progress[g.id]) progress[g.id] = [];
     if (!progress[g.id].includes(currentSenseGroupId)) {
       progress[g.id].push(currentSenseGroupId);
     }
-    
+
     localStorage.setItem('topik_progress', JSON.stringify(progress));
     updateProgress();
   } else {
@@ -182,8 +183,17 @@ function selectAnswer(idx) {
 }
 
 function nextQuestion() {
+  historyStack = [];
+  updateBackButton();
   currentIdx = (currentIdx + 1) % shuffledOrder.length;
   renderQuestion();
+}
+
+function updateBackButton() {
+  const btnPrev = document.getElementById('btnPrev');
+  if (btnPrev) {
+    btnPrev.style.display = historyStack.length > 0 ? 'block' : 'none';
+  }
 }
 
 // ===== MODAL =====
@@ -202,11 +212,18 @@ function showSynonyms(grammarItem) {
     const members = grp ? grp.grammarIds
       .filter(id => id !== grammarItem.id)
       .map(id => grammarData.find(g => g.id === id))
-      .filter(Boolean)
-      .map(g => g.grammar) : [];
-      
-    // Lọc bỏ những chữ trong synonymPatterns đã tồn tại trong members (do nâng cấp ngữ pháp)
-    const uniquePatterns = grammarItem.synonymPatterns.filter(p => !members.includes(p));
+      .filter(Boolean) : [];
+
+    const memberGrammars = new Set(members.map(m => m.grammar));
+    const allPatternsInGroup = new Set();
+    members.forEach(m => {
+      (m.synonymPatterns || []).forEach(p => allPatternsInGroup.add(p));
+    });
+    (grammarItem.synonymPatterns || []).forEach(p => allPatternsInGroup.add(p));
+
+    // Lọc bỏ: chính ngữ pháp hiện tại, và các pattern đã có trong members (đã được thể hiện bằng nút ➔)
+    memberGrammars.add(grammarItem.grammar);
+    const uniquePatterns = [...allPatternsInGroup].filter(p => !memberGrammars.has(p));
 
     let nuancesHtml = '';
     if (grp && grp.nuances && grp.nuances.length > 0) {
@@ -221,13 +238,53 @@ function showSynonyms(grammarItem) {
     return `<div style="margin-bottom:12px">
       <div style="font-size:0.8rem;color:var(--text2);margin-bottom:4px">${s.meaning}</div>
       <ul class="syn-list">
-        ${uniquePatterns.map(p => `<li>${p}</li>`).join('')}
-        ${members.map(m => `<li>${m}</li>`).join('')}
+        ${uniquePatterns.map(p => `<li style="display: flex; justify-content: space-between; align-items: center;">
+          <span>${p}</span>
+          <button class="btn-copy-list" data-copy="${p.replace(/"/g, '&quot;')}" title="Copy ngữ pháp" style="background: none; border: none; cursor: pointer; color: var(--text2); font-size: 0.9rem; padding: 4px;">📋</button>
+        </li>`).join('')}
+        ${members.map(m => `<li style="display: flex; justify-content: space-between; align-items: center;">
+          <div style="display: flex; align-items: center; gap: 8px;">
+            <span>${m.grammar}</span>
+            <button class="btn-copy-list" data-copy="${m.grammar.replace(/"/g, '&quot;')}" title="Copy ngữ pháp" style="background: none; border: none; cursor: pointer; color: var(--text2); font-size: 0.9rem; padding: 4px;">📋</button>
+          </div>
+          <button class="btn-jump" data-target-id="${m.id}" title="Chuyển đến ngữ pháp này" style="background: none; border: none; cursor: pointer; color: var(--accent); font-size: 1.2rem; padding: 4px; display: flex; align-items: center; justify-content: center;">➔</button>
+        </li>`).join('')}
       </ul>
       ${nuancesHtml}
     </div>`;
   }).join('');
   openModal(`Đồng nghĩa: ${grammarItem.grammar}`, allGroups);
+
+  setTimeout(() => {
+    document.querySelectorAll('.btn-jump').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const targetId = parseInt(btn.dataset.targetId);
+        const targetGlobalIdx = grammarData.findIndex(g => g.id === targetId);
+        const targetShuffledIdx = shuffledOrder.indexOf(targetGlobalIdx);
+        if (targetShuffledIdx >= 0) {
+          historyStack.push(currentIdx);
+          currentIdx = targetShuffledIdx;
+          closeModal();
+          renderQuestion();
+          updateBackButton();
+        }
+      });
+    });
+
+    document.querySelectorAll('.btn-copy-list').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const textToCopy = btn.dataset.copy;
+        if (textToCopy) {
+          navigator.clipboard.writeText(textToCopy).then(() => {
+            const oldContent = btn.innerHTML;
+            btn.innerHTML = '✅';
+            setTimeout(() => btn.innerHTML = oldContent, 1000);
+          });
+        }
+      });
+    });
+  }, 50);
 }
 
 function showExamples(grammarItem) {
@@ -251,7 +308,7 @@ function showGrammarList() {
     const uniqueGroupIds = new Set(g.senses.map(s => s.groupId));
     const totalSenses = uniqueGroupIds.size;
     const completedSenses = progress[g.id] ? progress[g.id].length : 0;
-    
+
     let cls = 'todo';
     let label = '—';
     if (completedSenses === totalSenses) {
@@ -262,15 +319,18 @@ function showGrammarList() {
       label = `(${completedSenses}/${totalSenses})`;
     }
 
-    const searchStr = (g.grammar + ' ' + g.senses.map(s=>s.meaning).join(' ')).toLowerCase();
+    const searchStr = (g.grammar + ' ' + g.senses.map(s => s.meaning).join(' ')).toLowerCase();
 
     return `<li data-goto="${i}" data-search="${searchStr.replace(/"/g, '&quot;')}">
-      <div><span class="gl-name">${g.grammar}</span>
-      <span class="gl-meaning">${g.senses.map(s=>s.meaning).join(' / ')}</span></div>
+      <div style="display: flex; align-items: center; gap: 10px;">
+        <button class="btn-copy-list" data-copy="${g.grammar.replace(/"/g, '&quot;')}" title="Copy ngữ pháp" style="background: none; border: none; cursor: pointer; color: var(--text2); font-size: 0.9rem; padding: 4px; z-index: 5;">📋</button>
+        <div><span class="gl-name">${g.grammar}</span>
+        <span class="gl-meaning">${g.senses.map(s => s.meaning).join(' / ')}</span></div>
+      </div>
       <span class="gl-status ${cls}" style="font-size: 0.85rem; font-weight: 600;">${label}</span>
     </li>`;
   }).join('')}</ul>`;
-  
+
   openModal('Danh sách ngữ pháp', searchHtml + listHtml);
 
   setTimeout(() => {
@@ -280,6 +340,10 @@ function showGrammarList() {
         // Jump to this grammar's position in shuffledOrder
         const grammarIdx = parseInt(li.dataset.goto);
         const posInOrder = shuffledOrder.indexOf(grammarIdx);
+        if (posInOrder >= 0 && posInOrder !== currentIdx) {
+          historyStack.push(currentIdx);
+          updateBackButton();
+        }
         currentIdx = posInOrder >= 0 ? posInOrder : 0;
         closeModal();
         renderQuestion();
@@ -301,6 +365,20 @@ function showGrammarList() {
         });
       });
     }
+
+    document.querySelectorAll('.btn-copy-list').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const textToCopy = btn.dataset.copy;
+        if (textToCopy) {
+          navigator.clipboard.writeText(textToCopy).then(() => {
+            const oldContent = btn.innerHTML;
+            btn.innerHTML = '✅';
+            setTimeout(() => btn.innerHTML = oldContent, 1000);
+          });
+        }
+      });
+    });
   }, 50);
 }
 
@@ -325,13 +403,13 @@ function handleOptionTap(idx) {
 // ===== EVENT LISTENERS =====
 document.addEventListener('DOMContentLoaded', () => {
   // Card A flip (click)
-  document.getElementById('cardA').addEventListener('click', function() {
+  document.getElementById('cardA').addEventListener('click', function () {
     this.classList.toggle('flipped');
   });
 
   // Card B: single click = flip, double click = select (mobile)
   for (let i = 0; i < 4; i++) {
-    document.getElementById(`cardB${i}`).addEventListener('click', function(e) {
+    document.getElementById(`cardB${i}`).addEventListener('click', function (e) {
       handleOptionTap(i);
     });
   }
@@ -355,6 +433,42 @@ document.addEventListener('DOMContentLoaded', () => {
       else showExamples(opt.grammar);
     });
   });
+
+  // Copy buttons
+  document.querySelectorAll('.btn-copy').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      let textToCopy = '';
+      if (btn.classList.contains('copy-btn-a')) {
+        textToCopy = document.getElementById('mainGrammar').innerText;
+      } else if (btn.classList.contains('copy-btn-a-back')) {
+        textToCopy = document.getElementById('mainMeaning').innerText;
+      } else if (btn.classList.contains('copy-btn-b')) {
+        const idx = btn.dataset.idx;
+        textToCopy = document.getElementById(`optG${idx}`).innerText;
+      }
+
+      if (textToCopy && textToCopy !== '—') {
+        navigator.clipboard.writeText(textToCopy).then(() => {
+          const oldContent = btn.innerHTML;
+          btn.innerHTML = '✅';
+          setTimeout(() => btn.innerHTML = oldContent, 1000);
+        });
+      }
+    });
+  });
+
+  // Back button
+  const btnPrev = document.getElementById('btnPrev');
+  if (btnPrev) {
+    btnPrev.addEventListener('click', () => {
+      if (historyStack.length > 0) {
+        currentIdx = historyStack.pop();
+        renderQuestion();
+        updateBackButton();
+      }
+    });
+  }
 
   // Next button
   document.getElementById('btnNext').addEventListener('click', nextQuestion);

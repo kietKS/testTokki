@@ -113,6 +113,16 @@ body {
 .card-meaning { font-size: 1.2rem; font-weight: 600; color: var(--accent2); }
 .card-notes { font-size: 0.75rem; color: var(--text2); font-style: italic; }
 
+.btn-copy {
+  position: absolute; top: 12px; right: 12px;
+  background: rgba(255,255,255,0.1); border: 1px solid var(--glass-border);
+  border-radius: 6px; font-size: 1rem; width: 32px; height: 32px;
+  cursor: pointer; opacity: 0.6; transition: all 0.2s; z-index: 5;
+  display: grid; place-items: center; color: #fff;
+}
+.btn-copy:hover { opacity: 1; transform: scale(1.05); background: rgba(255,255,255,0.2); }
+.card-back .btn-copy { right: 12px; top: 12px; }
+
 .card-a-buttons {
   display: flex; flex-direction: column; gap: 6px;
 }
@@ -158,6 +168,10 @@ body {
 .opt-grammar { font-family: var(--font-kr); font-size: 1.05rem; font-weight: 600; }
 .opt-meaning { font-size: 0.9rem; color: var(--accent2); font-weight: 500; }
 
+.card-b .btn-copy {
+  font-size: 0.8rem; width: 24px; height: 24px; top: 6px; right: 6px;
+}
+
 .opt-buttons { display: flex; flex-direction: column; gap: 4px; }
 .btn-sm {
   width: 36px; height: 42px; border-radius: 8px;
@@ -202,6 +216,16 @@ body {
   display: inline-block; background: rgba(255,255,255,0.2);
   padding: 1px 7px; border-radius: 4px; font-size: 0.75rem; margin-left: 6px;
 }
+
+.btn-prev {
+  position: fixed; bottom: 20px; left: 24px;
+  padding: 12px 28px; border: none; border-radius: var(--radius-sm);
+  background: var(--surface); color: var(--text); 
+  font-weight: 600; font-size: 0.95rem; cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2); border: 1px solid var(--glass-border);
+  transition: all 0.25s; z-index: 40; backdrop-filter: blur(8px);
+}
+.btn-prev:hover { background: rgba(255,255,255,0.1); transform: translateY(-2px); border-color: var(--text2); }
 
 /* ===== MODAL ===== */
 .modal-overlay {
@@ -298,4 +322,5 @@ body {
   .options-grid { grid-template-columns: 1fr; }
   .card-b { height: 80px; }
   .btn-next { right: 12px; bottom: 12px; padding: 10px 20px; font-size: 0.85rem; }
+  .btn-prev { left: 12px; bottom: 12px; padding: 10px 20px; font-size: 0.85rem; }
 }
