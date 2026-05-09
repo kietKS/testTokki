@@ -243,7 +243,11 @@ function showExamples(grammarItem) {
 }
 
 function showGrammarList() {
-  const html = `<ul class="grammar-list">${grammarData.map((g, i) => {
+  const searchHtml = `<div class="search-wrap" style="margin-bottom: 16px; position: sticky; top: 0; z-index: 10; background: var(--bg2); padding-bottom: 10px;">
+    <input type="text" id="grammarSearchInput" placeholder="Tìm kiếm ngữ pháp / tiếng Việt..." style="width: 100%; padding: 10px 14px; border: 1px solid var(--glass-border); border-radius: 8px; background: var(--surface); color: var(--text); font-size: 0.95rem; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--glass-border)'">
+  </div>`;
+
+  const listHtml = `<ul class="grammar-list" id="grammarListUl">${grammarData.map((g, i) => {
     const uniqueGroupIds = new Set(g.senses.map(s => s.groupId));
     const totalSenses = uniqueGroupIds.size;
     const completedSenses = progress[g.id] ? progress[g.id].length : 0;
@@ -258,26 +262,46 @@ function showGrammarList() {
       label = `(${completedSenses}/${totalSenses})`;
     }
 
-    return `<li data-goto="${i}">
+    const searchStr = (g.grammar + ' ' + g.senses.map(s=>s.meaning).join(' ')).toLowerCase();
+
+    return `<li data-goto="${i}" data-search="${searchStr.replace(/"/g, '&quot;')}">
       <div><span class="gl-name">${g.grammar}</span>
       <span class="gl-meaning">${g.senses.map(s=>s.meaning).join(' / ')}</span></div>
       <span class="gl-status ${cls}" style="font-size: 0.85rem; font-weight: 600;">${label}</span>
     </li>`;
   }).join('')}</ul>`;
-  openModal('Danh sách ngữ pháp', html);
+  
+  openModal('Danh sách ngữ pháp', searchHtml + listHtml);
 
-    setTimeout(() => {
-      document.querySelectorAll('.grammar-list li[data-goto]').forEach(li => {
-        li.addEventListener('click', () => {
-          // Jump to this grammar's position in shuffledOrder
-          const grammarIdx = parseInt(li.dataset.goto);
-          const posInOrder = shuffledOrder.indexOf(grammarIdx);
-          currentIdx = posInOrder >= 0 ? posInOrder : 0;
-          closeModal();
-          renderQuestion();
+  setTimeout(() => {
+    // List item click listener
+    document.querySelectorAll('#grammarListUl li[data-goto]').forEach(li => {
+      li.addEventListener('click', () => {
+        // Jump to this grammar's position in shuffledOrder
+        const grammarIdx = parseInt(li.dataset.goto);
+        const posInOrder = shuffledOrder.indexOf(grammarIdx);
+        currentIdx = posInOrder >= 0 ? posInOrder : 0;
+        closeModal();
+        renderQuestion();
+      });
+    });
+
+    // Search input listener
+    const searchInput = document.getElementById('grammarSearchInput');
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const term = e.target.value.toLowerCase();
+        document.querySelectorAll('#grammarListUl li[data-goto]').forEach(li => {
+          const searchStr = li.dataset.search;
+          if (searchStr.includes(term)) {
+            li.style.display = '';
+          } else {
+            li.style.display = 'none';
+          }
         });
       });
-    }, 50);
+    }
+  }, 50);
 }
 
 // ===== DOUBLE TAP HANDLER (mobile) =====

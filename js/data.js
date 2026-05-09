@@ -235,7 +235,7 @@ const synonymGroups = [
     nuances: ["• 고 나서: Nhấn mạnh hoàn tất triệt để vế 1 rồi mới làm vế 2. (VD: 숙제를 하고 나서 놀아요 - Làm xong hẳn bài tập rồi mới chơi)"]
   },
   {
-    id: "while_time", label: "Trong lúc, trong khi", grammarIds: [102],
+    id: "while_time", label: "Trong lúc, trong khi", grammarIds: [102, 106, 107],
     nuances: [
       "• 는 동안: Vế 1 và 2 song song diễn ra. Chủ ngữ 2 vế CÓ THỂ khác nhau. (VD: 내가 자는 동안 비가 왔어요 - Trong lúc tôi ngủ thì trời mưa)"
     ]
