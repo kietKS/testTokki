@@ -183,7 +183,7 @@ function selectAnswer(idx) {
 }
 
 function nextQuestion() {
-  historyStack = [];
+  historyStack.push(currentIdx);
   updateBackButton();
   currentIdx = (currentIdx + 1) % shuffledOrder.length;
   renderQuestion();
@@ -399,10 +399,15 @@ function showHelp() {
 
       <p style="margin-bottom: 8px;"><b>3. Chuyển câu tiếp theo:</b></p>
       <ul style="margin-left: 20px; margin-bottom: 16px;">
-        <li>Bấm nút "Tiếp theo" ở góc dưới hoặc nhấn phím <kbd style="${kbdStyle}">5</kbd>.</li>
+        <li>Bấm nút "Tiếp theo" ở góc dưới hoặc nhấn phím <kbd style="${kbdStyle}">5</kbd> hoặc <kbd style="${kbdStyle}">→</kbd>.</li>
       </ul>
 
-      <p style="margin-bottom: 8px;"><b>4. Các tính năng mở rộng:</b></p>
+      <p style="margin-bottom: 8px;"><b>4. Quay lại câu trước:</b></p>
+      <ul style="margin-left: 20px; margin-bottom: 16px;">
+        <li>Bấm nút "Quay lại" ở góc dưới bên trái hoặc nhấn phím <kbd style="${kbdStyle}">←</kbd>.</li>
+      </ul>
+
+      <p style="margin-bottom: 8px;"><b>5. Các tính năng mở rộng:</b></p>
       <ul style="margin-left: 20px; margin-bottom: 16px;">
         <li style="margin-bottom: 8px;"><b style="color:var(--accent); font-size: 1.1rem;">➔</b> <b>Nhảy nhanh:</b> Trong danh sách đồng nghĩa, bấm vào mũi tên để nhảy sang thẻ của ngữ pháp đó. Có thể bấm nút <b>"⬅ Quay lại"</b> để trở về.</li>
         <li style="margin-bottom: 8px;"><b>📋 Copy:</b> Bấm để sao chép nhanh tên ngữ pháp hoặc nghĩa tiếng Việt.</li>
@@ -511,7 +516,12 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
     if (e.key >= '1' && e.key <= '4') selectAnswer(parseInt(e.key) - 1);
-    if (e.key === '5') nextQuestion();
+    if (e.key === '5' || e.key === 'ArrowRight') nextQuestion();
+    if (e.key === 'ArrowLeft' && historyStack.length > 0) {
+      currentIdx = historyStack.pop();
+      renderQuestion();
+      updateBackButton();
+    }
     // Spacebar flips card A
     if (e.key === ' ' || e.code === 'Space') {
       e.preventDefault();
