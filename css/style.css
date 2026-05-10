@@ -323,4 +323,5 @@ body {
   .card-b { height: 80px; }
   .btn-next { right: 12px; bottom: 12px; padding: 10px 20px; font-size: 0.85rem; }
   .btn-prev { left: 12px; bottom: 12px; padding: 10px 20px; font-size: 0.85rem; }
+  .header-left h1 { display: none; }
 }
