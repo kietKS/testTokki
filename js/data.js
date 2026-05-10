@@ -530,7 +530,7 @@ const grammarData = [
     senses: [{ meaning: "dù ...nhưng", groupId: "contrast" }],
     synonymPatterns: ["지만"],
     examples: [
-      { sentence: "나는 공부를 열심히 <b>하는데도</b> 성적이 잘 오르지 않는다.", translation: "Dù tôi học hăng hái nhưng điểm vẫn không tăng." },
+      { sentence: "나는 공부를 열심히 <b>하는데도</b> 성적이 잘 오르지 않는다.", translation: "Dù tôi học chăm chỉ nhưng điểm vẫn không tăng." },
       { sentence: "나는 공부를 열심히 <b>하지만</b> 성적이 잘 오르지 않는다.", translation: "Tôi học chăm chỉ nhưng điểm vẫn không tăng." }
     ], notes: ""
   },
@@ -579,7 +579,7 @@ const grammarData = [
     senses: [{ meaning: "trong khi, vẫn, đang", groupId: "state" }],
     synonymPatterns: ["고"],
     examples: [
-      { sentence: "저기 우산을 <b>쓴 채</b> 서 있는 사람이 오늘 소개할 사람이다.", translation: "Người đang đứng kia với chiếc ô trên tay chính là người tôi sẽ giới thiệu hôm nay." },
+      { sentence: "저기 우산을 <b>쓴 채</b> 서 있는 사람이 오늘 소개할 사람이다.", translation: "Người đang đứng kia đang che ô chính là người tôi sẽ giới thiệu hôm nay." },
       { sentence: "저기 우산을 <b>쓰고</b> 서 있는 사람이 오늘 소개할 사람이다.", translation: "Người đang đứng kia đang cầm ô chính là người tôi sẽ giới thiệu hôm nay." }
     ], notes: ""
   },
@@ -671,8 +671,8 @@ const grammarData = [
       { sentence: "나는 버스터미널에 <b>도착하자마자</b> 부모님께 전화를 드릴 생각이다.", translation: "Tôi định vừa đến bến xe là gọi điện cho bố mẹ ngay." },
       { sentence: "나는 버스터미널에 <b>도착하는 대로</b> 부모님께 전화를 드릴 생각이다.", translation: "Tôi định đến bến xe rồi liên lạc với bố mẹ ngay." },
       { sentence: "나는 버스터미널에 <b>도착하면 바로</b> 부모님께 전화를 드릴 생각이다.", translation: "Tôi định đến bến xe là gọi điện ngay cho bố mẹ." },
-      { sentence: "화점 입장이 <b>시작되자마자</b> 손님들이 몰려들었다.", translation: "Vừa mở cửa bách hóa là khách hàng ùa vào." },
-      { sentence: "화점 입장이 <b>시작되기가 무섭게</b> 손님들이 몰려들었다.", translation: "Vừa mở cửa bách hóa là khách hàng lập tức ùa vào ngay." }
+      { sentence: "백화점 입장이 <b>시작되자마자</b> 손님들이 몰려들었다.", translation: "Vừa mở cửa bách hóa là khách hàng ùa vào." },
+      { sentence: "백화점 입장이 <b>시작되기가 무섭게</b> 손님들이 몰려들었다.", translation: "Vừa mở cửa bách hóa là khách hàng lập tức ùa vào ngay." }
     ], notes: ""
   },
   {
@@ -702,7 +702,7 @@ const grammarData = [
       { sentence: "바빠서 일을 못 끝냈다는 말은 <b>변명일 뿐이다</b>.", translation: "Nói bận nên không làm xong việc chẳng qua chỉ là lời biện hộ." },
       { sentence: "바빠서 일을 못 끝냈다는 말은 <b>변명에 불과하다</b>.", translation: "Nói bận nên không làm xong việc chỉ không hơn gì lời biện hộ." },
       { sentence: "친구에게 항상 도움을 받기만 해서 <b>미안할 뿐이다</b>.", translation: "Chỉ toàn nhận sự giúp đỡ từ bạn nên tôi chỉ thấy áy náy." },
-      { sentence: "친구에게 항상 도움을 받기만 해서 <b>미안할 다름이다</b>.", translation: "Chỉ toàn nhận sự giúp đỡ từ bạn nên cũng chẳng khác gì thấy áy náy." }
+      { sentence: "친구에게 항상 도움을 받기만 해서 <b>미안할 따름이다</b>.", translation: "Chỉ toàn nhận sự giúp đỡ từ bạn nên tôi chỉ biết cảm thấy áy náy mà thôi." }
     ], notes: ""
   },
 
@@ -850,7 +850,7 @@ const grammarData = [
     senses: [{ meaning: "chắc là (suy đoán từ bằng chứng)", groupId: "guess" }],
     synonymPatterns: ["(으)ㄴ/는 것 같다", "는 듯하다", "는 모양이다"],
     ownExamples: [
-      { sentence: "불이 꺼진 걸 보니 다들 집에 <b>간 나 보다</b>.", translation: "Nhìn đèn tắt hết, chắc mọi người đã về nhà cả rồi." }
+      { sentence: "불이 꺼진 걸 보니 다들 집에 <b>갔나 봐요</b>.", translation: "Nhìn đèn tắt hết, chắc mọi người đã về nhà cả rồi." }
     ], notes: "Dùng khi người nói suy đoán từ bằng chứng quan sát được (nghe/thấy kết quả). ⚠ KHÔNG dùng cho chủ ngữ ngôi thứ nhất về chính mình: '친구가 피곤한가 봐요' ✅ (quan sát người khác) / '내가 피곤한가 봐요' ❌ (bản thân mình phải tự biết). Đây là điểm phân biệt hay xuất hiện trong đề TOPIK II"
   },
   {
@@ -1355,7 +1355,7 @@ const grammarData = [
     senses: [{ meaning: "dù có làm thì cũng vô ích", groupId: "concession" }],
     synonymPatterns: ["(나) 마나", "것도 없이", "아/어 봐도", "본다고 해도"],
     ownExamples: [
-      { sentence: "지금 서ду른 <b>봤자</b> 이미 늦어서 소용이 없다.", translation: "Dù có vội bây giờ thì cũng đã trễ rồi, chẳng ích gì." }
+      { sentence: "지금 서둘러 <b>봐야</b> 이미 늦어서 소용이 없다.", translation: "Dù có vội bây giờ thì cũng đã trễ rồi, chẳng ích gì." }
     ],
     notes: "diễn đạt sự vô nghĩa của hành động vì kết quả đã được biết trước; kết quả thường tiêu cực"
   },
@@ -1445,7 +1445,7 @@ const grammarData = [
     senses: [{ meaning: "không có lý do gì mà, không thể nào (vì không có điều kiện)", groupId: "impossible" }],
     synonymPatterns: ["(으)ㄹ 리가 없다", "(으)ㄹ 리 만무하다"],
     ownExamples: [
-      { sentence: "그 người이 그런 비싼 선물을 살 <b>턱이 없다</b>. 수입이 bao nhiêu mà.", translation: "Không có chuyện người đó mua món quà đắt như thế đâu. Thu nhập được bao nhiêu mà." }
+      { sentence: "그 사람이 그런 비싼 선물을 살 <b>턱이 없다</b>. 수입이 얼마나 된다고.", translation: "Không có chuyện người đó mua món quà đắt như thế đâu. Thu nhập được bao nhiêu đâu mà." }
     ],
     notes: "nhấn mạnh sự bất khả thi vì thiếu điều kiện (tài chính, khả năng, hoàn cảnh); thường hàm ý mỉa mai"
   },
@@ -1472,7 +1472,7 @@ const grammarData = [
     senses: [{ meaning: "không khác gì, cũng như là", groupId: "consider_as" }],
     synonymPatterns: ["(으)ㄴ/는 셈이다", "거나 마찬가지이다", "거나 같다"],
     ownExamples: [
-      { sentence: "우리는 20년을 함께 살았으니 gia đình이 <b>나 다름없어요</b>.", translation: "Chúng tôi đã sống cùng nhau 20 năm, không khác gì người trong gia đình." }
+      { sentence: "우리는 20년을 함께 살았으니 가족이<b>나 다름없어요</b>.", translation: "Chúng tôi đã sống cùng nhau 20 năm, không khác gì người trong gia đình." }
     ],
     notes: "nhấn mạnh sự tương đương hoàn toàn về bản chất; mạnh hơn 셈이다 một chút"
   },
@@ -1481,7 +1481,7 @@ const grammarData = [
     senses: [{ meaning: "đã tưởng là, đã nghĩ là", groupId: "unexpected" }],
     synonymPatterns: ["(으)ㄴ/는 줄 몰랐다"],
     ownExamples: [
-      { sentence: "그 식당이 문을 닫은 <b>줄 알았다</b>. 가 봤더니 còn mở더라.", translation: "Tôi đã nghĩ quán đó đóng cửa rồi. Đến nơi mới thấy vẫn còn mở." }
+      { sentence: "그 식당이 문을 닫은 <b>줄 알았다</b>. 가 봤더니 아직 열더라.", translation: "Tôi đã nghĩ quán đó đóng cửa rồi. Đến nơi mới thấy vẫn còn mở." }
     ],
     notes: "diễn đạt nhận thức sai trong quá khứ; thường dùng ở dạng rút gọn '줄 알았다'. Khác (으)ㄴ 줄 몰랐다: 줄 알았다 = tưởng đúng nhưng sai; 줄 몰랐다 = không biết là có chuyện đó"
   },
