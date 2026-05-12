@@ -113,7 +113,6 @@ const translationMap = {
   "처음 보는 요리를 배울뿐만 아니라 그걸 먹을 수도 있어서 좋아요.": "Không chỉ học được những món lạ mà còn được ăn chúng nên thích lắm.",
   // ID 42
   "영수는 아직도 집에서 자고 있을 게 뻔하다.": "Chắc chắn Yeongsu giờ này vẫn đang ngủ ở nhà.",
-  "영수는 아직도 집에서 자고 있을 것이 분명하다.": "Rõ ràng Yeongsu giờ này vẫn đang ngủ ở nhà.",
   // ID 43
   "그 사람은 나의 선생님이자 유명한 감독이다.": "Người đó vừa là thầy giáo của tôi vừa là đạo diễn nổi tiếng.",
   "그 사람은 나의 선생님인 동시에 유명한 감독이다.": "Người đó đồng thời là thầy giáo của tôi và là đạo diễn nổi tiếng.",
