@@ -557,4 +557,5 @@ document.addEventListener('DOMContentLoaded', () => {
   shuffledOrder = shuffle(grammarData.map((_, i) => i));
   currentIdx = 0;
   renderQuestion();
+  showHelp();
 });
