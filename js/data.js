@@ -61,7 +61,7 @@ const synonymGroups = [
     nuances: ["• (으)ㄴ/는 줄 몰랐다: Nhầm tưởng sự thật. (VD: 비가 오는 줄 몰랐어요 - Không ngờ là trời đang mưa)"]
   },
   {
-    id: "reason", label: "Nguyên nhân (vì, do)", grammarIds: [12, 13, 14, 46, 53, 54, 55, 80, 81, 82, 146, 166, 168, 169, 177, 178, 181, 189, 190, 191],
+    id: "reason", label: "Nguyên nhân (vì, do)", grammarIds: [12, 13, 14, 46, 53, 54, 55, 80, 81, 82, 146, 165, 166, 168, 169, 177, 178, 181, 189, 190, 191],
     nuances: [
       "• 아/어서: KHÔNG dùng mệnh lệnh/rủ rê. KHÔNG gắn thì quá khứ/tương lai (았/었/겠). (VD: 아파서 - O, 아팠어서 - X)",
       "• (으)므로: Văn viết. CÓ THỂ gắn thì quá khứ/tương lai ở trước. (VD: 바빴으므로 - Vì đã bận)",
@@ -202,7 +202,7 @@ const synonymGroups = [
     nuances: ["• 다가 보니까: Lặp lại hành động liên tục thì nhận ra kết quả. (VD: 매일 먹다가 보니까 살이 쪘어요 - Ngày nào cũng ăn riết rồi mập lên)"]
   },
   {
-    id: "like_as", label: "Như, như thể", grammarIds: [40, 65, 163, 164, 165],
+    id: "like_as", label: "Như, như thể", grammarIds: [40, 65, 163, 164],
     nuances: ["• 마치 ... 것처럼/듯이: Giống hệt nhau. (VD: 마치 꿈을 꾸는 것처럼 - Giống hệt như đang mơ)"]
   },
   {
