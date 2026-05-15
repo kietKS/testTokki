@@ -1330,13 +1330,16 @@ const grammarData = [
   },
   {
     id: 111, grammar: "V-다시피",
-    senses: [{ meaning: "gần như là, hầu như là (làm giống như hành động nhưng thực ra không hẳn)", groupId: "like_as" }],
+    senses: [
+      { meaning: "như, theo như (đi với 알다, 보다, 듣다...)", groupId: "like_as" },
+      { meaning: "gần như là, hầu như là (thực ra không hẳn vậy)", groupId: "like_as" }
+    ],
     synonymPatterns: ["는 것처럼", "는 바와 같이"],
     ownExamples: [
       { sentence: "<b>알다시피</b> 이 문제는 쉽게 해결되지 않아요.", translation: "Như bạn đã biết, vấn đề này không dễ giải quyết." },
-      { sentence: "그는 밥을 <b>삼키다시피</b> 하며 급하게 나갔어요.", translation: "Anh ấy nuốt vội cơm rồi vội vàng đi ra." }
+      { sentence: "그는 밥을 <b>삼키다시피</b> 하며 급하게 나갔어요.", translation: "Anh ấy gần như nuốt chửng cơm rồi vội vàng đi ra." }
     ],
-    notes: "kết hợp với một số động từ thông dụng tạo thành cụm cố định: 알다시피 (như bạn đã biết), 보다시피 (như đã thấy), 삼키다시피 (gần như nuốt chửng). Mang nghĩa 'gần như, hầu như' — thực tế không hoàn toàn là hành động đó. ⚠ Tránh dùng cùng động từ ở cả hai vế (먹다시피 + 먹다) vì sẽ tạo nghĩa vô lý."
+    notes: "kết합 với một số động từ thông dụng tạo thành cụm cố định: 알다시피 (như bạn đã biết), 보다시피 (như bạn đã thấy). Với các động từ hành động khác mang nghĩa 'gần như, hầu như' — thực tế không hoàn toàn là hành động đó (VD: 삼키다시피 - gần như nuốt chửng). ⚠ Tránh dùng cùng động từ ở cả hai vế (먹다시피 + 먹다) vì sẽ tạo nghĩa vô lý."
   },
   {
     id: 112, grammar: "(으)ㄹ 게 뻔하다",
