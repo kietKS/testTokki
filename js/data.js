@@ -53,11 +53,13 @@ const synonymGroups = [
     nuances: ["• (으)ㄹ 만하다: Đáng để trải nghiệm, giới thiệu. (VD: 이 영화는 볼 만해요 - Phim này đáng xem)"]
   },
   {
-    id: "consider_as", label: "Xem như, coi như", grammarIds: [10, 68, 73, 127, 128, 130],
+    id: "consider_as", label: "Xem như, coi như", grammarIds: [10, 42, 68, 73, 127, 128, 130],
     nuances: [
       "• 거나 마찬가지이다: Bản chất giống nhau dù thực tế không hẳn. (VD: 10분 남았으니 끝난 거나 마찬가지예요 - Còn 10 phút coi như là xong rồi)",
-      "• (으)ㄴ/는 셈이다: Dựa trên tính toán mà xem như là... (VD: 90점이니까 잘한 셈이에요 - 90 điểm thì coi như là làm tốt rồi)",
-      "• 것과 같다: Trạng thái gần như tương đương. (VD: 죽은 것과 같아요 - Giống như chết rồi vậy)"
+      "• (으)ㄴ/는 셈이다: Dựa trên tính toán/phân tích mà xem như là... (VD: 90점이니까 잘한 셈이에요 - 90 điểm thì coi như là làm tốt rồi)",
+      "• (으)ㄴ/는 셈 치다 [MỚI]: 'Cứ coi như là...' — thực tế không phải vậy nhưng TỰ NHỦ / GIẢ VỜ như vậy để làm việc khác. (VD: 속는 셈 치고 한번 사 보세요 - Cứ coi như bị lừa mà mua thử xem sao)",
+      "• 것과 같다: Trạng thái gần như tương đương. (VD: 죽은 것과 같아요 - Giống như chết rồi vậy)",
+      "⚠ Phân biệt: 셈이다 (kết luận khách quan) ≠ 셈 치다 (tự nhủ chủ quan để hành động)."
     ]
   },
   {
@@ -799,6 +801,16 @@ const grammarData = [
       { sentence: "처음 보는 요리를 <b>배우기도 하고</b> 그걸 먹을 수도 있어서 좋아요.", translation: "Vừa được học những món chưa từng thấy vừa được ăn nên thích lắm." },
       { sentence: "처음 보는 요리를 <b>배울뿐만 아니라</b> 그걸 먹을 수도 있어서 좋아요.", translation: "Không chỉ học được những món lạ mà còn được ăn chúng nên thích lắm." }
     ], notes: ""
+  },
+  {
+    id: 42, grammar: "(으)ㄴ/는 셈 치다",
+    senses: [{ meaning: "cứ coi như là, xem như là (dù thực tế không phải vậy)", groupId: "consider_as" }],
+    synonymPatterns: ["(으)ㄴ/는 셈이다", "다고 생각하다"],
+    ownExamples: [
+      { sentence: "버린 <b>셈 치고</b> 친구에게 돈을 빌려줬다.", translation: "Tôi cho bạn mượn tiền mà cứ coi như là đã vứt đi rồi." },
+      { sentence: "속는 <b>셈 치고</b> 이 화장품을 한 번 써 보세요.", translation: "Cứ coi như là bị lừa, bạn hãy dùng thử loại mỹ phẩm này một lần xem sao." }
+    ],
+    notes: "Dùng khi người nói tự huyễn hoặc, giả định hoặc chấp nhận một tình huống không có thực để thực hiện hành động ở vế sau. ⚠ Khác với (으)ㄴ/는 셈이다 (ID 98): 셈이다 là đánh giá/kết luận dựa trên thực tế (A gần bằng B); còn 셈 치다 là cố tình 'tự nhủ' (A hoàn toàn không phải B, nhưng giả vờ là B để làm C). Thường dùng dạng: ~는 셈 치고 (cứ coi như là... rồi làm gì đó)."
   },
   {
     id: 43, grammar: "이자",
