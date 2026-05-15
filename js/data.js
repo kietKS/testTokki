@@ -13,7 +13,7 @@ const synonymGroups = [
     ]
   },
   {
-    id: "purpose", label: "Mục đích (để)", grammarIds: [3, 4, 19, 50, 70, 71],
+    id: "purpose", label: "Mục đích (để)", grammarIds: [3, 4, 197, 50, 70, 71],
     nuances: [
       "• 기 위해(서): Chủ ngữ 2 vế ĐỒNG NHẤT. (VD: 한국에 가기 위해 돈을 모아요 - Để đi Hàn, tôi gom tiền)",
       "• 고자: Giống 기 위해서 nhưng dùng văn viết/trang trọng. (VD: 한국에 가고자 돈을 모아요)",
@@ -65,7 +65,7 @@ const synonymGroups = [
     nuances: ["• (으)ㄴ/는 줄 몰랐다: Nhầm tưởng sự thật. (VD: 비가 오는 줄 몰랐어요 - Không ngờ là trời đang mưa)"]
   },
   {
-    id: "reason", label: "Nguyên nhân (vì, do)", grammarIds: [12, 13, 14, 46, 53, 54, 55, 79, 80, 81, 145, 148, 165, 167, 168, 177, 188, 189, 190],
+    id: "reason", label: "Nguyên nhân (vì, do)", grammarIds: [12, 13, 14, 198, 53, 54, 55, 79, 80, 81, 145, 148, 165, 167, 168, 177, 188, 189, 190],
     nuances: [
       "• 아/어서: KHÔNG dùng mệnh lệnh/rủ rê. KHÔNG gắn thì quá khứ/tương lai (았/었/겠). (VD: 아파서 - O, 아팠어서 - X)",
       "• (으)므로: Văn viết. CÓ THỂ gắn thì quá khứ/tương lai ở trước. (VD: 바빴으므로 - Vì đã bận)",
@@ -148,7 +148,7 @@ const synonymGroups = [
     nuances: ["• (으)ㄹ까 봐: Lo sợ vế trước nên ĐÃ phòng tránh ở vế sau. (VD: 비가 올까 봐 우산을 샀어요 - Sợ mưa nên đã mua ô)"]
   },
   {
-    id: "immediate", label: "Ngay sau khi", grammarIds: [30, 36, 62, 156, 172],
+    id: "immediate", label: "Ngay sau khi", grammarIds: [30, 196, 62, 156, 172],
     nuances: [
       "• 자마자: Vừa làm xong A thì B diễn ra. (VD: 집에 도착하자마자 잤어요 - Vừa về đến nhà là ngủ luôn)",
       "• 기가 무섭게: Tốc độ phản xạ cực nhanh (nhanh hơn 자마자). (VD: 수업이 끝나기가 무섭게 나갔어요 - Lớp vừa tan là nó tót ra ngay)"
@@ -241,7 +241,7 @@ const synonymGroups = [
     nuances: ["• 아/어 놓다: Làm xong hành động và duy trì kết quả. (VD: 문을 열어 놓았어요 - Đã mở sẵn cửa)"]
   },
   {
-    id: "sequence", label: "Thứ tự, sau đó", grammarIds: [46, 74, 109, 131, 152],
+    id: "sequence", label: "Thứ tự, sau đó", grammarIds: [199, 74, 109, 131, 152],
     nuances: ["• 고 나서: Nhấn mạnh hoàn tất triệt để vế 1 rồi mới làm vế 2. (VD: 숙제를 하고 나서 놀아요 - Làm xong hẳn bài tập rồi mới chơi)"]
   },
   {
@@ -377,7 +377,7 @@ const synonymGroups = [
   {
     id: "obvious_skip", label: "Thừa thãi vì quá hiển nhiên / Không cần làm", grammarIds: [116, 193, 194],
     nuances: [
-      "• V-ㄹ 것도 없이: Hành động V thừa thãi vì kết quả đã quá hiển nhiên. Là CONNECTOR — phải có mệnh đề sau. (VD: 물어볼 것도 없이 당연히 그렇죠 — Hiển nhiên vậy, chẳng cần hỏi làm gì)",
+      "• (으)ㄹ 것도 없이: Hành động V thừa thãi vì kết quả đã quá hiển nhiên. Là CONNECTOR — phải có mệnh đề sau. (VD: 물어볼 것도 없이 당연히 그렇죠 — Hiển nhiên vậy, chẳng cần hỏi làm gì)",
       "• 두말할 것도 없이: 'Không cần nói đến lần thứ hai' — mạnh hơn và trang trọng hơn 것도 없이. Fixed expression. (VD: 두말할 것도 없이 그가 최고다 — Khỏi phải nói, anh ta là nhất)",
       "• 굳이 (~지 않아도 되다): Không cần phải cố sức làm điều đó. Nhấn mạnh sự không cần thiết VỀ MẶT NỖ LỰC. (VD: 굳이 지금 결정하지 않아도 돼요 — Không cần phải cố quyết định ngay)",
       "⚠ 것도 없이 = 'thừa vì KẾT QUẢ ĐÃ RÕ'; 굳이 = 'không cần phải CỐ làm'. Hai sắc thái khác nhau về nguồn gốc của sự thừa thãi.",
@@ -574,16 +574,24 @@ const grammarData = [
   },
   {
     id: 19, grammar: "도록",
-    senses: [
-      { meaning: "đến tận", groupId: "extent" },
-      { meaning: "để (mục đích)", groupId: "purpose" },
-      { meaning: "để cho (sai khiến 사동적)", groupId: "purpose" }
-    ],
+    senses: [{ meaning: "đến tận", groupId: "extent" }],
     synonymPatterns: ["(으)ㄹ 때까지"],
     examples: [
       { sentence: "아이는 날이 <b>어두워지도록</b> 아무 연락도 없었다.", translation: "Đứa bé cho đến tận khi trời tối vẫn không có tin tức gì." },
       { sentence: "아이는 날이 <b>어두워질 때까지</b> 아무 연락도 없었다.", translation: "Đứa bé cho đến khi trời tối cũng không có tin tức gì." }
     ], notes: "Có 3 nghĩa: (1) 'đến tận / đến mức' (VD: 밤새도록 - suốt đêm); (2) 'để' - mục đích (VD: 잊지 않도록 메모해요); (3) 'để cho' - sai khiến, khiến ai đó làm gì (VD: 학생들이 조용히 하도록 했다 - Tôi đã khiến học sinh giữ im lặng)"
+  },
+  {
+    id: 197, grammar: "도록",
+    senses: [
+      { meaning: "để (mục đích)", groupId: "purpose" },
+      { meaning: "để cho (sai khiến 사동적)", groupId: "purpose" }
+    ],
+    synonymPatterns: ["게"],
+    examples: [
+      { sentence: "잊지 않도록 메모하세요.", translation: "Hãy ghi chép để khỏi quên." },
+      { sentence: "학생들이 조용히 하도록 했다.", translation: "Tôi đã khiến học sinh giữ im lặng." }
+    ], notes: "Ngữ pháp chỉ mục đích hoặc sai khiến (để cho ai đó làm gì)."
   },
   {
     id: 20, grammar: "(으)ㄹ 텐데",
@@ -743,15 +751,21 @@ const grammarData = [
   },
   {
     id: 36, grammar: "는 대로",
-    senses: [
-      { meaning: "theo như, làm y hệt", groupId: "according", synonymPatterns: ["는 것처럼", "는 바와 같이"] },
-      { meaning: "ngay khi, vừa...liền", groupId: "immediate", synonymPatterns: ["자마자"] }
-    ],
-    synonymPatterns: ["자마자", "는 것처럼", "는 바와 같이"],
+    senses: [{ meaning: "theo như, làm y hệt", groupId: "according" }],
+    synonymPatterns: ["는 것처럼", "는 바와 같이"],
     examples: [
       { sentence: "요가를 배우는데 선생님이 <b>하는 대로</b> 따라 하기가 쉽지 않다.", translation: "Học yoga nhưng làm y hệt theo giáo viên không hề dễ." },
       { sentence: "요가를 배우는데 선생님이 <b>하는 것처럼</b> 따라 하기가 쉽지 않다.", translation: "Học yoga nhưng làm giống như giáo viên không hề dễ." }
-    ], notes: "⚠ 는 대로 CÓ HAI NGHĨA: (1) 'Theo như / y như' → đồng nghĩa với 는 것처럼, 는 바와 같이; (2) 'Ngay khi / vừa xong thì' → đồng nghĩa với 자마자. Khi gặp trong đề thi, cần xác định nghĩa đang dùng trước khi chọn cấu trúc thay thế. VD nghĩa 2: 도착하는 대로 전화해 (Vừa đến thì gọi ngay)"
+    ], notes: "⚠ 는 대로 (Nghĩa 1): 'Theo như / y như' → đồng nghĩa với 는 것처럼, 는 바와 같이."
+  },
+  {
+    id: 196, grammar: "는 대로",
+    senses: [{ meaning: "ngay khi, vừa...liền", groupId: "immediate" }],
+    synonymPatterns: ["자마자", "기가 무섭게", "면 바로"],
+    examples: [
+      { sentence: "집에 <b>도착하는 대로</b> 전화해 주세요.", translation: "Vừa về đến nhà thì hãy gọi điện cho tôi ngay nhé." },
+      { sentence: "집에 <b>도착하자마자</b> 전화해 주세요.", translation: "Vừa về đến nhà thì gọi điện ngay nhé." }
+    ], notes: "⚠ 는 대로 (Nghĩa 2): 'Ngay khi / vừa xong thì' → đồng nghĩa với 자마자. Thường dùng với các kế hoạch, dự định."
   },
   {
     id: 37, grammar: "에 달려 있다",
@@ -838,18 +852,28 @@ const grammarData = [
   },
   {
     id: 46, grammar: "더니",
-    senses: [
-      { meaning: "nhưng (tương phản)", groupId: "contrast", synonymPatterns: ["았/었는데"] },
-      { meaning: "nguyên nhân", groupId: "reason", synonymPatterns: ["아서/어서"] },
-      { meaning: "thứ tự", groupId: "sequence", synonymPatterns: ["고 나서"] }
-    ],
+    senses: [{ meaning: "nhưng (tương phản)", groupId: "contrast" }],
     synonymPatterns: ["았/었는데"],
     examples: [
-      { sentence: "[Tương phản] 아침에는 비가 오<b>더니</b> 지금은 눈이 와요.", translation: "[Tương phản] Sáng trời mưa, vậy mà bây giờ lại có tuyết." },
-      { sentence: "[Tương phản ↔] 아침에는 비가 <b>왔는데</b> 지금은 눈 와요.", translation: "[Tương phản ↔] Sáng trời mưa nhưng bây giờ lại có tuyết." },
-      { sentence: "[Nguyên nhân] 매일 운동하<b>더니</b> 건강해졌어요.", translation: "[Nguyên nhân] Ngày nào cũng tập thể dục nên giờ đã khỏe ra." },
-      { sentence: "[Thứ tự] 노래를 부르<b>더니</b> 춤도 추기 시작했어요.", translation: "[Thứ tự] Hát xong rồi bắt đầu nhảy luôn." }
-    ], notes: "Chỉ dùng khi người nói đã TRỰC TIẾP quan sát/trải nghiệm ở quá khứ. Có 3 nghĩa: (1) Tương phản → đồng nghĩa với 았/었는데; (2) Nguyên nhân → đồng nghĩa với 아서/어서 trong ngữ cảnh quan sát; (3) Thứ tự → đồng nghĩa với 고 나서. CHỈ dùng ngôi thứ 3 hoặc bản thân (ngôi 1) khi tự quan sát mình từ bên ngoài. ⚠ 았/었는데 chỉ thay thế được ở nghĩa tương phản, không thay thế được ở nghĩa nguyên nhân và thứ tự."
+      { sentence: "아침에는 비가 오<b>더니</b> 지금은 눈이 와요.", translation: "Sáng trời mưa, vậy mà bây giờ lại có tuyết." },
+      { sentence: "아침에는 비가 <b>왔는데</b> 지금은 눈 와요.", translation: "Sáng trời mưa nhưng bây giờ lại có tuyết." }
+    ], notes: "Chỉ dùng khi người nói đã TRỰC TIẾP quan sát/trải nghiệm ở quá khứ. Nghĩa tương phản đồng nghĩa với 았/었는데."
+  },
+  {
+    id: 198, grammar: "더니",
+    senses: [{ meaning: "nguyên nhân", groupId: "reason" }],
+    synonymPatterns: ["아서/어서"],
+    examples: [
+      { sentence: "매일 운동하<b>더니</b> 건강해졌어요.", translation: "Ngày nào cũng tập thể dục nên giờ đã khỏe ra." }
+    ], notes: "Chỉ dùng khi người nói đã TRỰC TIẾP quan sát/trải nghiệm ở quá khứ. Nghĩa nguyên nhân đồng nghĩa với 아서/어서 trong ngữ cảnh quan sát."
+  },
+  {
+    id: 199, grammar: "더니",
+    senses: [{ meaning: "thứ tự", groupId: "sequence" }],
+    synonymPatterns: ["고 나서"],
+    examples: [
+      { sentence: "노래를 부르<b>더니</b> 춤도 추기 시작했어요.", translation: "Hát xong rồi bắt đầu nhảy luôn." }
+    ], notes: "Chỉ dùng khi người nói đã TRỰC TIẾP quan sát/trải nghiệm ở quá khứ. Nghĩa thứ tự đồng nghĩa với 고 나서."
   },
   {
     id: 47, grammar: "는 듯하다",
@@ -1372,7 +1396,7 @@ const grammarData = [
     notes: "diễn đạt sự vô nghĩa của hành động. Khác với (나) 마나 (biết trước kết quả 100%), 어/아 봤자 mang ý nghĩa kết quả vô ích nhưng chưa chắc đã biết trước hoàn toàn."
   },
   {
-    id: 116, grammar: "것도 없이",
+    id: 116, grammar: "(으)ㄹ 것도 없이",
     senses: [{ meaning: "chẳng cần phải làm (vì kết quả đã quá hiển nhiên)", groupId: "obvious_skip" }],
     synonymPatterns: ["두말할 것도 없이"],
     ownExamples: [
