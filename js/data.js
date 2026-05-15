@@ -1,6 +1,6 @@
 const synonymGroups = [
   // GUESS (PHỎNG ĐOÁN)
-  { id: "guess_general", label: "Phỏng đoán (Hình như/Có vẻ)", grammarIds: [1, 47, 119], nuances: ["• (으)ㄴ/는 것 같다: Phổ biến nhất, đoán chủ quan lẫn khách quan.", "• 는 듯하다: Giống 것 같다 nhưng trang trọng/văn viết."] },
+  { id: "guess_general", label: "Phỏng đoán (Hình như/Có vẻ)", grammarIds: [1, 47], nuances: ["• (으)ㄴ/는 것 같다: Phổ biến nhất, đoán chủ quan lẫn khách quan.", "• 는 듯하다: Giống 것 같다 nhưng trang trọng/văn viết."] },
   { id: "guess_observe", label: "Phỏng đoán (Trông có vẻ/Nhìn bề ngoài)", grammarIds: [2, 48, 49], nuances: ["• 아/어 보이다: Nhìn bề ngoài rồi đoán.", "• 나 보다: Đoán dựa trên chứng cứ trực tiếp nghe/thấy.", "• 는 모양이다: Đoán khách quan dựa trên hoàn cảnh."] },
   { id: "guess_doubt", label: "Phỏng đoán (Biết đâu chừng/Có thể)", grammarIds: [7, 122], nuances: ["• (으)ㄹ지도 모르다: Phỏng đoán xác suất rất thấp hoặc lo lắng.", "• (으)ㄹ 수도 있다: Phỏng đoán khả năng xảy ra (nhẹ hơn ㄹ지도 모르다)."] },
   { id: "guess_past_neg", label: "Phỏng đoán (Chắc đã không)", grammarIds: [123], nuances: ["• 지 않았을 것이다: Phủ định trong quá khứ mang tính phỏng đoán."] },
@@ -1124,15 +1124,6 @@ const grammarData = [
       { sentence: "전문가한테 물어<b>본다고 해도</b> 명확한 답을 얻기는 어려울 거예요.", translation: "Dù có hỏi chuyên gia thì cũng khó mà nhận được câu trả lời rõ ràng." }
     ],
     notes: "cấu trúc dài hơn, thường dùng trong văn viết hoặc văn nói trang trọng"
-  },
-  {
-    id: 119, grammar: "은/는 것 같았다",
-    senses: [{ meaning: "có vẻ như (ở quá khứ), trông có vẻ", groupId: "guess_general" }],
-    synonymPatterns: ["아/어 보이다", "(으)ㄴ/는 것 같다"],
-    ownExamples: [
-      { sentence: "그날따라 그가 뭔가 숨기는 게 <b>있는 것 같았다</b>.", translation: "Hôm đó tôi cảm giác anh ấy như đang giấu điều gì đó." }
-    ],
-    notes: "dạng quá khứ của 것 같다; diễn đạt suy đoán ở thời điểm trong quá khứ"
   },
   {
     id: 120, grammar: "기 위해서는",
