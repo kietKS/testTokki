@@ -47,7 +47,8 @@ const synonymGroups = [
   { id: "unexpected", label: "Không ngờ rằng", grammarIds: [11, 129], nuances: ["• (으)ㄴ/는 줄 몰랐다: Nhầm tưởng sự thật.", "• (으)ㄴ 줄 알았다: Cứ tưởng là (nhưng không phải)."] },
   { id: "whenever", label: "Hễ, chỉ cần, mỗi khi", grammarIds: [102, 139, 157], nuances: ["• 마다: Gắn sau Danh từ.", "• 기만 하면: Gắn sau Động từ, điều kiện xảy ra thì kết quả luôn đến."] },
   { id: "state", label: "Trạng thái (Vẫn, Đang)", grammarIds: [21, 151, 179], nuances: ["• (으)ㄴ 채(로): Giữ nguyên trạng thái để làm việc khác."] },
-  { id: "addition", label: "Không những...mà còn (Tích cực)", grammarIds: [22, 57, 149, 173, 183, 184, 191], nuances: ["• (으)ㄹ 뿐만 아니라: Không chỉ A mà còn B.", "• (으)ㄴ/는 데다가: Thêm đặc điểm cùng chiều."] },
+  { id: "concurrent_action", label: "Đồng thời (Vừa...vừa...)", grammarIds: [173, 184], nuances: ["• (으)면서: Hai hành động do cùng một chủ thể thực hiện song song.", "• (으)며: Giống (으)면서 nhưng mang sắc thái văn viết/trang trọng."] },
+  { id: "addition", label: "Không những...mà còn (Tích cực)", grammarIds: [22, 57, 149, 183, 191], nuances: ["• (으)ㄹ 뿐만 아니라: Không chỉ A mà còn B.", "• (으)ㄴ/는 데다가: Thêm đặc điểm cùng chiều."] },
   { id: "neg_escalation", label: "Chẳng những không...mà còn không", grammarIds: [23], nuances: ["• 은/는커녕: Chiều nghĩa TIÊU CỰC, ngược hoàn toàn với 뿐만 아니라."] },
   { id: "inevitable", label: "Đương nhiên", grammarIds: [27, 59, 60], nuances: ["• 기 마련이다 / 는 법이다: Quy luật tự nhiên, chân lý."] },
   { id: "no_choice", label: "Đành phải, buộc phải", grammarIds: [28, 61, 175, 186], nuances: ["• (으)ㄹ 수밖에 없다 / 지 않을 수 없다: Không còn cách nào khác."] },
@@ -1352,11 +1353,14 @@ const grammarData = [
     notes: "dùng khi không chắc chắn về nguyên nhân; phỏng đoán nhẹ; thường đi kèm '그런지'"
   },
   {
-    id: 149, grammar: "것은 물론이고",
+    id: 149, grammar: "(으)ㄴ/는 것은 물론이고",
     senses: [{ meaning: "không những...mà còn, ...là đương nhiên, còn thêm...", groupId: "addition" }],
-    synonymPatterns: ["(으)ㄹ 뿐만 아니라", "(으)ㄴ/는 데다가", "거니와"],
-    ownExamples: [{ sentence: "한국어는 <b>물론이고</b> 일본어도 잘해요.", translation: "Không chỉ tiếng Hàn, tiếng Nhật cũng giỏi luôn." }],
-    notes: "A는 물론이고 B: A đã là đương nhiên, B còn thêm vào; mạnh hơn 뿐만 아니라"
+    synonymPatterns: ["(으)ㄹ 뿐만 아니라", "(으)ㄴ/는 데다가", "(으)려니와/거니와"],
+    ownExamples: [
+      { sentence: "한국어는 <b>물론이고</b> 일본어도 잘해요.", translation: "Không chỉ tiếng Hàn, tiếng Nhật cũng giỏi luôn." },
+      { sentence: "시간은 <b>물론이고</b> 돈도 없어요.", translation: "Thời gian là đương nhiên rồi, tiền cũng không có nốt." }
+    ],
+    notes: "A는 물론이고 B: A đã là đương nhiên, B còn thêm vào; mạnh hơn 뿐만 아니라. Với danh từ thì dùng 은/는 물론이고."
   },
   {
     id: 150, grammar: "(으)ㄴ/는 것처럼 행동하다",
@@ -1515,11 +1519,11 @@ const grammarData = [
     notes: "nhấn mạnh tốc độ tức thì của phản ứng; ít trang trọng hơn 자마자; phổ biến trong văn nói"
   },
   {
-    id: 173, grammar: "뿐만 아니라",
-    senses: [{ meaning: "không chỉ... mà còn (liệt kê thêm)", groupId: "addition" }],
-    synonymPatterns: ["게다가", "더구나", "그뿐만 아니라"],
-    ownExamples: [{ sentence: "이 식당은 <b>맛뿐만 아니라</b> 서비스도 훌륭해요.", translation: "Nhà hàng này không chỉ vị ngon mà dịch vụ cũng tuyệt vời." }],
-    notes: "dạng đứng độc lập (không kèm động từ trước); tương đương hoàn toàn với (으)ㄹ 뿐만 아니라 (ID 22). ⚠ Liên quan ID 22: 뿐만 아니라 dùng sau danh từ/trạng từ; (으)ㄹ 뿐만 아니라 dùng sau động từ/tính từ — hai cái này là biến thể hình thái của cùng một ngữ pháp"
+    id: 173, grammar: "(으)면서",
+    senses: [{ meaning: "vừa... vừa...", groupId: "concurrent_action" }],
+    synonymPatterns: ["(으)며"],
+    ownExamples: [{ sentence: "음악을 <b>들으면서</b> 청소를 해요.", translation: "Tôi vừa nghe nhạc vừa dọn dẹp." }],
+    notes: "Hai hành động xảy ra ĐỒNG THỜI. Chủ ngữ của 2 vế bắt buộc phải LÀ MỘT. ⚠ Phân biệt với (으)면서(도) (ID 6): (으)면서(도) mang nghĩa tương phản (mặc dù/nhưng)."
   },
   {
     id: 174, grammar: "아/어야 되다",
@@ -1580,16 +1584,16 @@ const grammarData = [
   {
     id: 183, grammar: "은/는 말할 것도 없고",
     senses: [{ meaning: "...는 당연하고, 거기다... (bổ sung cùng chiều)", groupId: "addition" }],
-    synonymPatterns: ["뿐만 아니라", "것은 물론이고"],
+    synonymPatterns: ["(으)ㄹ 뿐만 아니라", "(으)ㄴ/는 것은 물론이고"],
     ownExamples: [{ sentence: "영어는 <b>말할 것도 없고</b> 한국어도 잘해요.", translation: "Tiếng Anh đương nhiên rồi, tiếng Hàn cũng giỏi luôn." }],
     notes: "A는 말할 것도 없고 B: A hiển nhiên, B còn bổ sung thêm; dùng cả chiều tích cực lẫn tiêu cực. Khác 커녕 (커녕 chỉ tiêu cực)"
   },
   {
-    id: 184, grammar: "은/는 물론이고",
-    senses: [{ meaning: "...는 당연하고 거기다... (bổ sung cùng chiều)", groupId: "addition" }],
-    synonymPatterns: ["뿐만 아니라", "은/는 말할 것도 없고"],
-    ownExamples: [{ sentence: "시간은 <b>물론이고</b> 돈도 없어요.", translation: "Thời gian là đương nhiên rồi, tiền cũng không có nốt." }],
-    notes: "tương đương 것은 물론이고; dùng được cả nghĩa tích cực và tiêu cực; khác 커녕 (chỉ tiêu cực)"
+    id: 184, grammar: "(으)며",
+    senses: [{ meaning: "vừa... vừa..., và", groupId: "concurrent_action" }],
+    synonymPatterns: ["(으)면서", "고"],
+    ownExamples: [{ sentence: "그는 피아노를 <b>치며</b> 노래를 불렀다.", translation: "Anh ấy vừa đánh piano vừa hát." }],
+    notes: "Giống (으)면서 (vừa... vừa...) hoặc giống 고 (liệt kê), nhưng mang tính văn viết/trang trọng hơn."
   },
   {
     id: 185, grammar: "(으)ㄹ 줄 알다/모르다",
@@ -1637,7 +1641,7 @@ const grammarData = [
     notes: "văn viết; CÓ THỂ gắn thì quá khứ/tương lai ở trước (았/었으므로, 겠으므로); thường xuất hiện trong đề thi TOPIK văn viết"
   },
   {
-    id: 191, grammar: "거니와",
+    id: 191, grammar: "(으)려니와/거니와",
     senses: [{ meaning: "không những... mà còn (thừa nhận rồi bổ sung)", groupId: "addition" }],
     synonymPatterns: ["(으)ㄹ 뿐만 아니라", "(으)ㄴ/는 데다가"],
     ownExamples: [
