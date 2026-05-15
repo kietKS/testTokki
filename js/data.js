@@ -164,7 +164,7 @@ const synonymGroups = [
   {
     id: "interrupted", label: "Đang làm thì (bị gián đoạn)", grammarIds: [75],
     nuances: [
-      "• 다가: Hành động vế 1 đang diễn ra thì bị ngắt hoặc chuyển hướng sang vế 2. Dùng được với MỌI loại động từ, không cần di chuyển. (VD: 공부하다가 잠이 들었어요 - 단 học thì ngủ gục; 집에 오다가 비를 맞았어요 - Đang về nhà thì bị mưa)",
+      "• 다가: Hành động vế 1 đang diễn ra thì bị ngắt hoặc chuyển hướng sang vế 2. Dùng được với MỌI loại động từ, không cần di chuyển. (VD: 공부하다가 잠이 들었어요 - 단 đang học thì ngủ gục; 집에 오다가 비를 맞았어요 - Đang về nhà thì bị mưa)",
       "⚠ KHÔNG hoán đổi được với 는 길에 trừ khi động từ vế 1 là động từ di chuyển VÀ không có ý gián đoạn."
     ]
   },
@@ -278,7 +278,7 @@ const synonymGroups = [
     id: "condition", label: "Giả định, điều kiện (Nếu)", grammarIds: [5, 52, 82, 84, 85, 120],
     nuances: [
       "• (으)면: Giả định thông thường, dễ xảy ra. (VD: 비가 오면 집에 있을 거예요 - Nếu mưa thì tôi sẽ ở nhà)",
-      "• 다면: Giả định điều khó/không thể xảy ra trong thực tế. Thường đi với 을 텐데/겠지. (VD: 내가 새라면 날아갈 텐데 - Nếu tôi là chim thì tôi sẽ bay đi)",
+      "• 다면: Giả định điều khó/không thể xảy ra trong thực tế. Thường đi với 을 텐데/겠지. 돈이 많다면 세계 여행을 할 텐데. (Nếu có nhiều tiền thì tôi đã đi du lịch vòng quanh thế giới rồi.)",
       "• 고 싶으면: Nếu muốn làm gì → vế sau là lời khuyên/mệnh lệnh. (VD: 시험에 합격하고 싶으면 열심히 공부해라)",
       "• (으)려면: Nếu muốn đạt mục tiêu → vế sau PHẢI là mệnh lệnh/lời khuyên. Tương đương 고 싶으면. (VD: 합격하려면 공부하세요 - Muốn đậu thì hãy học đi)",
       "⚠ 거든(요) ĐÃ TÁCH RIÊNG: cú pháp và chức năng hoàn toàn khác → nhóm 'geodeun'"
@@ -1339,7 +1339,7 @@ const grammarData = [
       { sentence: "<b>알다시피</b> 이 문제는 쉽게 해결되지 않아요.", translation: "Như bạn đã biết, vấn đề này không dễ giải quyết." },
       { sentence: "그는 밥을 <b>삼키다시피</b> 하며 급하게 나갔어요.", translation: "Anh ấy gần như nuốt chửng cơm rồi vội vàng đi ra." }
     ],
-    notes: "kết합 với một số động từ thông dụng tạo thành cụm cố định: 알다시피 (như bạn đã biết), 보다시피 (như bạn đã thấy). Với các động từ hành động khác mang nghĩa 'gần như, hầu như' — thực tế không hoàn toàn là hành động đó (VD: 삼키다시피 - gần như nuốt chửng). ⚠ Tránh dùng cùng động từ ở cả hai vế (먹다시피 + 먹다) vì sẽ tạo nghĩa vô lý."
+    notes: "kết hợp với một số động từ thông dụng tạo thành cụm cố định: 알다시피 (như bạn đã biết), 보다시피 (như bạn đã thấy). Với các động từ hành động khác mang nghĩa 'gần như, hầu như' — thực tế không hoàn toàn là hành động đó (VD: 삼키다시피 - gần như nuốt chửng). ⚠ Tránh dùng cùng động từ ở cả hai vế (먹다시피 + 먹다) vì sẽ tạo nghĩa vô lý."
   },
   {
     id: 112, grammar: "(으)ㄹ 게 뻔하다",
