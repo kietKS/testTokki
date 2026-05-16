@@ -694,7 +694,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Star list button
   document.getElementById('btnStarList').addEventListener('click', showStarList);
-  document.getElementById('navStarList').addEventListener('click', showStarList);
 
   // Mobile Settings Toggle
   const btnSettings = document.getElementById('btnSettings');

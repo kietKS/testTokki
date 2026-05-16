@@ -39,14 +39,15 @@
           <span class="toggle-slider"></span>
           <span class="toggle-label">Hiện ĐA</span>
         </label>
+        <hr class="settings-divider">
+        <button class="btn-menu-item" id="btnHelp" title="Hướng dẫn sử dụng">❔ <span class="btn-text">Hướng dẫn</span></button>
+        <button class="btn-menu-item" id="btnReset" title="Reset tiến trình">🔄 <span class="btn-text">Reset</span></button>
       </div>
       <button class="btn-icon btn-star-mode" id="btnStarMode" title="Chế độ ôn sao">⭐ <span id="starModeLabel">Ôn
           sao</span></button>
       <button class="btn-icon" id="btnStarList" title="Danh sách đã đánh sao">☆ <span id="starCount">0</span></button>
       <button class="btn-icon" id="btnGrammarList" title="Danh sách ngữ pháp">📋</button>
       <button class="btn-icon mobile-only" id="btnSettings" title="Cài đặt">⚙️</button>
-      <button class="btn-icon pc-only" id="btnHelp" title="Hướng dẫn sử dụng">❔</button>
-      <button class="btn-icon pc-only" id="btnReset" title="Reset tiến trình">🔄</button>
     </div>
   </header>
 
@@ -163,17 +164,12 @@
 
   <!-- Bottom Navigation (Mobile Only) -->
   <nav class="mobile-nav">
-    <button class="nav-item" id="navPrev">
+    <button class="nav-item nav-main" id="navPrev" title="Quay lại">
       <span class="nav-icon">⬅️</span>
-      <span class="nav-text">Lùi</span>
     </button>
-    <button class="nav-item" id="navStarList">
-      <span class="nav-icon">⭐</span>
-      <span class="nav-text">Sao</span>
-    </button>
-    <button class="nav-item nav-main" id="navNext">
+    <div class="nav-spacer"></div>
+    <button class="nav-item nav-main" id="navNext" title="Tiếp theo">
       <span class="nav-icon">➡️</span>
-      <span class="nav-text">Tiếp</span>
     </button>
   </nav>
 
