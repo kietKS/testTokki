@@ -694,6 +694,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Star list button
   document.getElementById('btnStarList').addEventListener('click', showStarList);
+  document.getElementById('navStarList').addEventListener('click', showStarList);
+
+  // Mobile Settings Toggle
+  const btnSettings = document.getElementById('btnSettings');
+  const headerSettings = document.getElementById('headerSettings');
+  if (btnSettings && headerSettings) {
+    btnSettings.addEventListener('click', (e) => {
+      e.stopPropagation();
+      headerSettings.classList.toggle('active');
+    });
+    document.addEventListener('click', (e) => {
+      if (!headerSettings.contains(e.target) && e.target !== btnSettings) {
+        headerSettings.classList.remove('active');
+      }
+    });
+  }
+
+  // Mobile Nav Buttons
+  document.getElementById('navPrev').addEventListener('click', () => {
+    if (historyStack.length > 0) {
+      currentIdx = historyStack.pop();
+      renderQuestion();
+      updateBackButton();
+    }
+  });
+  document.getElementById('navNext').addEventListener('click', nextQuestion);
 
   // Keyboard
   document.addEventListener('keydown', (e) => {
@@ -725,6 +751,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const badge = document.getElementById('senseBadge');
     if (e.target.checked) badge.classList.remove('hidden');
     else badge.classList.add('hidden');
+    // Mobile auto-close settings
+    if (window.innerWidth <= 768) {
+      const headerSettings = document.getElementById('headerSettings');
+      if (headerSettings) headerSettings.classList.remove('active');
+    }
+  });
+
+  document.getElementById('toggleReveal').addEventListener('change', () => {
+    // Mobile auto-close settings
+    if (window.innerWidth <= 768) {
+      const headerSettings = document.getElementById('headerSettings');
+      if (headerSettings) headerSettings.classList.remove('active');
+    }
   });
 
   // Header buttons

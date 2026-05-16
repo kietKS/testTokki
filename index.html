@@ -28,22 +28,25 @@
       </div>
     </div>
     <div class="header-right">
-      <label class="toggle-wrap" title="Hiện chủ đề (nhóm ngữ pháp)">
-        <input type="checkbox" id="toggleTopic" checked>
-        <span class="toggle-slider"></span>
-        <span class="toggle-label">Hiện CĐ</span>
-      </label>
-      <label class="toggle-wrap" title="Hiện đáp án ngay khi chọn sai">
-        <input type="checkbox" id="toggleReveal" checked>
-        <span class="toggle-slider"></span>
-        <span class="toggle-label">Hiện ĐA</span>
-      </label>
+      <div class="header-settings" id="headerSettings">
+        <label class="toggle-wrap" title="Hiện chủ đề (nhóm ngữ pháp)">
+          <input type="checkbox" id="toggleTopic" checked>
+          <span class="toggle-slider"></span>
+          <span class="toggle-label">Hiện CĐ</span>
+        </label>
+        <label class="toggle-wrap" title="Hiện đáp án ngay khi chọn sai">
+          <input type="checkbox" id="toggleReveal" checked>
+          <span class="toggle-slider"></span>
+          <span class="toggle-label">Hiện ĐA</span>
+        </label>
+      </div>
       <button class="btn-icon btn-star-mode" id="btnStarMode" title="Chế độ ôn sao">⭐ <span id="starModeLabel">Ôn
           sao</span></button>
       <button class="btn-icon" id="btnStarList" title="Danh sách đã đánh sao">☆ <span id="starCount">0</span></button>
       <button class="btn-icon" id="btnGrammarList" title="Danh sách ngữ pháp">📋</button>
-      <button class="btn-icon" id="btnHelp" title="Hướng dẫn sử dụng">❔</button>
-      <button class="btn-icon" id="btnReset" title="Reset tiến trình">🔄</button>
+      <button class="btn-icon mobile-only" id="btnSettings" title="Cài đặt">⚙️</button>
+      <button class="btn-icon pc-only" id="btnHelp" title="Hướng dẫn sử dụng">❔</button>
+      <button class="btn-icon pc-only" id="btnReset" title="Reset tiến trình">🔄</button>
     </div>
   </header>
 
@@ -157,6 +160,22 @@
       <div class="modal-body" id="modalBody"></div>
     </div>
   </div>
+
+  <!-- Bottom Navigation (Mobile Only) -->
+  <nav class="mobile-nav">
+    <button class="nav-item" id="navPrev">
+      <span class="nav-icon">⬅️</span>
+      <span class="nav-text">Lùi</span>
+    </button>
+    <button class="nav-item" id="navStarList">
+      <span class="nav-icon">⭐</span>
+      <span class="nav-text">Sao</span>
+    </button>
+    <button class="nav-item nav-main" id="navNext">
+      <span class="nav-icon">➡️</span>
+      <span class="nav-text">Tiếp</span>
+    </button>
+  </nav>
 
   <script src="js/data.js"></script>
   <script src="js/app.js"></script>
