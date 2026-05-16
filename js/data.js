@@ -147,7 +147,7 @@ const grammarData = [
   {
     id: 5, grammar: "(으)려면",
     senses: [{ meaning: "nếu muốn... thì (điều kiện mục tiêu)", groupId: "condition_intent" }],
-    synonymPatterns: ["기 위해서는", "고 싶으면", "려거든", "자면"],
+    synonymPatterns: ["기 위해서", "고 싶으면", "려거든", "자면"],
     examples: [
       { sentence: "외국에서 생활을 <b>잘하려면</b> 그 나라의 문화를 이해하는 게 중요하다.", translation: "Để sống tốt ở nước ngoài, việc hiểu văn hóa nước đó là rất quan trọng." },
       { sentence: "외국에서 생활을 <b>잘하기 위해서는</b> 그 나라의 문화를 이해하는 게 중요하다.", translation: "Để sống tốt ở nước ngoài, việc hiểu văn hóa nước đó là rất quan trọng." }
@@ -208,7 +208,7 @@ const grammarData = [
   {
     id: 11, grammar: "(으)ㄴ/는 줄 몰랐다",
     senses: [{ meaning: "không ngờ rằng", groupId: "unexpected" }],
-    synonymPatterns: ["(으)ㄹ 수도 있다", "없다고 생각하다"],
+    synonymPatterns: ["(으)ㄹ 수도 있다"],
     examples: [
       { sentence: "나는 지난주에 모임이 있어서 이번 주 모임은 <b>있는 줄 몰랐다</b>.", translation: "Tuần trước tôi đã có cuộc họp nên không biết là tuần này vẫn còn có cuộc họp nữa." }
     ], notes: "⚠ Trái nghĩa: (으)ㄴ 줄 알았다 (cứ tưởng là - nhưng thực tế không phải). Hai cấu trúc này đối lập nhau về mặt ý nghĩa, thường xuất hiện trong đề TOPIK để phân biệt."
@@ -273,7 +273,7 @@ const grammarData = [
   {
     id: 18, grammar: "고도",
     senses: [{ meaning: "dù ...nhưng", groupId: "contrast_unexpected" }],
-    synonymPatterns: ["었는데도", "는데도"],
+    synonymPatterns: ["(으)ㄴ/는데도", "는데도"],
     examples: [
       { sentence: "스마트폰이 복잡해서 그런지 어머니가 설명을 <b>듣고도</b> 모르겠다고 하셨다.", translation: "Có lẽ vì điện thoại thông minh phức tạp nên mẹ bảo dù nghe giải thích vẫn không hiểu." },
       { sentence: "스마트폰이 복잡해서 그런지 어머니가 설명을 <b>들었는데도</b> 모르겠다고 하셨다.", translation: "Có lẽ vì điện thoại thông minh phức tạp, dù mẹ đã nghe giải thích rồi vẫn bảo không hiểu." }
@@ -348,7 +348,7 @@ const grammarData = [
   {
     id: 25, grammar: "든지",
     senses: [{ meaning: "hoặc / bất kể... hay...", groupId: "concession_any" }],
-    synonymPatterns: ["더라고"],
+    synonymPatterns: [],
     examples: [
       { sentence: "사과를 먹<b>든지</b> 배를 먹<b>든지</b> 마음대로 하세요.", translation: "Ăn táo hay ăn lê gì cũng được, cứ làm theo ý bạn đi." },
       { sentence: "저 사람과 같이 일한다면 뭘 <b>하든지</b> 열심히 하는 사람이면 좋겠다.", translation: "Nếu làm việc cùng người đó thì muốn họ là người bất kể làm gì cũng hết lòng." }
@@ -451,7 +451,7 @@ const grammarData = [
   {
     id: 35, grammar: "(으)려던 참이다",
     senses: [{ meaning: "định", groupId: "intention" }],
-    synonymPatterns: ["려고 했다"],
+    synonymPatterns: ["(으)려고 하다"],
     examples: [
       { sentence: "사무실이 너무 더워서 안 그래도 막 에어컨을 <b>켜려던 참이었다</b>.", translation: "Văn phòng nóng quá, vừa đúng lúc đang định bật điều hòa rồi." },
       { sentence: "사무실이 너무 더워서 안 그래도 막 에어컨을 <b>켜려고 했다</b>.", translation: "Văn phòng nóng quá, tôi vừa định bật điều hòa." }
@@ -478,11 +478,11 @@ const grammarData = [
   {
     id: 37, grammar: "에 달려 있다",
     senses: [{ meaning: "phụ thuộc vào", groupId: "depend" }],
-    synonymPatterns: ["기 나름이다"],
+    synonymPatterns: ["기 나름이다", "기에 달려 있다"],
     examples: [
       { sentence: "똑같은 재료인데도 음식 맛이 다른 건 요리하기<b>에 달려 있다</b>.", translation: "Dù nguyên liệu giống nhau nhưng hương vị khác nhau là phụ thuộc vào cách nấu." },
       { sentence: "똑같은 재료인데도 음식 맛이 다른 건 요리하기 <b>나름이다</b>.", translation: "Dù nguyên liệu giống nhau nhưng hương vị khác nhau là tùy thuộc vào cách nấu." }
-    ], notes: ""
+    ], notes: "에 달려 있다: gắn sau Danh từ (N에 달려 있다). 기에 달려 있다: gắn sau Động từ (V기에 달려 있다). Hai dạng cùng nghĩa, chỉ khác cú pháp."
   },
   {
     id: 38, grammar: "(으)ㄴ/는 척하다",
@@ -497,7 +497,7 @@ const grammarData = [
   {
     id: 39, grammar: "다 보니(까)",
     senses: [{ meaning: "cứ...thì", groupId: "result_of" }],
-    synonymPatterns: ["는 탓에"],
+    synonymPatterns: ["ㄴ/은 탓에"],
     examples: [
       { sentence: "바빠서 식사를 제시간에 <b>못 하다가 보니까</b> 속이 쓰릴 때가 많아졌다.", translation: "Vì bận nên cứ ăn không đúng giờ, dần dần hay bị đau dạ dày." },
       { sentence: "바빠서 식사를 제시간에 <b>못 하다 보니까</b> 속이 쓰릴 때가 많아졌다.", translation: "Cứ vì bận mà ăn không đúng giờ, dần dần hay bị đau dạ dày." }
@@ -699,7 +699,7 @@ const grammarData = [
   {
     id: 61, grammar: "지 않을 수 없다",
     senses: [{ meaning: "không thể không, buộc phải", groupId: "no_choice" }],
-    synonymPatterns: ["(으)ㄹ 수밖에 없다", "아/어야만 했다"],
+    synonymPatterns: ["(으)ㄹ 수밖에 없다", "아/어야 하다"],
     ownExamples: [
       { sentence: "그 소식을 듣고 울<b>지 않을 수 없었다</b>.", translation: "Nghe tin đó, tôi không thể không khóc." }
     ], notes: "phủ định kép → nghĩa khẳng định mạnh; tương đương 수밖에 없다"
@@ -990,7 +990,7 @@ const grammarData = [
   {
     id: 100, grammar: "아/어야 하다",
     senses: [{ meaning: "phải", groupId: "obligation" }],
-    synonymPatterns: ["아/어야 되다"],
+    synonymPatterns: ["아/어야 하다"],
     ownExamples: [{ sentence: "내일 시험이 있어서 공부를 <b>해야 합니다</b>.", translation: "Ngày mai có bài thi nên tôi phải học bài." }],
     notes: "diễn tả nghĩa vụ, sự bắt buộc"
   },
@@ -1039,21 +1039,21 @@ const grammarData = [
   {
     id: 107, grammar: "다(가) 보면",
     senses: [{ meaning: "cứ làm liên tục thì sẽ (kết quả thay đổi trong tương lai)", groupId: "future_result" }],
-    synonymPatterns: ["노라면", "다 보면"],
+    synonymPatterns: ["노라면", "다(가) 보면"],
     ownExamples: [{ sentence: "포기하지 않고 계속 연습하<b>다 보면</b> 언젠가는 잘하게 될 거예요.", translation: "Cứ không bỏ cuộc mà tiếp tục luyện tập thì rồi sẽ có lúc làm giỏi thôi." }],
     notes: "hành động lặp lại/liên tục → kết quả thay đổi trong tương lai. Khác 다가 보니까 (ID 39): 다가 보니까 là kết quả đã nhận ra ở hiện tại/quá khứ; 다가보면 là kết quả sẽ xảy ra ở tương lai"
   },
   {
     id: 108, grammar: "(으)ㄹ 바에야",
     senses: [{ meaning: "thà... còn hơn (nếu phải làm vế trước thà làm vế sau hơn)", groupId: "preference" }],
-    synonymPatterns: ["느니 (차라리)", "(으)ㄹ 바에는"],
+    synonymPatterns: ["느니 (차라리)", "(으)ㄹ 바에야"],
     ownExamples: [{ sentence: "그 사람에게 부탁할 <b>바에야</b> 차라리 혼자 하는 게 낫겠어요.", translation: "Thà tự làm một mình còn hơn là nhờ người đó." }],
     notes: "biểu thị sự lựa chọn: thà B còn hơn A. Vế trước là điều không muốn; vế sau thường có 차라리 (thà rằng). 느니도 tương tự nhưng mang cảm giác chán nản hơn"
   },
   {
     id: 109, grammar: "(으)ㄴ 후에",
     senses: [{ meaning: "sau khi (làm xong)", groupId: "sequence" }],
-    synonymPatterns: ["고 나서", "(으)ㄴ 다음에", "고서야", "고야"],
+    synonymPatterns: ["고 나서", "(으)ㄴ 다음에", "고서야"],
     ownExamples: [{ sentence: "식사를 한 <b>후에</b> 약을 드세요.", translation: "Hãy uống thuốc sau khi ăn xong." }],
     notes: "sau khi hoàn thành A thì mới B. Tương đương 고 나서 (ID 74) nhưng 후에 dùng được sau cả danh từ (졸업 후에); 고 나서 chỉ sau động từ"
   },
@@ -1143,15 +1143,6 @@ const grammarData = [
       { sentence: "학생인 <b>이상</b> 공부를 열심히 하는 것은 당연하다.", translation: "Đã là học sinh thì việc học hành chăm chỉ là điều đương nhiên." }
     ],
     notes: "Dùng khi vế trước là một sự thật đã định/đã xảy ra, làm tiền đề khiến vế sau đương nhiên phải thế (thường là mệnh lệnh, ý chí, sự đương nhiên). ⚠ Khác với (으)ㄴ/는 한: '한' chỉ giới hạn thời gian/tình thế (chừng nào còn); '이상' mang tính khẳng định mạnh hơn về một sự thật không thể chối cãi."
-  },
-  {
-    id: 120, grammar: "기 위해서는",
-    senses: [{ meaning: "để (muốn đạt được thì phải)", groupId: "condition_intent" }],
-    synonymPatterns: ["(으)려면"],
-    ownExamples: [
-      { sentence: "시험에 합격하<b>기 위해서는</b> 꾸준히 공부하는 것이 중요하다.", translation: "Để thi đậu thì điều quan trọng là phải học đều đặn." }
-    ],
-    notes: "biến thể của 기 위해서; thêm 는 nhấn mạnh điều kiện cần thiết, tương đương (으)려면 trong nhiều ngữ cảnh"
   },
   {
     id: 121, grammar: "고서도",
@@ -1249,25 +1240,11 @@ const grammarData = [
     notes: "tương đương (으)ㄴ 후에; nhấn mạnh thứ tự trước-sau; dùng phổ biến trong văn nói"
   },
   {
-    id: 132, grammar: "(으)ㄹ 것 같은데",
-    senses: [{ meaning: "chắc là... (phỏng đoán kèm băn khoăn)", groupId: "guess_concern" }],
-    synonymPatterns: ["(으)ㄹ 텐데"],
-    ownExamples: [{ sentence: "지금쯤 피곤할 <b>것 같은데</b> 좀 쉬지 그래요?", translation: "Chắc giờ này mệt rồi, sao không nghỉ một chút?" }],
-    notes: "gần nghĩa (으)ㄹ 텐데 nhưng nhẹ hơn về mặt cảm xúc; diễn đạt phỏng đoán kèm quan tâm"
-  },
-  {
     id: 133, grammar: "(으)ㄹ 것이 분명하다",
     senses: [{ meaning: "chắc chắn là, rõ ràng là", groupId: "obvious" }],
     synonymPatterns: ["(으)ㄹ 게 뻔하다", "(으)ㄹ 게 틀림없다"],
     ownExamples: [{ sentence: "그가 거짓말을 하고 있는 <b>것이 분명하다</b>.", translation: "Rõ ràng là anh ta đang nói dối." }],
     notes: "khẳng định mạnh; trang trọng hơn 게 뻔하다; thường dùng trong văn viết hoặc lập luận"
-  },
-  {
-    id: 134, grammar: "(으)ㄹ 것인데",
-    senses: [{ meaning: "chắc là... nhưng (phỏng đoán + chuyển ý)", groupId: "guess_concern" }],
-    synonymPatterns: ["(으)ㄹ 텐데"],
-    ownExamples: [{ sentence: "많이 힘들 <b>것인데</b> 잘 버텨 주어서 고마워요.", translation: "Chắc là rất vất vả, cảm ơn vì đã cố gắng chịu đựng." }],
-    notes: "kết hợp phỏng đoán + chuyển ý; thường rút gọn thành '(으)ㄹ 텐데' trong văn nói hàng ngày"
   },
   {
     id: 135, grammar: "(으)ㄹ 게 틀림없다",
@@ -1305,13 +1282,6 @@ const grammarData = [
     notes: "gắn sau động từ; tương đương 기만 하면 về nghĩa nhưng cú pháp khác"
   },
   {
-    id: 140, grammar: "(으)ㄹ 바에는",
-    senses: [{ meaning: "thà... còn hơn (nếu phải làm điều không muốn)", groupId: "preference" }],
-    synonymPatterns: ["(으)ㄹ 바에야", "느니 (차라리)"],
-    ownExamples: [{ sentence: "그렇게 억지로 할 <b>바에는</b> 차라리 안 하는 게 낫다.", translation: "Thà không làm còn hơn phải làm ép như vậy." }],
-    notes: "biến thể của (으)ㄹ 바에야; nghĩa gần giống nhau, 바에는 nhấn mạnh điều kiện hơn"
-  },
-  {
     id: 141, grammar: "(으)ㄹ 정도이다",
     senses: [{ meaning: "đến mức, đến nỗi", groupId: "extent_degree" }],
     synonymPatterns: ["(으)ㄹ 지경이다", "만큼"],
@@ -1341,13 +1311,6 @@ const grammarData = [
     synonymPatterns: ["(으)ㄹ까 봐(서)"],
     ownExamples: [{ sentence: "아이가 다칠<b>세라</b> 항상 손을 꼭 잡았다.", translation: "Luôn nắm chặt tay vì sợ con bị thương." }],
     notes: "văn viết/cổ điển hơn (으)ㄹ까 봐; thường xuất hiện trong văn học, bài thi"
-  },
-  {
-    id: 145, grammar: "(으)니까 (khi dùng giữa câu + mệnh lệnh)",
-    senses: [{ meaning: "vì... nên (đưa ra lý do cho mệnh lệnh)", groupId: "reason_command" }],
-    synonymPatterns: ["(으)ㄹ 테니까"],
-    ownExamples: [{ sentence: "비가 <b>오니까</b> 우산을 챙기세요.", translation: "Vì trời mưa nên hãy mang theo ô nhé." }],
-    notes: "đây là cách dùng đặc trưng của 니까: dùng được trước mệnh lệnh/rủ rê, khác 아/어서 không dùng được trước mệnh lệnh. ⚠ (으)ㄹ 테니까 chỉ dùng khi người nói đưa ra cam kết/phỏng đoán ở vế trước, không thay thế được trong mọi trường hợp."
   },
   {
     id: 146, grammar: "(으)면 하다",
@@ -1435,14 +1398,7 @@ const grammarData = [
     synonymPatterns: ["(으)ㄹ 때마다"],
     ownExamples: [{ sentence: "그 사람 생각을 하<b>기만 하면</b> 눈물이 나요.", translation: "Hễ cứ nghĩ đến người đó là nước mắt lại rơi." }],
     notes: "vế sau diễn đạt kết quả tất yếu; gắn sau động từ; mạnh hơn 때마다 về tính tất yếu"
-  },
-  {
-    id: 158, grammar: "기에 달려 있다",
-    senses: [{ meaning: "phụ thuộc vào cách làm, tùy vào việc", groupId: "depend" }],
-    synonymPatterns: ["기 나름이다"],
-    ownExamples: [{ sentence: "성공은 얼마나 노력하느냐에 <b>달려 있어요</b>.", translation: "Thành công phụ thuộc vào việc bạn nỗ lực bao nhiêu." }],
-    notes: "gắn sau cụm câu hỏi gián tiếp (얼마나/어떻게 + V느냐에); tương đương 기 나름이다"
-  },
+  }, ,
   {
     id: 159, grammar: "는 사이에",
     senses: [{ meaning: "trong khi/trong lúc (một sự thay đổi xảy ra bất ngờ)", groupId: "while_time" }],
@@ -1453,14 +1409,14 @@ const grammarData = [
   {
     id: 160, grammar: "노라면",
     senses: [{ meaning: "cứ làm mãi thì (sẽ có kết quả tương lai)", groupId: "future_result" }],
-    synonymPatterns: ["다 보면", "다가보면"],
+    synonymPatterns: ["다(가) 보면", "다가보면"],
     ownExamples: [{ sentence: "계속 <b>연습하노라면</b> 언젠가는 잘하게 될 거예요.", translation: "Cứ kiên trì luyện tập thì rồi sẽ giỏi thôi." }],
     notes: "văn viết hơn 다 보면; nhấn mạnh quá trình liên tục → kết quả tương lai"
   },
   {
     id: 161, grammar: "느니 (차라리)",
     senses: [{ meaning: "thà... còn hơn (bất mãn, không muốn)", groupId: "preference" }],
-    synonymPatterns: ["(으)ㄹ 바에야", "(으)ㄹ 바에는"],
+    synonymPatterns: ["(으)ㄹ 바에야"],
     ownExamples: [{ sentence: "이렇게 사느니 차라리 포기하겠어요.", translation: "Thà từ bỏ còn hơn sống như thế này." }],
     notes: "mang sắc thái chán nản/bất mãn mạnh hơn (으)ㄹ 바에야; vế sau thường có 차라리"
   },
@@ -1486,34 +1442,6 @@ const grammarData = [
     notes: "văn viết trang trọng; dùng khi trích dẫn lại nội dung đã đề cập; phổ biến trong báo cáo, luận văn"
   },
   {
-    id: 165, grammar: "는 탓에",
-    senses: [{ meaning: "do nguyên nhân mà, tại vì", groupId: "reason_negative" }],
-    synonymPatterns: ["ㄴ/은 탓에", "는 바람에"],
-    ownExamples: [{ sentence: "비가 오는 <b>탓에</b> 행사가 취소됐어요.", translation: "Do trời mưa nên sự kiện bị hủy." }],
-    notes: "dạng hiện tại của 탓에; kết quả luôn tiêu cực; khác 는 바람에 ở chỗ 바람에 = bất ngờ, 탓에 = đổ lỗi"
-  },
-  {
-    id: 166, grammar: "다 보면",
-    senses: [{ meaning: "cứ làm mãi thì (rồi sẽ)", groupId: "future_result" }],
-    synonymPatterns: ["다가보면", "노라면"],
-    ownExamples: [{ sentence: "계속 공부하<b>다 보면</b> 늘게 될 거예요.", translation: "Cứ học mãi thì sẽ tiến bộ thôi." }],
-    notes: "biến thể rút gọn của 다가 보면; thường dùng trong văn nói; kết quả ở tương lai"
-  },
-  {
-    id: 167, grammar: "다기에",
-    senses: [{ meaning: "vì nghe nói rằng..., vì bảo rằng... (lý do gián tiếp)", groupId: "reason_hearsay" }],
-    synonymPatterns: ["다길래", "ㄴ/는다기에/길래"],
-    ownExamples: [{ sentence: "맛있<b>다기에</b> 직접 와 봤어요.", translation: "Nghe bảo ngon nên tôi đến thử trực tiếp." }],
-    notes: "rút gọn từ 다고 하기에; diễn đạt lý do dựa trên thông tin nghe được từ người khác"
-  },
-  {
-    id: 168, grammar: "다길래",
-    senses: [{ meaning: "vì nghe bảo rằng... (lý do nghe nói)", groupId: "reason_hearsay" }],
-    synonymPatterns: ["다기에", "ㄴ/는다기에/길래"],
-    ownExamples: [{ sentence: "할인한<b>다길래</b> 사러 왔어요.", translation: "Nghe bảo đang giảm giá nên đến mua." }],
-    notes: "rút gọn từ 다고 하길래; thường hàm ý phản ứng/hành động sau khi nghe thông tin đó"
-  },
-  {
     id: 169, grammar: "다름 아니라",
     senses: [{ meaning: "không gì khác ngoài, chính là (giới thiệu/giải thích lý do)", groupId: "only" }],
     synonymPatterns: [],
@@ -1521,13 +1449,6 @@ const grammarData = [
       { sentence: "연락드린 이유는 <b>다름 아니라</b> 일정을 확인하고 싶어서예요.", translation: "Lý do liên lạc không gì khác chính là muốn xác nhận lịch trình." }
     ],
     notes: "cấu trúc cố định '다름 아니라': đứng giữa câu, dùng để giới thiệu hoặc nêu lý do ('chính là / không gì khác ngoài'). ⚠ Khác 에 불과하다 / 뿐이다 (hạ thấp, giới hạn): 다름 아니라 không mang sắc thái hạ thấp — chỉ đơn thuần xác định/giải thích. Không nhầm với 거나 다름없다 (không khác gì = tương đương về bản chất)."
-  },
-  {
-    id: 170, grammar: "려고 했다",
-    senses: [{ meaning: "đã định (làm gì đó)", groupId: "intention" }],
-    synonymPatterns: ["(으)려고 하다", "(으)려던 참이다"],
-    ownExamples: [{ sentence: "전화<b>하려고 했는데</b> 바빠서 못 했어요.", translation: "Định gọi điện nhưng bận quá nên không gọi được." }],
-    notes: "dạng quá khứ của 려고 하다; thường ngụ ý kế hoạch bị gián đoạn hoặc chưa thực hiện được"
   },
   {
     id: 171, grammar: "말할 것도 없다",
@@ -1551,27 +1472,6 @@ const grammarData = [
     notes: "Hai hành động xảy ra ĐỒNG THỜI. Chủ ngữ của 2 vế bắt buộc phải LÀ MỘT. ⚠ Phân biệt với (으)면서(도) (ID 6): (으)면서(도) mang nghĩa tương phản (mặc dù/nhưng)."
   },
   {
-    id: 174, grammar: "아/어야 되다",
-    senses: [{ meaning: "phải, cần phải làm", groupId: "obligation" }],
-    synonymPatterns: ["아/어야 하다"],
-    ownExamples: [{ sentence: "지금 바로 출발해야 <b>돼요</b>.", translation: "Phải xuất phát ngay bây giờ thôi." }],
-    notes: "hoàn toàn tương đương 아/어야 하다 trong văn nói; 되다 được dùng phổ biến hơn trong hội thoại"
-  },
-  {
-    id: 175, grammar: "아/어야만 했다",
-    senses: [{ meaning: "đã buộc phải, đã đành phải (quá khứ)", groupId: "no_choice" }],
-    synonymPatterns: ["(으)ㄹ 수밖에 없다", "지 않을 수 없었다"],
-    ownExamples: [{ sentence: "돈이 없어서 걸어가야만 <b>했어요</b>.", translation: "Không có tiền nên đã đành phải đi bộ." }],
-    notes: "dạng quá khứ của 아/어야 하다; thêm 만 để nhấn mạnh tính bắt buộc không có lựa chọn"
-  },
-  {
-    id: 176, grammar: "(으)ㄴ/는 김에",
-    senses: [{ meaning: "tiện thể, nhân lúc (làm thêm việc khác)", groupId: "opportune" }],
-    synonymPatterns: ["는 길에", "(으)ㄹ 겸"],
-    ownExamples: [{ sentence: "마트에 간 <b>김에</b> 과자도 사 왔어요.", translation: "Tiện thể đang đi siêu thị nên mua thêm bánh về luôn." }],
-    notes: "nhân lúc đang làm A thì tiện thể làm thêm B; vế sau là hành động tận dụng cơ hội; khác 는 길에 (chỉ dùng với động từ di chuyển): 김에 dùng được với mọi động từ"
-  },
-  {
     id: 177, grammar: "아서/어서 그런지",
     senses: [{ meaning: "có lẽ vì... nên (phỏng đoán nguyên nhân)", groupId: "reason_guess" }],
     synonymPatterns: ["(으)ㄴ/는 지 (모르다)", "(으)니까"],
@@ -1591,13 +1491,6 @@ const grammarData = [
     synonymPatterns: ["(으)ㄴ 채(로)", "아/어 놓다"],
     ownExamples: [{ sentence: "창문을 열어 <b>놓은 채로</b> 잠이 들었어요.", translation: "Đã mở cửa sổ rồi mà vẫn cứ ngủ như vậy." }],
     notes: "kết합 아/어 놓다 + 채로; nhấn mạnh trạng thái đã chuẩn bị sẵn được duy trì"
-  },
-  {
-    id: 181, grammar: "었는데도",
-    senses: [{ meaning: "dù đã làm rồi nhưng vẫn (tương phản quá khứ)", groupId: "contrast_unexpected" }],
-    synonymPatterns: ["고도", "(으)ㄴ/는데도"],
-    ownExamples: [{ sentence: "밥을 먹<b>었는데도</b> 아직 배가 고파요.", translation: "Đã ăn rồi mà vẫn còn đói." }],
-    notes: "dạng quá khứ của 는데도; nhấn mạnh sự trái kỳ vọng sau khi hành động đã hoàn tất"
   },
   {
     id: 182, grammar: "에 지나지 않다",
@@ -1629,20 +1522,6 @@ const grammarData = [
       { sentence: "요리할 <b>줄 몰라서</b> 항상 외식해요.", translation: "Vì không biết nấu ăn nên tôi luôn ăn ngoài." }
     ],
     notes: "chỉ năng lực/kỹ năng đã học được; khác (으)ㄹ 수 있다 (cả năng lực lẫn khả năng xảy ra): 줄 알다 CHỈ dùng cho kỹ năng có thể học. ⚠ 줄 알다 vs 줄 몰랐다: 줄 알다 = biết cách; 줄 몰랐다 (ID 11) = không ngờ rằng — hai nghĩa khác nhau hoàn toàn"
-  },
-  {
-    id: 186, grammar: "지 않을 수 없었다",
-    senses: [{ meaning: "không thể không làm, đã buộc phải (quá khứ)", groupId: "no_choice" }],
-    synonymPatterns: ["(으)ㄹ 수밖에 없다", "아/어야만 했다"],
-    ownExamples: [{ sentence: "그 말을 듣고 웃지 않을 수 <b>없었어요</b>.", translation: "Nghe câu đó xong không thể không cười được." }],
-    notes: "dạng quá khứ của 지 않을 수 없다; nhấn mạnh không có lựa chọn nào khác"
-  },
-  {
-    id: 187, grammar: "(으)ㄹ지도 몰라서",
-    senses: [{ meaning: "vì biết đâu... (đề phòng, lo ngại)", groupId: "worry" }],
-    synonymPatterns: ["(으)ㄹ까 봐(서)", "(으)ㄹ세라"],
-    ownExamples: [{ sentence: "비가 올<b>지도 몰라서</b> 우산을 챙겼어요.", translation: "Vì biết đâu trời mưa nên tôi đã mang theo ô." }],
-    notes: "diễn đạt hành động đề phòng; kết hợp (으)ㄹ지도 모르다 + 아서; nhẹ hơn (으)ㄹ까 봐"
   },
   {
     id: 188, grammar: "기 때문에",
@@ -1732,14 +1611,6 @@ const grammarData = [
     ], notes: "nhấn mạnh đây là lựa chọn duy nhất; tương đương (으)ㄹ 수밖에 없다"
   },
   {
-    id: 202, grammar: "더라고",
-    senses: [{ meaning: "dù...hay... (lựa chọn bất kể)", groupId: "concession_any" }],
-    synonymPatterns: ["든지"],
-    examples: [
-      { sentence: "뭘 먹<b>더라고</b> 맛있어.", translation: "Ăn cái gì cũng ngon." }
-    ], notes: "tương đương 든지 trong một số ngữ cảnh nhất định; diễn đạt sự lựa chọn không quan trọng"
-  },
-  {
     id: 203, grammar: "려거든",
     senses: [{ meaning: "nếu muốn/định làm... thì", groupId: "condition_intent" }],
     synonymPatterns: ["(으)려면", "고 싶으면"],
@@ -1763,20 +1634,4 @@ const grammarData = [
       { sentence: "이 영화가 재미있<b>기는 하지만</b> 좀 길어요.", translation: "Phim này tuy thú vị nhưng hơi dài." }
     ], notes: "thừa nhận vế trước nhưng đưa ra nhận xét/đối lập ở vế sau; tương đương 가 하면 trong một số ngữ cảnh"
   },
-  {
-    id: 206, grammar: "없다고 생각하다",
-    senses: [{ meaning: "nghĩ rằng không có/không xảy ra (nhưng thực ra có)", groupId: "unexpected" }],
-    synonymPatterns: ["(으)ㄴ/는 줄 몰랐다"],
-    examples: [
-      { sentence: "그 일이 이렇게 잘 될 거라고는 <b>없다고 생각했다</b>.", translation: "Tôi đã nghĩ rằng chuyện đó không thể diễn ra tốt đẹp như vậy." }
-    ], notes: "diễn đạt nhận định sai trong quá khứ; tương đương줄 몰랐다"
-  },
-  {
-    id: 207, grammar: "고야",
-    senses: [{ meaning: "sau khi... mới, phải xong mới (nhấn mạnh hoàn tất)", groupId: "sequence" }],
-    synonymPatterns: ["(으)ㄴ 후에", "고서야"],
-    examples: [
-      { sentence: "그는 밥을 다 먹<b>고야</b> 자리에서 일어났다.", translation: "Anh ấy phải ăn hết bữa rồi mới đứng dậy." }
-    ], notes: "nhấn mạnh hoàn tất triệt để hành động trước; gần nghĩa 고서야 nhưng ít dùng hơn; văn viết"
-  }
 ];
