@@ -1,17 +1,195 @@
 // ===== STATE =====
-let currentIdx = 0;           // index into shuffledOrder
-let historyStack = [];        // save previous indices for Back button
-let shuffledOrder = [];       // randomized list of grammarData indices
+let currentIdx = 0;
+let historyStack = [];
+let shuffledOrder = [];
 let currentSenseGroupId = null;
 let currentOptions = [];
 let answered = false;
 let progress = JSON.parse(localStorage.getItem('topik_progress') || '{}');
-// Migration: if progress values are strings (old format), wipe to start fresh
 if (Object.values(progress).some(v => typeof v === 'string')) {
   progress = {};
   localStorage.setItem('topik_progress', JSON.stringify(progress));
 }
 let lastTapTime = [0, 0, 0, 0];
+
+// ===== STAR STATE =====
+let starred = JSON.parse(localStorage.getItem('topik_starred') || '[]'); // array of grammar IDs
+let starMode = false;          // are we in star-only mode?
+let starModeOrder = [];        // shuffled indices of starred grammars
+let starModeIdx = 0;
+
+function saveStarred() {
+  localStorage.setItem('topik_starred', JSON.stringify(starred));
+}
+function isStarred(grammarId) {
+  return starred.includes(grammarId);
+}
+function toggleStar(grammarId) {
+  const idx = starred.indexOf(grammarId);
+  if (idx >= 0) starred.splice(idx, 1);
+  else starred.push(grammarId);
+  saveStarred();
+  updateStarCount();
+}
+function updateStarCount() {
+  document.getElementById('starCount').textContent = starred.length;
+  // Update star mode button appearance
+  const btn = document.getElementById('btnStarMode');
+  if (starMode) btn.classList.add('active');
+  else btn.classList.remove('active');
+  // Update current card A star button
+  const g = grammarData[shuffledOrder[currentIdx]];
+  if (g) syncStarButtonA(g.id);
+}
+
+function syncStarButtonA(grammarId) {
+  const btn = document.getElementById('btnStarA');
+  if (!btn) return;
+  btn.textContent = isStarred(grammarId) ? '⭐' : '☆';
+  btn.classList.toggle('starred', isStarred(grammarId));
+}
+
+function syncStarButtonOpt(optIdx) {
+  const btn = document.querySelector(`.btn-star-opt[data-idx="${optIdx}"]`);
+  if (!btn) return;
+  const opt = currentOptions[optIdx];
+  if (!opt || opt.grammar.id < 0) { btn.textContent = '☆'; btn.classList.remove('starred'); return; }
+  const st = isStarred(opt.grammar.id);
+  btn.textContent = st ? '⭐' : '☆';
+  btn.classList.toggle('starred', st);
+}
+
+// ===== STAR MODE =====
+function buildStarModeOrder() {
+  // Map starred IDs → grammarData indices, then find position in shuffledOrder
+  starModeOrder = [];
+  starred.forEach(id => {
+    const globalIdx = grammarData.findIndex(g => g.id === id);
+    if (globalIdx >= 0) starModeOrder.push(globalIdx);
+  });
+  starModeOrder = shuffle(starModeOrder);
+  starModeIdx = 0;
+}
+
+function toggleStarMode() {
+  if (starred.length === 0) {
+    alert('Chưa có ngữ pháp nào được đánh sao! Hãy bấm ☆ trên thẻ để thêm.');
+    return;
+  }
+  starMode = !starMode;
+  const btn = document.getElementById('btnStarMode');
+  const banner = document.getElementById('starModeBanner');
+
+  if (starMode) {
+    btn.classList.add('active');
+    document.getElementById('starModeLabel').textContent = 'Thoát sao';
+    banner.classList.add('visible');
+    buildStarModeOrder();
+    // Inject star order into shuffledOrder position mechanism
+    jumpToGlobalIdx(starModeOrder[0]);
+  } else {
+    btn.classList.remove('active');
+    document.getElementById('starModeLabel').textContent = 'Ôn sao';
+    banner.classList.remove('visible');
+    updateStarCount();
+  }
+}
+
+function jumpToGlobalIdx(globalIdx) {
+  const pos = shuffledOrder.indexOf(globalIdx);
+  if (pos >= 0) {
+    historyStack.push(currentIdx);
+    currentIdx = pos;
+  } else {
+    // Not in shuffled order — insert at next position
+    shuffledOrder.splice(currentIdx + 1, 0, globalIdx);
+    historyStack.push(currentIdx);
+    currentIdx = currentIdx + 1;
+  }
+  updateBackButton();
+  renderQuestion();
+}
+
+function nextInStarMode() {
+  if (!starMode) return false;
+  starModeIdx++;
+  if (starModeIdx >= starModeOrder.length) {
+    // Finished all starred — reshuffle and restart
+    buildStarModeOrder();
+    const banner = document.getElementById('starModeBanner');
+    banner.textContent = `⭐ Đã ôn xong ${starred.length} từ sao — bắt đầu lại!`;
+    setTimeout(() => {
+      banner.textContent = `⭐ Chế độ ôn sao (${starred.length} từ)`;
+    }, 2500);
+  }
+  jumpToGlobalIdx(starModeOrder[starModeIdx]);
+  return true;
+}
+
+// ===== STAR LIST MODAL =====
+function showStarList() {
+  if (starred.length === 0) {
+    openModal('Danh sách đã đánh sao ⭐', `<div class="star-list-empty">⭐<p>Chưa có từ nào được đánh sao.<br>Bấm ☆ trên thẻ để thêm vào đây.</p></div>`);
+    return;
+  }
+
+  const listHtml = `<ul class="grammar-list" id="starListUl">${starred.map(id => {
+    const g = grammarData.find(gd => gd.id === id);
+    if (!g) return '';
+    const globalIdx = grammarData.findIndex(gd => gd.id === id);
+    return `<li data-goto="${globalIdx}" data-grammar-id="${id}">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button class="btn-star-list starred" data-grammar-id="${id}" title="Bỏ sao">⭐</button>
+        <div><span class="gl-name">${g.grammar}</span>
+        <span class="gl-meaning">${g.senses.map(s => s.meaning).join(' / ')}</span></div>
+      </div>
+      <button class="btn-copy-list" data-copy="${g.grammar.replace(/"/g, '&quot;')}" title="Copy" style="background:none;border:none;cursor:pointer;color:var(--text2);font-size:0.9rem;padding:4px;">📋</button>
+    </li>`;
+  }).join('')}</ul>`;
+
+  openModal(`Danh sách đã đánh sao ⭐ (${starred.length} từ)`, listHtml);
+
+  setTimeout(() => {
+    document.querySelectorAll('#starListUl li[data-goto]').forEach(li => {
+      li.addEventListener('click', (e) => {
+        if (e.target.closest('button')) return;
+        const globalIdx = parseInt(li.dataset.goto);
+        jumpToGlobalIdx(globalIdx);
+        closeModal();
+      });
+    });
+
+    document.querySelectorAll('#starListUl .btn-star-list').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = parseInt(btn.dataset.grammarId);
+        toggleStar(id);
+        // Remove from list UI
+        const li = btn.closest('li');
+        li.style.transition = 'opacity 0.2s';
+        li.style.opacity = '0';
+        setTimeout(() => {
+          li.remove();
+          const remaining = document.querySelectorAll('#starListUl li').length;
+          document.getElementById('modalTitle').textContent = `Danh sách đã đánh sao ⭐ (${remaining} từ)`;
+          if (remaining === 0) {
+            document.getElementById('modalBody').innerHTML = `<div class="star-list-empty">⭐<p>Danh sách trống.</p></div>`;
+          }
+        }, 200);
+      });
+    });
+
+    document.querySelectorAll('#starListUl .btn-copy-list').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        navigator.clipboard.writeText(btn.dataset.copy).then(() => {
+          const old = btn.innerHTML; btn.innerHTML = '✅';
+          setTimeout(() => btn.innerHTML = old, 1000);
+        });
+      });
+    });
+  }, 50);
+}
 
 // ===== UTILS =====
 function shuffle(arr) {
@@ -48,21 +226,17 @@ function generateOptions(mainGrammar, senseGroupId) {
     const cid = correctCandidateIds[Math.floor(Math.random() * correctCandidateIds.length)];
     correctGrammar = grammarData.find(g => g.id === cid);
   } else {
-    // FAKE a correct grammar so the user can pass senses that have no other IDs in their group
     const pattern = (mainGrammar.synonymPatterns && mainGrammar.synonymPatterns.length > 0)
       ? mainGrammar.synonymPatterns[0]
       : "(Không có đồng nghĩa)";
-
     correctGrammar = {
-      id: -2,
-      grammar: pattern,
+      id: -2, grammar: pattern,
       senses: [{ meaning: group ? group.label : "Đồng nghĩa" }],
       synonymPatterns: [], examples: [], ownExamples: []
     };
   }
 
   const wrongItems = shuffle(wrongPool).slice(0, correctGrammar ? 3 : 4);
-
   let options = [];
   if (correctGrammar) {
     options = shuffle([
@@ -72,23 +246,15 @@ function generateOptions(mainGrammar, senseGroupId) {
   } else {
     options = wrongItems.map(g => ({ grammar: g, isCorrect: false }));
   }
-
   while (options.length < 4) {
     options.push({ grammar: { id: -1, grammar: '—', senses: [{ meaning: '—' }], synonymPatterns: [], examples: [], ownExamples: [] }, isCorrect: false });
   }
   return options.slice(0, 4);
 }
 
-// Get only the grammar's OWN examples (not synonym examples)
 function getOwnExamples(grammarItem) {
-  // If ownExamples exists, use it
-  if (grammarItem.ownExamples && grammarItem.ownExamples.length > 0) {
-    return grammarItem.ownExamples;
-  }
-  // Fallback: return only the first example (always the original grammar)
-  if (grammarItem.examples && grammarItem.examples.length > 0) {
-    return [grammarItem.examples[0]];
-  }
+  if (grammarItem.ownExamples && grammarItem.ownExamples.length > 0) return grammarItem.ownExamples;
+  if (grammarItem.examples && grammarItem.examples.length > 0) return [grammarItem.examples[0]];
   return [];
 }
 
@@ -109,13 +275,11 @@ function renderQuestion() {
   const grp = synonymGroups.find(gr => gr.id === sense.groupId);
   const badge = document.getElementById('senseBadge');
   badge.textContent = grp ? grp.label : sense.meaning;
+  if (document.getElementById('toggleTopic').checked) badge.classList.remove('hidden');
+  else badge.classList.add('hidden');
 
-  // Sync visibility with toggle
-  if (document.getElementById('toggleTopic').checked) {
-    badge.classList.remove('hidden');
-  } else {
-    badge.classList.add('hidden');
-  }
+  // Sync star button A
+  syncStarButtonA(g.id);
 
   currentOptions = generateOptions(g, sense.groupId);
   currentOptions.forEach((opt, i) => {
@@ -125,6 +289,7 @@ function renderQuestion() {
     document.getElementById(`cardB${i}`).classList.remove('flipped');
     const wrap = document.querySelectorAll('.option-wrap')[i];
     wrap.classList.remove('correct', 'wrong', 'reveal-correct');
+    syncStarButtonOpt(i);
   });
 
   updateProgress();
@@ -135,9 +300,7 @@ function updateProgress() {
   let done = 0;
   grammarData.forEach(g => {
     const uniqueGroupIds = new Set(g.senses.map(s => s.groupId));
-    if (progress[g.id] && progress[g.id].length >= uniqueGroupIds.size) {
-      done++;
-    }
+    if (progress[g.id] && progress[g.id].length >= uniqueGroupIds.size) done++;
   });
   document.getElementById('progressFill').style.width = `${(done / total) * 100}%`;
   document.getElementById('progressText').textContent = `${done} / ${total}`;
@@ -147,30 +310,21 @@ function updateProgress() {
 function selectAnswer(idx) {
   if (answered) return;
   const wraps = document.querySelectorAll('.option-wrap');
-  // Skip if this option was already marked wrong
   if (wraps[idx].classList.contains('wrong')) return;
 
   const g = grammarData[shuffledOrder[currentIdx]];
   const revealMode = document.getElementById('toggleReveal').checked;
 
   if (currentOptions[idx].isCorrect) {
-    // Correct answer
     answered = true;
     wraps[idx].classList.add('correct');
-
     if (!progress[g.id]) progress[g.id] = [];
-    if (!progress[g.id].includes(currentSenseGroupId)) {
-      progress[g.id].push(currentSenseGroupId);
-    }
-
+    if (!progress[g.id].includes(currentSenseGroupId)) progress[g.id].push(currentSenseGroupId);
     localStorage.setItem('topik_progress', JSON.stringify(progress));
     updateProgress();
   } else {
-    // Wrong answer - always show red
     wraps[idx].classList.add('wrong');
-
     if (revealMode) {
-      // Reveal mode ON: show correct answer immediately
       answered = true;
       currentOptions.forEach((opt, i) => {
         if (opt.isCorrect) wraps[i].classList.add('reveal-correct');
@@ -178,11 +332,11 @@ function selectAnswer(idx) {
       localStorage.setItem('topik_progress', JSON.stringify(progress));
       updateProgress();
     }
-    // Reveal mode OFF: keep trying (answered stays false)
   }
 }
 
 function nextQuestion() {
+  if (starMode && nextInStarMode()) return;
   historyStack.push(currentIdx);
   updateBackButton();
   currentIdx = (currentIdx + 1) % shuffledOrder.length;
@@ -191,9 +345,7 @@ function nextQuestion() {
 
 function updateBackButton() {
   const btnPrev = document.getElementById('btnPrev');
-  if (btnPrev) {
-    btnPrev.style.display = historyStack.length > 0 ? 'block' : 'none';
-  }
+  if (btnPrev) btnPrev.style.display = historyStack.length > 0 ? 'block' : 'none';
 }
 
 // ===== MODAL =====
@@ -216,12 +368,8 @@ function showSynonyms(grammarItem) {
 
     const memberGrammars = new Set(members.map(m => m.grammar));
     const allPatternsInGroup = new Set();
-    members.forEach(m => {
-      (m.synonymPatterns || []).forEach(p => allPatternsInGroup.add(p));
-    });
+    members.forEach(m => { (m.synonymPatterns || []).forEach(p => allPatternsInGroup.add(p)); });
     (grammarItem.synonymPatterns || []).forEach(p => allPatternsInGroup.add(p));
-
-    // Lọc bỏ: chính ngữ pháp hiện tại, và các pattern đã có trong members (đã được thể hiện bằng nút ➔)
     memberGrammars.add(grammarItem.grammar);
     const uniquePatterns = [...allPatternsInGroup].filter(p => !memberGrammars.has(p));
 
@@ -229,11 +377,14 @@ function showSynonyms(grammarItem) {
     if (grp && grp.nuances && grp.nuances.length > 0) {
       nuancesHtml = `<div class="nuance-box">
         <div class="nuance-title">💡 Phân biệt & Lưu ý:</div>
-        <ul>
-          ${grp.nuances.map(n => `<li>${n}</li>`).join('')}
-        </ul>
+        <ul>${grp.nuances.map(n => `<li>${n}</li>`).join('')}</ul>
       </div>`;
     }
+
+    const makeStarBtn = (gId) => {
+      const st = isStarred(gId);
+      return `<button class="btn-star-list${st ? ' starred' : ''}" data-grammar-id="${gId}" title="${st ? 'Bỏ sao' : 'Đánh sao'}">${st ? '⭐' : '☆'}</button>`;
+    };
 
     return `<div style="margin-bottom:12px">
       <div style="font-size:0.8rem;color:var(--text2);margin-bottom:4px">${s.meaning}</div>
@@ -241,45 +392,59 @@ function showSynonyms(grammarItem) {
         ${uniquePatterns.map(p => {
       const matchingGrammar = grammarData.find(g => g.grammar === p);
       if (matchingGrammar) {
-        return `<li style="display: flex; justify-content: space-between; align-items: center;">
-              <div style="display: flex; align-items: center; gap: 8px;">
+        return `<li style="display:flex;justify-content:space-between;align-items:center;">
+              <div style="display:flex;align-items:center;gap:6px;">
+                ${makeStarBtn(matchingGrammar.id)}
                 <span>${p}</span>
-                <button class="btn-copy-list" data-copy="${p.replace(/"/g, '&quot;')}" title="Copy ngữ pháp" style="background: none; border: none; cursor: pointer; color: var(--text2); font-size: 0.9rem; padding: 4px;">📋</button>
+                <button class="btn-copy-list" data-copy="${p.replace(/"/g, '&quot;')}" title="Copy" style="background:none;border:none;cursor:pointer;color:var(--text2);font-size:0.9rem;padding:4px;">📋</button>
               </div>
-              <button class="btn-jump" data-target-id="${matchingGrammar.id}" title="Chuyển đến ngữ pháp này" style="background: none; border: none; cursor: pointer; color: var(--accent); font-size: 1.2rem; padding: 4px; display: flex; align-items: center; justify-content: center;">➔</button>
+              <button class="btn-jump" data-target-id="${matchingGrammar.id}" title="Nhảy đến" style="background:none;border:none;cursor:pointer;color:var(--accent);font-size:1.2rem;padding:4px;">➔</button>
             </li>`;
       } else {
-        return `<li style="display: flex; justify-content: space-between; align-items: center;">
+        return `<li style="display:flex;justify-content:space-between;align-items:center;">
               <span>${p}</span>
-              <button class="btn-copy-list" data-copy="${p.replace(/"/g, '&quot;')}" title="Copy ngữ pháp" style="background: none; border: none; cursor: pointer; color: var(--text2); font-size: 0.9rem; padding: 4px;">📋</button>
+              <button class="btn-copy-list" data-copy="${p.replace(/"/g, '&quot;')}" title="Copy" style="background:none;border:none;cursor:pointer;color:var(--text2);font-size:0.9rem;padding:4px;">📋</button>
             </li>`;
       }
     }).join('')}
-        ${members.map(m => `<li style="display: flex; justify-content: space-between; align-items: center;">
-          <div style="display: flex; align-items: center; gap: 8px;">
+        ${members.map(m => `<li style="display:flex;justify-content:space-between;align-items:center;">
+          <div style="display:flex;align-items:center;gap:6px;">
+            ${makeStarBtn(m.id)}
             <span>${m.grammar}</span>
-            <button class="btn-copy-list" data-copy="${m.grammar.replace(/"/g, '&quot;')}" title="Copy ngữ pháp" style="background: none; border: none; cursor: pointer; color: var(--text2); font-size: 0.9rem; padding: 4px;">📋</button>
+            <button class="btn-copy-list" data-copy="${m.grammar.replace(/"/g, '&quot;')}" title="Copy" style="background:none;border:none;cursor:pointer;color:var(--text2);font-size:0.9rem;padding:4px;">📋</button>
           </div>
-          <button class="btn-jump" data-target-id="${m.id}" title="Chuyển đến ngữ pháp này" style="background: none; border: none; cursor: pointer; color: var(--accent); font-size: 1.2rem; padding: 4px; display: flex; align-items: center; justify-content: center;">➔</button>
+          <button class="btn-jump" data-target-id="${m.id}" title="Nhảy đến" style="background:none;border:none;cursor:pointer;color:var(--accent);font-size:1.2rem;padding:4px;">➔</button>
         </li>`).join('')}
       </ul>
       ${nuancesHtml}
     </div>`;
   }).join('');
+
   openModal(`Đồng nghĩa: ${grammarItem.grammar}`, allGroups);
 
   setTimeout(() => {
+    // Star buttons in synonym list
+    document.querySelectorAll('#modal .btn-star-list').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = parseInt(btn.dataset.grammarId);
+        toggleStar(id);
+        const st = isStarred(id);
+        btn.textContent = st ? '⭐' : '☆';
+        btn.classList.toggle('starred', st);
+        // Also update card A if it's the same grammar
+        const g = grammarData[shuffledOrder[currentIdx]];
+        if (g && g.id === id) syncStarButtonA(id);
+      });
+    });
+
     document.querySelectorAll('.btn-jump').forEach(btn => {
       btn.addEventListener('click', () => {
         const targetId = parseInt(btn.dataset.targetId);
         const targetGlobalIdx = grammarData.findIndex(g => g.id === targetId);
-        const targetShuffledIdx = shuffledOrder.indexOf(targetGlobalIdx);
-        if (targetShuffledIdx >= 0) {
-          historyStack.push(currentIdx);
-          currentIdx = targetShuffledIdx;
+        if (targetGlobalIdx >= 0) {
+          jumpToGlobalIdx(targetGlobalIdx);
           closeModal();
-          renderQuestion();
-          updateBackButton();
         }
       });
     });
@@ -287,14 +452,10 @@ function showSynonyms(grammarItem) {
     document.querySelectorAll('.btn-copy-list').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const textToCopy = btn.dataset.copy;
-        if (textToCopy) {
-          navigator.clipboard.writeText(textToCopy).then(() => {
-            const oldContent = btn.innerHTML;
-            btn.innerHTML = '✅';
-            setTimeout(() => btn.innerHTML = oldContent, 1000);
-          });
-        }
+        navigator.clipboard.writeText(btn.dataset.copy).then(() => {
+          const old = btn.innerHTML; btn.innerHTML = '✅';
+          setTimeout(() => btn.innerHTML = old, 1000);
+        });
       });
     });
   }, 50);
@@ -304,144 +465,131 @@ function showExamples(grammarItem) {
   const exs = getOwnExamples(grammarItem);
   const html = exs.map(e => {
     let block = `<p>${e.sentence}</p>`;
-    if (e.translation) {
-      block += `<p class="ex-translation">→ ${e.translation}</p>`;
-    }
+    if (e.translation) block += `<p class="ex-translation">→ ${e.translation}</p>`;
     return block;
   }).join('');
   openModal(`Câu mẫu: ${grammarItem.grammar}`, html || '<p style="color:var(--text2)">Chưa có câu mẫu</p>');
 }
 
 function showGrammarList() {
-  const searchHtml = `<div class="search-wrap" style="margin-bottom: 16px; position: sticky; top: 0; z-index: 10; background: var(--bg2); padding-bottom: 10px;">
-    <input type="text" id="grammarSearchInput" placeholder="Tìm kiếm ngữ pháp / tiếng Việt..." style="width: 100%; padding: 10px 14px; border: 1px solid var(--glass-border); border-radius: 8px; background: var(--surface); color: var(--text); font-size: 0.95rem; outline: none; transition: border-color 0.2s;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--glass-border)'">
+  const searchHtml = `<div class="search-wrap" style="margin-bottom:16px;position:sticky;top:0;z-index:10;background:var(--bg2);padding-bottom:10px;">
+    <input type="text" id="grammarSearchInput" placeholder="Tìm kiếm ngữ pháp / tiếng Việt..." style="width:100%;padding:10px 14px;border:1px solid var(--glass-border);border-radius:8px;background:var(--surface);color:var(--text);font-size:0.95rem;outline:none;" onfocus="this.style.borderColor='var(--accent)'" onblur="this.style.borderColor='var(--glass-border)'">
   </div>`;
 
   const listHtml = `<ul class="grammar-list" id="grammarListUl">${grammarData.map((g, i) => {
     const uniqueGroupIds = new Set(g.senses.map(s => s.groupId));
     const totalSenses = uniqueGroupIds.size;
     const completedSenses = progress[g.id] ? progress[g.id].length : 0;
+    let cls = 'todo', label = '—';
+    if (completedSenses === totalSenses) { cls = 'done'; label = '✓'; }
+    else if (completedSenses > 0) { cls = 'partial'; label = `(${completedSenses}/${totalSenses})`; }
 
-    let cls = 'todo';
-    let label = '—';
-    if (completedSenses === totalSenses) {
-      cls = 'done';
-      label = '✓';
-    } else if (completedSenses > 0) {
-      cls = 'partial';
-      label = `(${completedSenses}/${totalSenses})`;
-    }
-
+    const st = isStarred(g.id);
     const searchStr = (g.grammar + ' ' + g.senses.map(s => s.meaning).join(' ')).toLowerCase();
 
     return `<li data-goto="${i}" data-search="${searchStr.replace(/"/g, '&quot;')}">
-      <div style="display: flex; align-items: center; gap: 10px;">
-        <button class="btn-copy-list" data-copy="${g.grammar.replace(/"/g, '&quot;')}" title="Copy ngữ pháp" style="background: none; border: none; cursor: pointer; color: var(--text2); font-size: 0.9rem; padding: 4px; z-index: 5;">📋</button>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button class="btn-star-list${st ? ' starred' : ''}" data-grammar-id="${g.id}" title="${st ? 'Bỏ sao' : 'Đánh sao'}">${st ? '⭐' : '☆'}</button>
+        <button class="btn-copy-list" data-copy="${g.grammar.replace(/"/g, '&quot;')}" title="Copy" style="background:none;border:none;cursor:pointer;color:var(--text2);font-size:0.9rem;padding:4px;z-index:5;">📋</button>
         <div><span class="gl-name">${g.grammar}</span>
         <span class="gl-meaning">${g.senses.map(s => s.meaning).join(' / ')}</span></div>
       </div>
-      <span class="gl-status ${cls}" style="font-size: 0.85rem; font-weight: 600;">${label}</span>
+      <span class="gl-status ${cls}" style="font-size:0.85rem;font-weight:600;">${label}</span>
     </li>`;
   }).join('')}</ul>`;
 
   openModal('Danh sách ngữ pháp', searchHtml + listHtml);
 
   setTimeout(() => {
-    // List item click listener
     document.querySelectorAll('#grammarListUl li[data-goto]').forEach(li => {
-      li.addEventListener('click', () => {
-        // Jump to this grammar's position in shuffledOrder
+      li.addEventListener('click', (e) => {
+        if (e.target.closest('button')) return;
         const grammarIdx = parseInt(li.dataset.goto);
-        const posInOrder = shuffledOrder.indexOf(grammarIdx);
-        if (posInOrder >= 0 && posInOrder !== currentIdx) {
-          historyStack.push(currentIdx);
-          updateBackButton();
-        }
-        currentIdx = posInOrder >= 0 ? posInOrder : 0;
+        jumpToGlobalIdx(grammarIdx);
         closeModal();
-        renderQuestion();
       });
     });
 
-    // Search input listener
+    document.querySelectorAll('#grammarListUl .btn-star-list').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const id = parseInt(btn.dataset.grammarId);
+        toggleStar(id);
+        const st = isStarred(id);
+        btn.textContent = st ? '⭐' : '☆';
+        btn.classList.toggle('starred', st);
+        const g = grammarData[shuffledOrder[currentIdx]];
+        if (g && g.id === id) syncStarButtonA(id);
+      });
+    });
+
     const searchInput = document.getElementById('grammarSearchInput');
     if (searchInput) {
       searchInput.addEventListener('input', (e) => {
         const term = e.target.value.toLowerCase();
         document.querySelectorAll('#grammarListUl li[data-goto]').forEach(li => {
-          const searchStr = li.dataset.search;
-          if (searchStr.includes(term)) {
-            li.style.display = '';
-          } else {
-            li.style.display = 'none';
-          }
+          li.style.display = li.dataset.search.includes(term) ? '' : 'none';
         });
       });
     }
 
-    document.querySelectorAll('.btn-copy-list').forEach(btn => {
+    document.querySelectorAll('#grammarListUl .btn-copy-list').forEach(btn => {
       btn.addEventListener('click', (e) => {
         e.stopPropagation();
-        const textToCopy = btn.dataset.copy;
-        if (textToCopy) {
-          navigator.clipboard.writeText(textToCopy).then(() => {
-            const oldContent = btn.innerHTML;
-            btn.innerHTML = '✅';
-            setTimeout(() => btn.innerHTML = oldContent, 1000);
-          });
-        }
+        navigator.clipboard.writeText(btn.dataset.copy).then(() => {
+          const old = btn.innerHTML; btn.innerHTML = '✅';
+          setTimeout(() => btn.innerHTML = old, 1000);
+        });
       });
     });
   }, 50);
 }
 
 function showHelp() {
-  const kbdStyle = "display: inline-block; background: rgba(255,255,255,0.15); padding: 2px 6px; border-radius: 4px; font-size: 0.8rem; font-family: monospace; border: 1px solid var(--glass-border); color: var(--text);";
+  const kbdStyle = "display:inline-block;background:rgba(255,255,255,0.15);padding:2px 6px;border-radius:4px;font-size:0.8rem;font-family:monospace;border:1px solid var(--glass-border);color:var(--text);";
   const html = `
-    <div style="font-size: 0.95rem; line-height: 1.7; color: var(--text);">
-      <p style="margin-bottom: 8px;"><b>1. Lật thẻ (Xem nghĩa):</b></p>
-      <ul style="margin-left: 20px; margin-bottom: 16px;">
-        <li>Bấm vào thẻ bất kỳ hoặc nhấn phím <kbd style="${kbdStyle}">Space</kbd>.</li>
+    <div style="font-size:0.95rem;line-height:1.7;color:var(--text);">
+      <p style="margin-bottom:8px;"><b>1. Lật thẻ (Xem nghĩa):</b></p>
+      <ul style="margin-left:20px;margin-bottom:16px;"><li>Bấm vào thẻ hoặc nhấn <kbd style="${kbdStyle}">Space</kbd>.</li></ul>
+
+      <p style="margin-bottom:8px;"><b>2. Chọn đáp án (4 thẻ nhỏ):</b></p>
+      <ul style="margin-left:20px;margin-bottom:16px;">
+        <li><b>Máy tính:</b> Nhấn phím <kbd style="${kbdStyle}">1</kbd>–<kbd style="${kbdStyle}">4</kbd> hoặc click đúp chuột.</li>
+        <li><b>Điện thoại:</b> Chạm 2 lần (double-tap) vào thẻ.</li>
       </ul>
 
-      <p style="margin-bottom: 8px;"><b>2. Chọn đáp án (4 thẻ nhỏ):</b></p>
-      <ul style="margin-left: 20px; margin-bottom: 16px;">
-        <li><b>Trên máy tính:</b> Nhấn phím từ <kbd style="${kbdStyle}">1</kbd> đến <kbd style="${kbdStyle}">4</kbd> hoặc click đúp chuột vào thẻ.</li>
-        <li><b>Trên điện thoại:</b> Chạm 2 lần liên tiếp (double-tap) vào thẻ.</li>
+      <p style="margin-bottom:8px;"><b>3. Tiếp theo / Quay lại:</b></p>
+      <ul style="margin-left:20px;margin-bottom:16px;">
+        <li>Nút "Tiếp theo" hoặc phím <kbd style="${kbdStyle}">5</kbd> / <kbd style="${kbdStyle}">→</kbd>.</li>
+        <li>Nút "Quay lại" hoặc phím <kbd style="${kbdStyle}">←</kbd>.</li>
       </ul>
 
-      <p style="margin-bottom: 8px;"><b>3. Chuyển câu tiếp theo:</b></p>
-      <ul style="margin-left: 20px; margin-bottom: 16px;">
-        <li>Bấm nút "Tiếp theo" ở góc dưới hoặc nhấn phím <kbd style="${kbdStyle}">5</kbd> hoặc <kbd style="${kbdStyle}">→</kbd>.</li>
+      <p style="margin-bottom:8px;"><b>4. Hệ thống đánh sao ⭐:</b></p>
+      <ul style="margin-left:20px;margin-bottom:16px;">
+        <li>Bấm <b>☆</b> trên thẻ để đánh dấu, bấm lại để bỏ.</li>
+        <li>Bấm nút <b>⭐ Ôn sao</b> để chỉ học các từ đã đánh sao. Học xong hết tự động lặp lại.</li>
+        <li>Bấm nút <b>☆ 0</b> để xem và quản lý danh sách sao.</li>
+        <li>Dấu sao cũng xuất hiện trong danh sách ngữ pháp và danh sách đồng nghĩa.</li>
       </ul>
 
-      <p style="margin-bottom: 8px;"><b>4. Quay lại câu trước:</b></p>
-      <ul style="margin-left: 20px; margin-bottom: 16px;">
-        <li>Bấm nút "Quay lại" ở góc dưới bên trái hoặc nhấn phím <kbd style="${kbdStyle}">←</kbd>.</li>
+      <p style="margin-bottom:8px;"><b>5. Tính năng khác:</b></p>
+      <ul style="margin-left:20px;margin-bottom:16px;">
+        <li><b style="color:var(--accent);font-size:1.1rem;">➔</b> <b>Nhảy nhanh:</b> Trong danh sách đồng nghĩa, bấm mũi tên để nhảy sang thẻ đó.</li>
+        <li><b>📋 Copy:</b> Sao chép nhanh tên ngữ pháp hoặc nghĩa.</li>
+        <li><b>Hiện CĐ / Hiện ĐA:</b> Bật/tắt hiển thị chủ đề hoặc tự động hiện đáp án đúng khi chọn sai.</li>
       </ul>
-
-      <p style="margin-bottom: 8px;"><b>5. Các tính năng mở rộng:</b></p>
-      <ul style="margin-left: 20px; margin-bottom: 16px;">
-        <li style="margin-bottom: 8px;"><b style="color:var(--accent); font-size: 1.1rem;">➔</b> <b>Nhảy nhanh:</b> Trong danh sách đồng nghĩa, bấm vào mũi tên để nhảy sang thẻ của ngữ pháp đó. Có thể bấm nút <b>"⬅ Quay lại"</b> để trở về.</li>
-        <li style="margin-bottom: 8px;"><b>📋 Copy:</b> Bấm để sao chép nhanh tên ngữ pháp hoặc nghĩa tiếng Việt.</li>
-        <li style="margin-bottom: 8px;"><b>Hiện CĐ / Hiện ĐA:</b> Công tắc bật/tắt hiển thị Chủ đề (nhóm) hoặc tự động hiện đáp án đúng khi bạn chọn sai.</li>
-      </ul>
-    </div>
-  `;
+    </div>`;
   openModal('Hướng dẫn sử dụng', html);
 }
 
-// ===== DOUBLE TAP HANDLER (mobile) =====
+// ===== DOUBLE TAP =====
 let tapTimers = [null, null, null, null];
-
 function handleOptionTap(idx) {
   if (tapTimers[idx]) {
-    // Second tap within 200ms → cancel flip, select answer
     clearTimeout(tapTimers[idx]);
     tapTimers[idx] = null;
     selectAnswer(idx);
   } else {
-    // First tap → wait 200ms to see if double-tap
     tapTimers[idx] = setTimeout(() => {
       tapTimers[idx] = null;
       document.getElementById(`cardB${idx}`).classList.toggle('flipped');
@@ -451,27 +599,45 @@ function handleOptionTap(idx) {
 
 // ===== EVENT LISTENERS =====
 document.addEventListener('DOMContentLoaded', () => {
-  // Card A flip (click)
-  document.getElementById('cardA').addEventListener('click', function () {
+  // Card A flip
+  document.getElementById('cardA').addEventListener('click', function (e) {
+    if (e.target.closest('button')) return;
     this.classList.toggle('flipped');
   });
 
-  // Card B: single click = flip, double click = select (mobile)
+  // Card B tap
   for (let i = 0; i < 4; i++) {
     document.getElementById(`cardB${i}`).addEventListener('click', function (e) {
+      if (e.target.closest('button')) return;
       handleOptionTap(i);
     });
   }
 
-  // Synonym/Example buttons on card A
-  document.getElementById('btnSynA').addEventListener('click', () => {
-    showSynonyms(grammarData[shuffledOrder[currentIdx]]);
-  });
-  document.getElementById('btnExA').addEventListener('click', () => {
-    showExamples(grammarData[shuffledOrder[currentIdx]]);
+  // Star button on card A
+  document.getElementById('btnStarA').addEventListener('click', (e) => {
+    e.stopPropagation();
+    const g = grammarData[shuffledOrder[currentIdx]];
+    toggleStar(g.id);
+    syncStarButtonA(g.id);
   });
 
-  // Synonym/Example buttons on option cards
+  // Star buttons on option cards
+  document.querySelectorAll('.btn-star-opt').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const i = parseInt(btn.dataset.idx);
+      const opt = currentOptions[i];
+      if (!opt || opt.grammar.id < 0) return;
+      toggleStar(opt.grammar.id);
+      syncStarButtonOpt(i);
+    });
+  });
+
+  // Synonym/Example on card A
+  document.getElementById('btnSynA').addEventListener('click', () => showSynonyms(grammarData[shuffledOrder[currentIdx]]));
+  document.getElementById('btnExA').addEventListener('click', () => showExamples(grammarData[shuffledOrder[currentIdx]]));
+
+  // Synonym/Example on option cards
   document.querySelectorAll('.btn-sm').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -483,25 +649,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Copy buttons
+  // Copy buttons on cards
   document.querySelectorAll('.btn-copy').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      let textToCopy = '';
-      if (btn.classList.contains('copy-btn-a')) {
-        textToCopy = document.getElementById('mainGrammar').innerText;
-      } else if (btn.classList.contains('copy-btn-a-back')) {
-        textToCopy = document.getElementById('mainMeaning').innerText;
-      } else if (btn.classList.contains('copy-btn-b')) {
-        const idx = btn.dataset.idx;
-        textToCopy = document.getElementById(`optG${idx}`).innerText;
-      }
-
-      if (textToCopy && textToCopy !== '—') {
-        navigator.clipboard.writeText(textToCopy).then(() => {
-          const oldContent = btn.innerHTML;
-          btn.innerHTML = '✅';
-          setTimeout(() => btn.innerHTML = oldContent, 1000);
+      let text = '';
+      if (btn.classList.contains('copy-btn-a')) text = document.getElementById('mainGrammar').innerText;
+      else if (btn.classList.contains('copy-btn-a-back')) text = document.getElementById('mainMeaning').innerText;
+      else if (btn.classList.contains('copy-btn-b')) text = document.getElementById(`optG${btn.dataset.idx}`).innerText;
+      if (text && text !== '—') {
+        navigator.clipboard.writeText(text).then(() => {
+          const old = btn.innerHTML; btn.innerHTML = '✅';
+          setTimeout(() => btn.innerHTML = old, 1000);
         });
       }
     });
@@ -522,6 +681,12 @@ document.addEventListener('DOMContentLoaded', () => {
   // Next button
   document.getElementById('btnNext').addEventListener('click', nextQuestion);
 
+  // Star mode button
+  document.getElementById('btnStarMode').addEventListener('click', toggleStarMode);
+
+  // Star list button
+  document.getElementById('btnStarList').addEventListener('click', showStarList);
+
   // Keyboard
   document.addEventListener('keydown', (e) => {
     if (document.getElementById('modalOverlay').classList.contains('active')) {
@@ -535,7 +700,6 @@ document.addEventListener('DOMContentLoaded', () => {
       renderQuestion();
       updateBackButton();
     }
-    // Spacebar flips card A
     if (e.key === ' ' || e.code === 'Space') {
       e.preventDefault();
       document.getElementById('cardA').classList.toggle('flipped');
@@ -566,9 +730,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Start — shuffle grammar order for this session
+  // Init
   shuffledOrder = shuffle(grammarData.map((_, i) => i));
   currentIdx = 0;
+  updateStarCount();
   renderQuestion();
   showHelp();
 });
