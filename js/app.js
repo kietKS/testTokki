@@ -239,22 +239,22 @@ function showSynonyms(grammarItem) {
       <div style="font-size:0.8rem;color:var(--text2);margin-bottom:4px">${s.meaning}</div>
       <ul class="syn-list">
         ${uniquePatterns.map(p => {
-          const matchingGrammar = grammarData.find(g => g.grammar === p);
-          if (matchingGrammar) {
-            return `<li style="display: flex; justify-content: space-between; align-items: center;">
+      const matchingGrammar = grammarData.find(g => g.grammar === p);
+      if (matchingGrammar) {
+        return `<li style="display: flex; justify-content: space-between; align-items: center;">
               <div style="display: flex; align-items: center; gap: 8px;">
                 <span>${p}</span>
                 <button class="btn-copy-list" data-copy="${p.replace(/"/g, '&quot;')}" title="Copy ngữ pháp" style="background: none; border: none; cursor: pointer; color: var(--text2); font-size: 0.9rem; padding: 4px;">📋</button>
               </div>
               <button class="btn-jump" data-target-id="${matchingGrammar.id}" title="Chuyển đến ngữ pháp này" style="background: none; border: none; cursor: pointer; color: var(--accent); font-size: 1.2rem; padding: 4px; display: flex; align-items: center; justify-content: center;">➔</button>
             </li>`;
-          } else {
-            return `<li style="display: flex; justify-content: space-between; align-items: center;">
+      } else {
+        return `<li style="display: flex; justify-content: space-between; align-items: center;">
               <span>${p}</span>
               <button class="btn-copy-list" data-copy="${p.replace(/"/g, '&quot;')}" title="Copy ngữ pháp" style="background: none; border: none; cursor: pointer; color: var(--text2); font-size: 0.9rem; padding: 4px;">📋</button>
             </li>`;
-          }
-        }).join('')}
+      }
+    }).join('')}
         ${members.map(m => `<li style="display: flex; justify-content: space-between; align-items: center;">
           <div style="display: flex; align-items: center; gap: 8px;">
             <span>${m.grammar}</span>
