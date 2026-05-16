@@ -1398,7 +1398,7 @@ const grammarData = [
     synonymPatterns: ["(으)ㄹ 때마다"],
     ownExamples: [{ sentence: "그 사람 생각을 하<b>기만 하면</b> 눈물이 나요.", translation: "Hễ cứ nghĩ đến người đó là nước mắt lại rơi." }],
     notes: "vế sau diễn đạt kết quả tất yếu; gắn sau động từ; mạnh hơn 때마다 về tính tất yếu"
-  }, ,
+  },
   {
     id: 159, grammar: "는 사이에",
     senses: [{ meaning: "trong khi/trong lúc (một sự thay đổi xảy ra bất ngờ)", groupId: "while_time" }],
