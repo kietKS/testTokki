@@ -43,7 +43,36 @@ const synonymGroups = [
   { id: "ability", label: "Có thể (Khả năng / Năng lực)", grammarIds: [91, 137, 185], nuances: ["• (으)ㄹ 수 있다: Chỉ năng lực hoặc khả năng xảy ra. KHÔNG phải phỏng đoán.", "⚠ Khi thêm 도 → 수도 있다 mới mang sắc thái phỏng đoán mờ nhạt."] },
   { id: "impossible", label: "Không có lý (Tuyệt đối không)", grammarIds: [8, 124, 125], nuances: ["• (으)ㄹ 리가 없다: Phủ định tuyệt đối khả năng."] },
   { id: "worthy", label: "Đáng để làm", grammarIds: [9, 126], nuances: ["• (으)ㄹ 만하다: Đáng để trải nghiệm, giới thiệu."] },
-  { id: "consider_as", label: "Xem như, coi như", grammarIds: [10, 42, 68, 73, 127, 128, 130], nuances: ["• 거나 마찬가지이다: Bản chất giống nhau dù thực tế không hẳn.", "• (으)ㄴ/는 셈 치다: TỰ NHỦ / GIẢ VỜ như vậy để làm việc khác."] },
+  { 
+    id: "consider_actual", 
+    label: "Coi như là (Kết quả thực tế)", 
+    grammarIds: [10, 128, 130, 68], 
+    nuances: [
+      "Nhóm 1: -(으)ㄴ/는 셈이다, -(으)ㄴ/는 거나 다름없다, -(이)나 마찬가지이다. Đây là bộ ba đồng nghĩa kinh điển nhất trong câu 3-4 TOPIK II, có thể thay thế cho nhau.",
+      "• Sắc thái: Đánh giá dựa trên kết quả thực tế. 'Tuy trên danh nghĩa không phải, nhưng kết quả thực tế thì chẳng khác gì như thế'.",
+      "• Phân biệt kết hợp: -(으)ㄴ/는 셈이다 và -(으)ㄴ/는 거나 다름없다 đi với Động từ/Tính từ. -(이)나 마찬가지이다 đi trực tiếp với Danh từ."
+    ] 
+  },
+  { 
+    id: "consider_mental", 
+    label: "Cứ coi như là (Giả định tâm lý)", 
+    grammarIds: [42], 
+    nuances: [
+      "Nhóm 2: -(으)ㄴ/는 셈 치다. KHÔNG thể thay thế tự do cho Nhóm 1 vì mang sắc thái tâm lý hoàn toàn khác.",
+      "• Sắc thái: Giả định, tự lừa dối bản thân hoặc thỏa hiệp. Sự thật KHÔNG phải như thế, nhưng người nói quyết định 'Cứ coi như là...'.",
+      "• Mẹo nhớ: Dùng khi chấp nhận chịu thiệt thòi hoặc giả vờ trái thực tế (VD: 속는 셈 치고 - Cứ coi như bị lừa một lần đi)."
+    ] 
+  },
+  { 
+    id: "compare_simple", 
+    label: "Giống như là (So sánh đơn giản)", 
+    grammarIds: [127, 73], 
+    nuances: [
+      "Nhóm 3: -(이)나 같다. Đây là cấu trúc so sánh mức độ sơ cấp nhất trong nhóm.",
+      "• Sắc thái: So sánh hai danh từ và khẳng định chúng 'giống như' hoặc 'bằng nhau'.",
+      "• Bản chất: Dùng cho cả so sánh bề ngoài hoặc tính chất thuần túy, không mang nặng tính 'đánh giá hệ quả' như nhóm -셈이다."
+    ] 
+  },
   { id: "unexpected", label: "Không ngờ rằng", grammarIds: [11, 129], nuances: ["• (으)ㄴ/는 줄 몰랐다: Nhầm tưởng sự thật.", "• (으)ㄴ 줄 알았다: Cứ tưởng là (nhưng không phải)."] },
   { id: "whenever", label: "Hễ, chỉ cần, mỗi khi", grammarIds: [102, 139, 157], nuances: ["• 마다: Gắn sau Danh từ.", "• 기만 하면: Gắn sau Động từ, điều kiện xảy ra thì kết quả luôn đến."] },
   { id: "state", label: "Trạng thái (Vẫn, Đang)", grammarIds: [21, 151, 179], nuances: ["• (으)ㄴ 채(로): Giữ nguyên trạng thái để làm việc khác."] },
@@ -196,7 +225,7 @@ const grammarData = [
   },
   {
     id: 10, grammar: "(으)ㄴ/는 셈이다",
-    senses: [{ meaning: "giống như, xem như, coi như", groupId: "consider_as" }],
+    senses: [{ meaning: "giống như, xem như, coi như", groupId: "consider_actual" }],
     synonymPatterns: ["(으)ㄴ/는 거나 마찬가지이다", "(으)ㄴ/는 거나 다름없다", "(으)ㄴ/는 것과 같다"],
     examples: [
       { sentence: "오늘이 벌써 12월 말이니까 올해도 다 <b>지나간 셈이다</b>.", translation: "Hôm nay đã là cuối tháng 12 rồi, coi như năm nay cũng đã trôi qua hết." },
@@ -523,7 +552,7 @@ const grammarData = [
   },
   {
     id: 42, grammar: "(으)ㄴ/는 셈 치다",
-    senses: [{ meaning: "cứ coi như là, xem như là (dù thực tế không phải vậy)", groupId: "consider_as" }],
+    senses: [{ meaning: "cứ coi như là, xem như là (dù thực tế không phải vậy)", groupId: "consider_mental" }],
     synonymPatterns: [],
     ownExamples: [
       { sentence: "<b>버린 셈 치고</b> 친구에게 돈을 빌려줬다.", translation: "Tôi cho bạn mượn tiền mà cứ coi như là đã vứt đi rồi." },
@@ -755,7 +784,7 @@ const grammarData = [
   },
   {
     id: 68, grammar: "(이)나 마찬가지이다",
-    senses: [{ meaning: "cũng như, không khác gì, xem như", groupId: "consider_as" }],
+    senses: [{ meaning: "cũng như, không khác gì, xem như", groupId: "consider_actual" }],
     synonymPatterns: ["(이)나 같다"],
     ownExamples: [
       { sentence: "그 사람은 가족<b>이나 마찬가지이다</b>.", translation: "Người đó cũng chẳng khác gì người trong gia đình vậy." }
@@ -792,7 +821,7 @@ const grammarData = [
   },
   {
     id: 73, grammar: "(으)ㄴ/는 것과 같다",
-    senses: [{ meaning: "gần như là, giống hệt như", groupId: "consider_as" }],
+    senses: [{ meaning: "gần như là, giống hệt như", groupId: "compare_simple" }],
     synonymPatterns: ["(으)ㄴ/는 셈이다", "(으)ㄴ/는 거나 마찬가지이다", "(으)ㄴ/는 거나 다름없다"],
     ownExamples: [{ sentence: "이 정도면 사실상 합격한 <b>것과 같다</b>.", translation: "Cỡ này thì trên thực tế cũng giống như là đã đậu rồi." }],
     notes: "so sánh trạng thái gần như tương đương"
@@ -1200,7 +1229,7 @@ const grammarData = [
   },
   {
     id: 127, grammar: "(이)나 같다",
-    senses: [{ meaning: "cũng như, giống như là (về bản chất)", groupId: "consider_as" }],
+    senses: [{ meaning: "cũng như, giống như là (về bản chất)", groupId: "compare_simple" }],
     synonymPatterns: ["(이)나 마찬가지이다"],
     ownExamples: [
       { sentence: "이런 날씨에 나가는 건 죽으러 가는 것<b>이나 같다</b>.", translation: "Đi ra ngoài trong thời tiết này cũng như đi tìm cái chết vậy." }
@@ -1209,7 +1238,7 @@ const grammarData = [
   },
   {
     id: 128, grammar: "(으)ㄴ/는 거나 다름없다",
-    senses: [{ meaning: "không khác gì, cũng như là", groupId: "consider_as" }],
+    senses: [{ meaning: "không khác gì, cũng như là", groupId: "consider_actual" }],
     synonymPatterns: ["(으)ㄴ/는 셈이다", "(으)ㄴ/는 거나 마찬가지이다", "(으)ㄴ/는 것과 같다"],
     ownExamples: [
       { sentence: "이 일은 90% 이상 했으니 다 <b>끝난 거나 다름없어요</b>.", translation: "Công việc này đã làm được hơn 90% rồi nên không khác gì là đã xong." }
@@ -1227,7 +1256,7 @@ const grammarData = [
   },
   {
     id: 130, grammar: "(으)ㄴ/는 거나 마찬가지이다",
-    senses: [{ meaning: "cũng như là, coi như là", groupId: "consider_as" }],
+    senses: [{ meaning: "cũng như là, coi như là", groupId: "consider_actual" }],
     synonymPatterns: ["(으)ㄴ/는 셈이다", "(으)ㄴ/는 거나 다름없다", "(으)ㄴ/는 것과 같다"],
     ownExamples: [{ sentence: "그렇게 오래 연락이 없으면 헤어진 <b>거나 마찬가지다</b>.", translation: "Mà lâu không liên lạc như vậy thì cũng như là chia tay rồi vậy." }],
     notes: "biến thể rút gọn của 거나 마찬가지이다 (ID 68) — hai dạng hoàn toàn tương đương, chỉ khác 다 vs 이다 ở cuối. ⚠ Không phải 2 ngữ pháp khác nhau — đã thêm cross-reference lẫn nhau để tránh nhầm lẫn."
