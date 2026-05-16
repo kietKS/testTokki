@@ -137,13 +137,13 @@ function showStarList() {
     const g = grammarData.find(gd => gd.id === id);
     if (!g) return '';
     const globalIdx = grammarData.findIndex(gd => gd.id === id);
-    return `<li data-goto="${globalIdx}" data-grammar-id="${id}">
-      <div style="display:flex;align-items:center;gap:8px;">
+    return `<li data-goto="${globalIdx}" data-grammar-id="${id}" style="display:flex; justify-content:space-between; align-items:center;">
+      <div style="display:flex;align-items:center;gap:8px;flex:1;">
         <button class="btn-star-list starred" data-grammar-id="${id}" title="Bỏ sao">⭐</button>
-        <div><span class="gl-name">${g.grammar}</span>
+        <div style="flex:1;"><span class="gl-name">${g.grammar}</span>
         <span class="gl-meaning">${g.senses.map(s => s.meaning).join(' / ')}</span></div>
       </div>
-      <button class="btn-copy-list" data-copy="${g.grammar.replace(/"/g, '&quot;')}" title="Copy" style="background:none;border:none;cursor:pointer;color:var(--text2);font-size:0.9rem;padding:4px;">📋</button>
+      <button class="btn-copy-list" data-copy="${g.grammar.replace(/"/g, '&quot;')}" title="Copy">📋</button>
     </li>`;
   }).join('')}</ul>`;
 
@@ -487,14 +487,14 @@ function showGrammarList() {
     const st = isStarred(g.id);
     const searchStr = (g.grammar + ' ' + g.senses.map(s => s.meaning).join(' ')).toLowerCase();
 
-    return `<li data-goto="${i}" data-search="${searchStr.replace(/"/g, '&quot;')}">
-      <div style="display:flex;align-items:center;gap:8px;">
+    return `<li data-goto="${i}" data-search="${searchStr.replace(/"/g, '&quot;')}" style="display:flex; justify-content:space-between; align-items:center;">
+      <div style="display:flex;align-items:center;gap:8px;flex:1;">
         <button class="btn-star-list${st ? ' starred' : ''}" data-grammar-id="${g.id}" title="${st ? 'Bỏ sao' : 'Đánh sao'}">${st ? '⭐' : '☆'}</button>
-        <button class="btn-copy-list" data-copy="${g.grammar.replace(/"/g, '&quot;')}" title="Copy" style="background:none;border:none;cursor:pointer;color:var(--text2);font-size:0.9rem;padding:4px;z-index:5;">📋</button>
-        <div><span class="gl-name">${g.grammar}</span>
+        <button class="btn-copy-list" data-copy="${g.grammar.replace(/"/g, '&quot;')}" title="Copy">📋</button>
+        <div style="flex:1;"><span class="gl-name">${g.grammar}</span>
         <span class="gl-meaning">${g.senses.map(s => s.meaning).join(' / ')}</span></div>
       </div>
-      <span class="gl-status ${cls}" style="font-size:0.85rem;font-weight:600;">${label}</span>
+      <span class="gl-status ${cls}" style="font-size:0.85rem;font-weight:600;margin-left:8px;">${label}</span>
     </li>`;
   }).join('')}</ul>`;
 
@@ -617,8 +617,10 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btnStarA').addEventListener('click', (e) => {
     e.stopPropagation();
     const g = grammarData[shuffledOrder[currentIdx]];
-    toggleStar(g.id);
-    syncStarButtonA(g.id);
+    if (g) {
+      toggleStar(g.id);
+      syncStarButtonA(g.id);
+    }
   });
 
   // Star buttons on option cards
@@ -634,8 +636,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Synonym/Example on card A
-  document.getElementById('btnSynA').addEventListener('click', () => showSynonyms(grammarData[shuffledOrder[currentIdx]]));
-  document.getElementById('btnExA').addEventListener('click', () => showExamples(grammarData[shuffledOrder[currentIdx]]));
+  document.getElementById('btnSynA').addEventListener('click', () => {
+    const g = grammarData[shuffledOrder[currentIdx]];
+    if (g) showSynonyms(g);
+  });
+  document.getElementById('btnExA').addEventListener('click', () => {
+    const g = grammarData[shuffledOrder[currentIdx]];
+    if (g) showExamples(g);
+  });
 
   // Synonym/Example on option cards
   document.querySelectorAll('.btn-sm').forEach(btn => {
@@ -735,5 +743,5 @@ document.addEventListener('DOMContentLoaded', () => {
   currentIdx = 0;
   updateStarCount();
   renderQuestion();
-  showHelp();
+  // showHelp(); // Tắt tự động hiện hướng dẫn
 });
