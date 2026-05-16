@@ -12,7 +12,7 @@ const synonymGroups = [
 
   // CONTRAST (TƯƠNG PHẢN)
   { id: "contrast_general", label: "Tương phản (Nhưng / Vậy mà)", grammarIds: [46, 51, 178], nuances: ["• 지만: Đối lập hoàn toàn, cơ bản nhất.", "• 았/었는데: Vốn đã... nhưng (tương phản), nhưng mà (chuyển ý).", "• 더니: Trải nghiệm trong quá khứ dẫn đến kết quả trái ngược hiện tại."] },
-  { id: "contrast_unexpected", label: "Tương phản (Mặc dù... trái mong đợi)", grammarIds: [16, 18, 181], nuances: ["• (으)ㄴ/는데도: Mặc dù A (thực tế) nhưng B (trái mong đợi).", "• 고도: Nhấn mạnh sự bất ngờ/chê trách hành động đã hoàn tất.", "• 었는데도: Dạng quá khứ của 는데도."] },
+  { id: "contrast_unexpected", label: "Tương phản (Mặc dù... trái mong đợi)", grammarIds: [16, 18], nuances: ["• (으)ㄴ/는데도: Mặc dù A (thực tế) nhưng B (trái mong đợi).", "• 고도: Nhấn mạnh sự bất ngờ/chê trách hành động đã hoàn tất.", "• 었는데도: Dạng quá khứ của 는데도."] },
   { id: "contrast_action", label: "Tương phản (Biết mà vẫn làm / Mỉa mai)", grammarIds: [6, 121], nuances: ["• (으)면서(도): 'Biết rõ A nhưng vẫn B' (mỉa mai), cùng chủ ngữ.", "• 고서도: Cố ý bất chấp — đã nhận thức rõ ràng mà vẫn làm, mạnh hơn (으)면서(도)."] },
   { id: "contrast_opposite", label: "Tương phản (So sánh đối lập)", grammarIds: [15, 17, 147], nuances: ["• (으)ㄴ/는 반면에: So sánh 2 mặt đối lập (Trái lại).", "• (으)ㄴ/는 데 반해: Trong khi đó, trái lại.", "• (으)ㄴ/는가 하면: Cùng một chủ thể nhưng có 2 mặt đối lập (Mặt này... mặt kia)."] },
 
@@ -23,15 +23,15 @@ const synonymGroups = [
 
   // REASON (NGUYÊN NHÂN)
   { id: "reason_general", label: "Nguyên nhân (Cơ bản / Khách quan)", grammarIds: [188, 189, 190], nuances: ["• 아/어서: Cơ bản nhất. KHÔNG dùng mệnh lệnh/rủ rê.", "• 기 때문에: Khách quan. KHÔNG dùng mệnh lệnh/rủ rê.", "• (으)므로: Văn viết trang trọng."] },
-  { id: "reason_command", label: "Nguyên nhân (Kèm Mệnh lệnh / Rủ rê)", grammarIds: [80, 81, 145], nuances: ["• (으)니까: DÙNG ĐƯỢC mệnh lệnh/rủ rê. CÓ THỂ chia thì.", "• (으)ㄹ 테니까: Người nói đưa ra cam kết/phỏng đoán làm lý do, vế sau thường là mệnh lệnh."] },
-  { id: "reason_negative", label: "Nguyên nhân (Tiêu cực / Đổ lỗi)", grammarIds: [12, 14, 53, 54, 55, 165], nuances: ["• 는 바람에: Bất ngờ → Kết quả TIÊU CỰC.", "• 느라고: Tốn thời gian làm vế 1 nên vế 2 TIÊU CỰC.", "• ㄴ/은 탓에: Đổ lỗi, trách móc → Kết quả TIÊU CỰC.", "• 는 통에: Hoàn cảnh ồn ào, hỗn loạn → Kết quả TIÊU CỰC."] },
-  { id: "reason_hearsay", label: "Nguyên nhân (Nghe nói là)", grammarIds: [13, 167, 168], nuances: ["• 다기에 / 다길래: Diễn đạt lý do dựa trên thông tin nghe được từ người khác."] },
+  { id: "reason_command", label: "Nguyên nhân (Kèm Mệnh lệnh / Rủ rê)", grammarIds: [80, 81], nuances: ["• (으)니까: DÙNG ĐƯỢC mệnh lệnh/rủ rê. CÓ THỂ chia thì.", "• (으)ㄹ 테니까: Người nói đưa ra cam kết/phỏng đoán làm lý do, vế sau thường là mệnh lệnh."] },
+  { id: "reason_negative", label: "Nguyên nhân (Tiêu cực / Đổ lỗi)", grammarIds: [12, 14, 53, 54, 55], nuances: ["• 는 바람에: Bất ngờ → Kết quả TIÊU CỰC.", "• 느라고: Tốn thời gian làm vế 1 nên vế 2 TIÊU CỰC.", "• ㄴ/은 탓에: Đổ lỗi, trách móc → Kết quả TIÊU CỰC.", "• 는 통에: Hoàn cảnh ồn ào, hỗn loạn → Kết quả TIÊU CỰC."] },
+  { id: "reason_hearsay", label: "Nguyên nhân (Nghe nói là)", grammarIds: [13], nuances: ["• 다기에 / 다길래: Diễn đạt lý do dựa trên thông tin nghe được từ người khác."] },
   { id: "reason_guess", label: "Nguyên nhân (Phỏng đoán / Có lẽ vì)", grammarIds: [79, 148, 177], nuances: ["• 아서/어서 그런지 / (으)ㄴ/는지 (모르다): Dùng khi không chắc chắn về nguyên nhân; phỏng đoán nhẹ."] },
   { id: "reason_observe", label: "Nguyên nhân (Từ quan sát quá khứ)", grammarIds: [198], nuances: ["• 더니: Trải nghiệm quan sát trong quá khứ dẫn đến kết quả hiện tại."] },
 
   // CONDITION (ĐIỀU KIỆN)
   { id: "condition_restrict", label: "Điều kiện (Miễn là, Chừng nào còn)", grammarIds: [52, 119], nuances: ["• (으)ㄴ/는 한: Giới hạn phạm vi/tình huống. (VD: 살아있는 한 - Chừng nào còn sống)", "• (으)ㄴ/는 이상: Khẳng định mạnh mẽ sự thật đã xảy ra → dẫn đến kết quả tất yếu. (VD: 시작을 한 이상 - Một khi đã bắt đầu thì...)"] },
-  { id: "condition_intent", label: "Điều kiện (Nếu muốn đạt mục tiêu)", grammarIds: [5, 82, 120], nuances: ["• (으)려면 / 고 싶으면: Vế sau PHẢI là mệnh lệnh hoặc lời khuyên.", "• 기 위해서는: Trang trọng hơn (으)려면, mang nghĩa 'Để có thể... thì'."] },
+  { id: "condition_intent", label: "Điều kiện (Nếu muốn đạt mục tiêu)", grammarIds: [5, 82], nuances: ["• (으)려면 / 고 싶으면: Vế sau PHẢI là mệnh lệnh hoặc lời khuyên.", "• 기 위해서는: Trang trọng hơn (으)려면, mang nghĩa 'Để có thể... thì'."] },
   { id: "condition_general", label: "Giả định (Nếu)", grammarIds: [84, 85], nuances: ["• (으)면 / 다면: Giả định thông thường hoặc giả định điều khó xảy ra."] },
   { id: "geodeun", label: "거든 — Điều kiện / Giải thích", grammarIds: [83], nuances: ["• 거든: Giữa câu (mệnh lệnh) / Cuối câu (giải thích)."] },
 
@@ -51,16 +51,16 @@ const synonymGroups = [
   { id: "addition", label: "Không những...mà còn (Tích cực)", grammarIds: [22, 57, 149, 183, 191], nuances: ["• (으)ㄹ 뿐만 아니라: Không chỉ A mà còn B.", "• (으)ㄴ/는 데다가: Thêm đặc điểm cùng chiều."] },
   { id: "neg_escalation", label: "Chẳng những không...mà còn không", grammarIds: [23], nuances: ["• 은/는커녕: Chiều nghĩa TIÊU CỰC, ngược hoàn toàn với 뿐만 아니라."] },
   { id: "inevitable", label: "Đương nhiên", grammarIds: [27, 59, 60], nuances: ["• 기 마련이다 / 는 법이다: Quy luật tự nhiên, chân lý."] },
-  { id: "no_choice", label: "Đành phải, buộc phải", grammarIds: [28, 61, 175, 186], nuances: ["• (으)ㄹ 수밖에 없다 / 지 않을 수 없다: Không còn cách nào khác."] },
-  { id: "worry", label: "E rằng, lo lắng", grammarIds: [29, 144, 187], nuances: ["• (으)ㄹ까 봐: Lo sợ vế trước nên ĐÃ phòng tránh ở vế sau."] },
+  { id: "no_choice", label: "Đành phải, buộc phải", grammarIds: [28, 61], nuances: ["• (으)ㄹ 수밖에 없다 / 지 않을 수 없다: Không còn cách nào khác."] },
+  { id: "worry", label: "E rằng, lo lắng", grammarIds: [29, 144], nuances: ["• (으)ㄹ까 봐: Lo sợ vế trước nên ĐÃ phòng tránh ở vế sau."] },
   { id: "immediate", label: "Ngay sau khi", grammarIds: [30, 62, 156, 172, 196], nuances: ["• 자마자: Vừa làm xong A thì B diễn ra.", "• 기가 무섭게: Tốc độ phản xạ cực nhanh."] },
   { id: "on_way", label: "Trên đường, tiện thể", grammarIds: [31], nuances: ["• 는 길에: Đang di chuyển thì tiện thể làm việc khác. CHỈ dùng với động từ di chuyển."] },
   { id: "interrupted", label: "Đang làm thì (bị gián đoạn)", grammarIds: [75], nuances: ["• 다가: Hành động vế 1 đang diễn ra thì bị ngắt hoặc chuyển hướng sang vế 2."] },
   { id: "only", label: "Chỉ là, Chẳng qua là", grammarIds: [33, 63, 103, 169, 182], nuances: ["• 에 불과하다: 'Chẳng qua chỉ là', mức độ thấp (văn viết)."] },
   { id: "regret", label: "Hối tiếc", grammarIds: [34, 64, 92], nuances: ["• 었어야 했는데: Đáng lẽ phải làm.", "• 지 말 걸 그랬다: Hối hận vì ĐÃ lỡ làm.", "• (으)ㄹ걸 그랬다: Hối hận vì ĐÃ KHÔNG làm."] },
-  { id: "intention", label: "Định, chuẩn bị", grammarIds: [35, 72, 154, 170], nuances: ["• (으)려던 참이다: Vừa nảy sinh ý định thì có tác động khớp luôn.", "• (으)려고 하다: Kế hoạch mơ hồ, định làm."] },
+  { id: "intention", label: "Định, chuẩn bị", grammarIds: [35, 72, 154], nuances: ["• (으)려던 참이다: Vừa nảy sinh ý định thì có tác động khớp luôn.", "• (으)려고 하다: Kế hoạch mơ hồ, định làm."] },
   { id: "according", label: "Theo như", grammarIds: [36], nuances: ["• 는 대로: Làm y hệt vế trước."] },
-  { id: "depend", label: "Phụ thuộc vào", grammarIds: [37, 90, 158], nuances: ["• 에 달려 있다: Phụ thuộc vào Danh từ (N).", "• 기 나름이다: Phụ thuộc vào cách làm (Động từ)."] },
+  { id: "depend", label: "Phụ thuộc vào", grammarIds: [37, 90], nuances: ["• 에 달려 있다: Phụ thuộc vào Danh từ (N).", "• 기 나름이다: Phụ thuộc vào cách làm (Động từ)."] },
   { id: "pretend", label: "Giả vờ", grammarIds: [38, 69, 150], nuances: ["• 체하다: Giống 척하다 nhưng hay dùng trong văn chương."] },
   { id: "result_of", label: "Cứ...thì (phát hiện kết quả)", grammarIds: [39], nuances: ["• 다가 보니까: Lặp lại hành động liên tục thì nhận ra kết quả."] },
   { id: "like_as", label: "Như, như thể", grammarIds: [40, 65, 111, 162, 163, 164], nuances: ["• 마치 ... 것처럼/듯이: Giống hệt nhau."] },
@@ -82,14 +82,14 @@ const synonymGroups = [
   { id: "tendency", label: "Khuynh hướng", grammarIds: [96], nuances: ["• 는 편이다: Đánh giá nghiêng về một phía (thuộc dạng...)."] },
   { id: "wish", label: "Mong ước (Ước gì)", grammarIds: [97, 146], nuances: ["• (으)면 좋겠다: Hay đi cùng quá khứ ở trước (았/었/였으면)."] },
   { id: "alternative", label: "Thay thế", grammarIds: [98], nuances: ["• 는 대신(에): Thay thế hoặc bù trừ."] },
-  { id: "obligation", label: "Bắt buộc", grammarIds: [100, 174], nuances: ["• 아/어야 하다: Nghĩa vụ phải làm."] },
+  { id: "obligation", label: "Bắt buộc", grammarIds: [100], nuances: ["• 아/어야 하다: Nghĩa vụ phải làm."] },
   { id: "choice", label: "Lựa chọn (Hoặc)", grammarIds: [88], nuances: ["• 거나: Lựa chọn 1 trong 2 khả năng (OR)."] },
-  { id: "opportune", label: "Nhân tiện (tiện thể đang làm)", grammarIds: [104, 136, 176], nuances: ["• 는 김에: Nhân cơ hội đang làm A thì tiện làm thêm B. Dùng được với MỌI động từ."] },
-  { id: "future_result", label: "Cứ làm liên tục thì sẽ (tương lai)", grammarIds: [107, 160, 166], nuances: ["• 다가보면 / 다 보면: Lặp lại hành động liên tục → kết quả sẽ thay đổi ở TƯƠNG LAI."] },
-  { id: "preference", label: "Thà...còn hơn", grammarIds: [108, 140, 161], nuances: ["• (으)ㄹ 바에야: Thà làm B còn hơn phải làm A. Vế trước là điều không muốn; vế sau thường có 차라리."] },
+  { id: "opportune", label: "Nhân tiện (tiện thể đang làm)", grammarIds: [104, 136], nuances: ["• 는 김에: Nhân cơ hội đang làm A thì tiện làm thêm B. Dùng được với MỌI động từ."] },
+  { id: "future_result", label: "Cứ làm liên tục thì sẽ (tương lai)", grammarIds: [107, 160], nuances: ["• 다가보면 / 다 보면: Lặp lại hành động liên tục → kết quả sẽ thay đổi ở TƯƠNG LAI."] },
+  { id: "preference", label: "Thà...còn hơn", grammarIds: [108, 161], nuances: ["• (으)ㄹ 바에야: Thà làm B còn hơn phải làm A. Vế trước là điều không muốn; vế sau thường có 차라리."] },
   { id: "no_need_exemption", label: "Không cần phải (miễn trừ)", grammarIds: [143, 192], nuances: ["• (으)ㄹ 필요가 없다: Không cần thiết phải thực hiện hành động.", "• (으)ㄹ 것까지 없다: Không đến mức phải làm — ngụ ý hành động hơi thái quá trong hoàn cảnh đó."] },
   { id: "no_need_obvious", label: "Không cần phải nói / Hiển nhiên rồi", grammarIds: [110, 171], nuances: ["• (으)ㄹ 나위가 없다: Hoàn hảo / tốt đến mức không còn gì để nói thêm.", "• 말할 것도 없다: Hiển nhiên đến mức không cần đề cập vì ai cũng đã biết."] },
-  { id: "guess_concern", label: "Phỏng đoán kèm cảm xúc (lo lắng / quan tâm)", grammarIds: [20, 132, 134], nuances: ["• (으)ㄹ 텐데: Phỏng đoán về tình huống + ngụ ý cảm xúc của người nói (lo lắng, tiếc nuối, quan tâm)."] },
+  { id: "guess_concern", label: "Phỏng đoán kèm cảm xúc (lo lắng / quan tâm)", grammarIds: [20], nuances: ["• (으)ㄹ 텐데: Phỏng đoán về tình huống + ngụ ý cảm xúc của người nói (lo lắng, tiếc nuối, quan tâm)."] },
   { id: "obvious_skip", label: "Thừa thãi vì quá hiển nhiên / Không cần làm", grammarIds: [116, 193, 194], nuances: ["• (으)ㄹ 것도 없이: Hành động V thừa thãi vì kết quả đã quá hiển nhiên.", "• 굳이 (~지 않아도 되다): Không cần phải cố sức làm điều đó. Nhấn mạnh sự không cần thiết VỀ MẶT NỖ LỰC."] }
 ];
 
